@@ -5,3 +5,4 @@ Makefile
 .qmake.stash
 Visual_Planner.pro.*
 Visual_Planner.app/*
+.DS_Store
