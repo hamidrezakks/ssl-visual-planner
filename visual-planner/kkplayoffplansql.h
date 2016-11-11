@@ -1,5 +1,5 @@
-#ifndef KKPOPLANSQL_H
-#define KKPOPLANSQL_H
+#ifndef PLAYOFFPLANSQL_H
+#define PLAYOFFPLANSQL_H
 
 #include "base.h"
 
@@ -16,21 +16,32 @@ struct planStruct {
     POMODE planMode;
     int agentSize;
     POInitPos initPos;
+    QString tags;
+    unsigned int chance;
+    double lastDist;
 };
 
 struct planMData {
     POMODE planMode;
     int agentSize;
+    QString tags;
+    unsigned int chance;
+    double lastDist;
 };
 
-class kkPOPlanSQL
+class playOffPlanSQL
 {
+private:
+
+
+
 public:
-    kkPOPlanSQL(QString directory);
-    ~kkPOPlanSQL();
+    playOffPlanSQL();
+    ~playOffPlanSQL();
 
     bool changeSQLDir(QString directory);
     void savePlan();
+
     int loadPlan();
     int getPlanSize();
 
@@ -39,7 +50,14 @@ public:
 
     QList<planStruct> planList;
 
-    int addPlan(QList<playOffRobot> tPlan[6], POInitPos tInitPos, POMODE tPOMode, int agentSize, int itemId);
+    int addPlan(QList<playOffRobot> tPlan[6],
+                POInitPos tInitPos,
+                POMODE tPOMode,
+                QString tags,
+                int agentSize,
+                int itemId,
+                unsigned int _chance = 1,
+                double _lastDist = 1.5);
 
     int findMaxSteps(planStruct &_plan);
     void addEachPlanToSql(planStruct _plan, QString tName);
@@ -51,7 +69,7 @@ public:
                       QList<playOffRobot> &tA5,
                       QList<playOffRobot> &tA6);
     QString convertStructToSQLCmd(int _agentId, playOffRobot tStep);
-    QString convertEmptyStructToSQLCmd(int _agentId);
+    QString convertEmptyStructToSQLCmd();
     void insertPlanToQList(QList<playOffRobot> _planList[6], planMData &mData, int index);
     QSqlDatabase planSQL;
 
@@ -61,4 +79,4 @@ public:
     void removePlan(int index);
 };
 
-#endif // KKPOPLANSQL_H
+#endif // PLAYOFFPLANSQL_H

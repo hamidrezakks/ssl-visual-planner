@@ -15,16 +15,32 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    kkplansql.cpp \
     kkagentplanclass.cpp \
     playoff.cpp \
-    kkpoplansql.cpp
+    playon.cpp \
+    tags.cpp \
+    kkplayonplansql.cpp \
+    kkplayoffplansql.cpp
 
 HEADERS  += mainwindow.h \
-    kkplansql.h \
     kkagentplanclass.h \
     base.h \
     playoff.h \
-    kkpoplansql.h
+    playon.h \
+    tags.h \
+    kkplayonplansql.h \
+    kkplayoffplansql.h \
+    include/ul.h
 
-FORMS    += mainwindow.ui
+
+INCLUDEPATH += $$PWD/include
+
+FORMS    += mainwindow.ui \
+            tags.ui
+
+
+MOC_DIR     = $$PWD/moc_objs
+OBJECTS_DIR = $$PWD/objs
+UI_DIR      = $$PWD/ui_objs
+
+CONFIG += c++14

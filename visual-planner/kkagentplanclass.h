@@ -3,6 +3,7 @@
 
 #include "base.h"
 
+#include <QDebug>
 #include <QString>
 
 class kkAgentPlanClass {
@@ -14,7 +15,7 @@ private:
     int agentsSize;
     int planId;
     int possession;
-    QString comment;
+    QString tags;
 
 public:
     kkAgentPlanClass(int agentSize = 1, int id = 0);
@@ -26,7 +27,7 @@ public:
     void setEndPolicy(PEndPolicy mode, int policy);
     bool setPlanId(int id);
     bool setPossession(int poss);
-    void setComment(QString cmt);
+    void setTags(QString _tags);
 
     int getAgentSize();
     int getAgentA(int agent);
@@ -37,7 +38,8 @@ public:
     PEndPolicy getEndPolicyMode();
     int getEndPolicyValue();
     int getPossession();
-    QString getComment();
+    QString getTags();
+    void loadPlanByStruct(kkAgentPlan _plan);
 
     int getId();
     bool isExecutable(QString &error);

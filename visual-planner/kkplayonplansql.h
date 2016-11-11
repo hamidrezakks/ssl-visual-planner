@@ -1,5 +1,5 @@
-#ifndef KKPLANSQL_H
-#define KKPLANSQL_H
+#ifndef PLAYONPLANSQL_H
+#define PLAYONPLANSQL_H
 
 #include "base.h"
 
@@ -11,11 +11,10 @@
 #include <QMessageBox>
 #include <QtSql/QSqlError>
 
-class kkPlanSQL
+class playOnPlanSQL
 {
 public:
-  kkPlanSQL(QString directory);
-
+  playOnPlanSQL(QString directory);
   bool changeSQLDir(QString directory);
 
 
@@ -27,24 +26,29 @@ public:
   QString getCommentForSQL(QString string);
   QString getCommentForPlanner(QString string);
   QString savePlanCommand(QString tableName, kkAgentPlan planStruct, int agentSize, int planId);
+  void savePlanListInSQL(QSqlQuery &_query);
   void savePlan();
 
   void insertToList(QList<kkAgentPlan> &list, QSqlQuery query, int agentSize = 1);
-  void loadPlan(QList<kkAgentPlan> &list, int agentSize = 1);
+  void loadPlan();
 
   bool addPlan(QList<kkAgentPlan> list, int agentSize = 1);
+  bool addPlan(int planId, kkAgentPlan plan, QString &str);
+
+  void removePlan(int _index);
 
   void disableSQL();
   void enableSQL();
+
+  int getPlanSize();
+
+  kkAgentPlan getPlan(int _index);
 private:
-  QList<kkAgentPlan> *_1AgentPlan;
-  QList<kkAgentPlan> *_2AgentPlan;
-  QList<kkAgentPlan> *_3AgentPlan;
-  QList<kkAgentPlan> *_4AgentPlan;
-  QList<kkAgentPlan> *_5AgentPlan;
+  QList<kkPlayOnPlan> playOnPlans;
+  QList<kkAgentPlan> agentPlan;
 
   QSqlDatabase planSQL;
-  ~kkPlanSQL();
+  ~playOnPlanSQL();
 };
 
-#endif // KKPLANSQL_H
+#endif // PLAYONPLANSQL_H

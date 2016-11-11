@@ -1,8 +1,6 @@
 #ifndef PLAYOFF_H
 #define PLAYOFF_H
 
-#include "base.h"
-#include "kkpoplansql.h"
 
 #include <QLabel>
 #include <QWidget>
@@ -15,14 +13,20 @@
 #include <QStatusBar>
 #include <QRubberBand>
 #include <QComboBox>
-
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QDebug>
+
+#include "base.h"
+#include "kkplayoffplansql.h"
+#include "ul.h"
 
 struct kkTimeAndIndex {
     long time;
     int index;
     int agent;
-    POffSkills skill;
+    playOffSkills skill;
 };
 
 class playoff : public QWidget
@@ -83,11 +87,11 @@ public:
     void setCurrentSkillSize(int tSize);
     int getCurrentSkillSize();
 
-    void setSkill(POffSkills tSkill, int targetAgent = -1, int targetIndex = -1);
-    POffSkills getSkill(int &targetAgent, int &targetIndex);
-    POffSkills getSkill();
-    POffSkills getSkill(int tSkillNum);
-    POffSkills getSkill(int tSkillNum, int &targetAgent, int &targetIndex);
+    void setSkill(playOffSkills tSkill, int targetAgent = -1, int targetIndex = -1);
+    playOffSkills getSkill(int &targetAgent, int &targetIndex);
+    playOffSkills getSkill();
+    playOffSkills getSkill(int tSkillNum);
+    playOffSkills getSkill(int tSkillNum, int &targetAgent, int &targetIndex);
 
     //////
     void POSetSelectedDisplayLabel(int index);
@@ -105,6 +109,15 @@ public:
     bool backup, restore;
     void cleanPlans();
     void removePlan(int index);
+
+    void setTags(QString str);
+    inline void setChance (unsigned int _chance) {
+        chance = _chance;
+    }
+    inline void setLastDist(double _lastDist) {
+        lastDist = _lastDist;
+    }
+
 private:
     QLabel *fieldLabel;
     QPixmap *fieldPix;
@@ -170,12 +183,25 @@ private:
 
     void POOpenSkill(int index, bool temp = true);
 
-    void POSetSkill(int tAgent, int tIndex, int tSkillNum, POffSkills tSkill);
+    void POSetSkill(int tAgent, int tIndex, int tSkillNum, playOffSkills tSkill);
 
     void POPaintSkill();
 
+    void writeJSON( QJsonObject &json, QString dir) const;
+    void writePlanJSON( QJsonObject &json, int index) const;
+    void writePosJSON( QJsonObject &json, const QList<playOffRobot> &index) const;
+    void writeSkillJSON(QJsonObject &json, const playOffRobot &index) const;
 
-    kkPOPlanSQL *myPlan;
+
+    Vector2D convertPos(Vector2I _input) const;
+    Vector2I convertPosInverse(Vector2D _input) const;
+
+
+
+
+
+    playOffPlanSQL *myPlan;
+
     //copy & paste
     void POCopy(int filter);
     void POPaste();
@@ -183,6 +209,12 @@ private:
     QList<playOffRobot> copyRobotList[6];
 
     QPoint currentBase;
+
+    int currentId;
+
+    QString tags;
+    unsigned int chance;
+    double lastDist;
 
     //sql side
 public:
@@ -194,7 +226,13 @@ public:
     void savePlan(QString directory);
     int loadPlan(QString directory);
 
-    void loadPOPlan(int index);
+    void choosePlan(int index);
+
+        /*Developed by mohammad Raziei*/
+    bool savePlanJson(QString directory);
+    int loadPlanJson(QString directory);
+    void readJSON(const QJsonObject& playBook);
+
 
 public slots:
 
@@ -207,6 +245,10 @@ public slots:
     void POLineEdit2_0(QString str = "", bool noupdate = false);
     void POLineEdit2_1(QString str = "", bool noupdate = false);
 
+signals:
+    void updateTags(QString str);
+
 };
+
 
 #endif // PLAYOFF_H

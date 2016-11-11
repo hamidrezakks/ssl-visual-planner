@@ -49,6 +49,7 @@ enum PSkills {
 };
 
 enum PEndPolicy {
+    NoPolicy = 0,
     Cycle = 1,
     ExactAgent = 2,
     AllAgents = 3,
@@ -68,15 +69,22 @@ struct kkAgentPlan {
     int endPolicy;
     int possession;
     int agentsSize;
-    QString comment;
+    QString tags;
     kkAgent agents[5];
 };
 
-#define _RobotAngRad 25
+struct kkPlayOnPlan {
+    int planId;
+    int ball;
+    int agentSize;
+    QString tags;
+};
 
+#define _RobotAngRad 25
+#define _MAX_ROBOT_COUNT 6
 #define _CenteralWidget_v_offset 25
 
-enum POffSkills {
+enum playOffSkills {
     NoSkill = 0,
     PassSkill = 1,
     ReceivePassSkill = 2,
@@ -108,7 +116,7 @@ struct playOffRobot {
     int tolerance;
     bool temp;
     robotAttr target;
-    POffSkills skill[3];
+    playOffSkills skill[3];
     int skillData[3][2];
     int skillSize;
     bool IAMode[3];
@@ -130,6 +138,29 @@ struct POInitPos {
     int ballX, ballY;
     int AgentX[6], AgentY[6];
 };
+
+
+struct Vector2D{
+    Vector2D(const double _x, const double _y){
+        x = _x;
+        y = _y;
+    }
+
+    double x;
+    double y;
+};
+
+struct Vector2I{
+    Vector2I(const int _x, const int _y){
+        x = _x;
+        y = _y;
+    }
+
+    int x;
+    int y;
+};
+
+#define API_VERSION 1.2
 
 #endif // BASE
 
