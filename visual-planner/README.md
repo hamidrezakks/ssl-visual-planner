@@ -19,11 +19,8 @@ Software Requirements
 
 Visual Planner need `Qt5.+`.
 
-Linux 14.04+
----------------------
-macOS Siera
-macOS El capitan
-
+- Linux 14.04+
+- macOS 10.10+
 
 Installation
 ------------
@@ -33,6 +30,7 @@ Please refer to INSTALL file.
 
 Usage
 -----
+
 
 
 
