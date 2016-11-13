@@ -7,7 +7,8 @@ RoboCup Small Size League visual Planner
 System Requirements
 -----------------------
 
-visualPlanner will likely run on a dual core PC with good graphics card. Typical configuration is:
+visualPlanner will likely run on a dual core PC.
+Typical configuration is:
 
 - Dual Core CPU (2.0 Ghz+)
 - 1GB of RAM
@@ -19,8 +20,8 @@ Software Requirements
 
 Visual Planner need `Qt5.+`.
 
-- Linux 14.04+
-- macOS 10.10+
+- Linux 14.04+ "TESTED"
+- macOS 10.10+ "TESTED"
 
 Installation
 ------------
@@ -30,7 +31,6 @@ Please refer to INSTALL file.
 
 Usage
 -----
-
 
 
 
