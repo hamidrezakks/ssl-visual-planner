@@ -6,6 +6,7 @@
 #include <QString>
 #include <QRect>
 #include <QPoint>
+#include <QResource>
 
 enum PlannerMode{
     BALL = 0,

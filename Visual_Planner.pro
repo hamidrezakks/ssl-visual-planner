@@ -44,3 +44,6 @@ OBJECTS_DIR = $$PWD/objs
 UI_DIR      = $$PWD/ui_objs
 
 CONFIG += c++14
+
+RESOURCES += \
+    resource.qrc

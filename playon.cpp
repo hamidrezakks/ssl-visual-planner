@@ -3,11 +3,7 @@
 playon::playon(QWidget *parent) :
     QWidget(parent)
 {
-#if UL_MAC_OSX
-    fieldPix = new QPixmap("../../../image/double-sized-field.png");
-#else
-    fieldPix = new QPixmap("image/double-sized-field.png");
-#endif
+    fieldPix = new QPixmap(":images/Field.png");
 
     bRect[0].setRect(25, 25, 354, 605);
     bRect[1].setRect(379, 25, 455, 177);

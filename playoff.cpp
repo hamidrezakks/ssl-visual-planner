@@ -3,11 +3,7 @@
 playoff::playoff(QWidget *parent) :
     QWidget(parent)
 {
-#if UL_MAC_OSX
-    fieldPix = new QPixmap("../../../image/double-sized-field.png");
-#else
-    fieldPix = new QPixmap("image/double-sized-field.png");
-#endif
+    fieldPix = new QPixmap(":images/Field.png");
     currentRobot.agent = -1;
     currentRobot.index = -1;
     currentRobot.skillNum = 0;
@@ -254,11 +250,11 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
         for (int i = 4; i < 6; i++) {
             if (POTools[i]->underMouse()) {
                 if (i == 4) {
-                    POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/copy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;}");
+                    POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wcopy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;}");
                     POCopy(displayMode);
                 }
                 else if (i == 5) {
-                    POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/paste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;}");
+                    POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wpaste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;}");
                     POPaste();
                 }
             }
@@ -398,8 +394,8 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
     }
     POPaintSkill();
     POFieldSelected = false;
-    POTools[4]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/copy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
-    POTools[5]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/paste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+    POTools[4]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wcopy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+    POTools[5]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wpaste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
 }
 
 void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
@@ -1398,23 +1394,23 @@ void playoff::POinitLables()
         else {
             POTools[i]->setGeometry(QRect(hMargin + ((frameWidth-(hMargin*2 + 70) )/5)*(i-1) + 70, vMargin + yStart + toolVOffset, (frameWidth-(hMargin*2+70))/5, 50));
             if (i == 1) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/move.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wmove.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
                 POTools[i]->setToolTip("Add/Move");
             }
             else if (i == 2) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/delete.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wdel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
                 POTools[i]->setToolTip("Remove");
             }
             else if (i == 3) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/select.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wsel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
                 POTools[i]->setToolTip("Select");
             }
             else if (i == 4) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/copy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wcopy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
                 POTools[i]->setToolTip("Copy");
             }
             else if (i == 5) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/paste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('btn/wpaste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
                 POTools[i]->setToolTip("Paste");
             }
         }
@@ -1487,36 +1483,36 @@ void playoff::POSetSelectedToolLabel(toolMode tTMode)
     for (int i = 1; i < 6; i++) {
         if (toolMode(i) == tTMode) {
             if (i == 1) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/move.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wmove.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 2) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/delete.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wdel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 3) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/select.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wsel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 4) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/copy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wcopy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 5) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url('image/white/paste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #0866af; background-image: url(':btn/wpaste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
         }
         else {
             if (i == 1) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/move.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wmove.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 2) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/delete.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wdel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 3) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/select.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wsel.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 4) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/copy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wcopy.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
             else if (i == 5) {
-                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url('image/white/paste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
+                POTools[i]->setStyleSheet("QLabel { background-color : #89a1b5; background-image: url(':btn/wpaste.png'); background-repeat: no-repeat; background-position: center center; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             }
         }
     }
