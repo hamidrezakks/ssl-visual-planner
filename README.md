@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/mahi97/ssl-visual-planner.svg?branch=master)](https://travis-ci.org/mahi97/ssl-visual-planner)
-[![Coverage Status](https://coveralls.io/repos/github/mahi97/ssl-visual-planner/badge.svg?branch=master)](https://coveralls.io/github/mahi97/ssl-visual-planner?branch=master)
 
 Visual Planner
 =====
