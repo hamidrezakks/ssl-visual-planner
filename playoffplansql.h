@@ -12,7 +12,7 @@
 #include <QtSql/QSqlError>
 
 struct planStruct {
-    QList<playOffRobot> AgentPlan[6];
+    QList<PlayOffRobot> AgentPlan[6];
     POMODE planMode;
     int agentSize;
     POInitPos initPos;
@@ -46,11 +46,11 @@ public:
     int getPlanSize();
 
     void loadEachPlan(planStruct &_plan, QString _name);
-    bool loadSQLtoStruct(QSqlQuery _query, int _rIndex, playOffRobot &temp);
+    bool loadSQLtoStruct(QSqlQuery _query, int _rIndex, PlayOffRobot &temp);
 
     QList<planStruct> planList;
 
-    int addPlan(QList<playOffRobot> tPlan[6],
+    int addPlan(QList<PlayOffRobot> tPlan[6],
                 POInitPos tInitPos,
                 POMODE tPOMode,
                 QString tags,
@@ -62,15 +62,15 @@ public:
     int findMaxSteps(planStruct &_plan);
     void addEachPlanToSql(planStruct _plan, QString tName);
     void addStepToSql(QString tName, int tid,
-                      QList<playOffRobot> &tA1,
-                      QList<playOffRobot> &tA2,
-                      QList<playOffRobot> &tA3,
-                      QList<playOffRobot> &tA4,
-                      QList<playOffRobot> &tA5,
-                      QList<playOffRobot> &tA6);
-    QString convertStructToSQLCmd(int _agentId, playOffRobot tStep);
+                      QList<PlayOffRobot> &tA1,
+                      QList<PlayOffRobot> &tA2,
+                      QList<PlayOffRobot> &tA3,
+                      QList<PlayOffRobot> &tA4,
+                      QList<PlayOffRobot> &tA5,
+                      QList<PlayOffRobot> &tA6);
+    QString convertStructToSQLCmd(int _agentId, PlayOffRobot tStep);
     QString convertEmptyStructToSQLCmd();
-    void insertPlanToQList(QList<playOffRobot> _planList[6], planMData &mData, int index);
+    void insertPlanToQList(QList<PlayOffRobot> _planList[6], planMData &mData, int index);
     QSqlDatabase planSQL;
 
     void disableSQL();

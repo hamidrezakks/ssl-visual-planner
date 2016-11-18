@@ -1,4 +1,4 @@
-#include "kkplayonplansql.h"
+#include "playonplansql.h"
 
 playOnPlanSQL::playOnPlanSQL(QString directory)
 {
@@ -28,7 +28,7 @@ bool playOnPlanSQL::changeSQLDir(QString directory)
     return true;
 }
 
-PEndPolicy playOnPlanSQL::getPolicyByIndex(int index)
+EndPolicy playOnPlanSQL::getPolicyByIndex(int index)
 {
     switch (index) {
     default:
@@ -43,7 +43,7 @@ PEndPolicy playOnPlanSQL::getPolicyByIndex(int index)
     }
 }
 
-int playOnPlanSQL::getIntByEnum(PEndPolicy tEnum)
+int playOnPlanSQL::getIntByEnum(EndPolicy tEnum)
 {
     switch (tEnum)
     {
@@ -61,7 +61,7 @@ int playOnPlanSQL::getIntByEnum(PEndPolicy tEnum)
     }
 }
 
-PSkills playOnPlanSQL::getPSkillByIndex(int index)
+Skills playOnPlanSQL::getPSkillByIndex(int index)
 {
     switch (index) {
     case 0:
@@ -101,7 +101,7 @@ PSkills playOnPlanSQL::getPSkillByIndex(int index)
     }
 }
 
-int playOnPlanSQL::getIntByEnum(PSkills tEnum)
+int playOnPlanSQL::getIntByEnum(Skills tEnum)
 {
     switch (tEnum) {
     case None:
@@ -155,7 +155,7 @@ QString playOnPlanSQL::getCommentForPlanner(QString string)
     return tempText;
 }
 
-QString playOnPlanSQL::savePlanCommand(QString tableName, kkAgentPlan planStruct, int agentSize, int planId)
+QString playOnPlanSQL::savePlanCommand(QString tableName, AgentPlan planStruct, int agentSize, int planId)
 {
     QString str = "INSERT INTO "+tableName+" VALUES ( ";
     str += QString::number(planId)+", ";
@@ -268,12 +268,12 @@ void playOnPlanSQL::savePlan()
     }
 }
 
-void playOnPlanSQL::insertToList(QList<kkAgentPlan> &list, QSqlQuery query, int agentSize)
+void playOnPlanSQL::insertToList(QList<AgentPlan> &list, QSqlQuery query, int agentSize)
 {
     bool errorCheck = true;
     while (query.next()) {
         errorCheck = false;
-        kkAgentPlan tempPlan;
+        AgentPlan tempPlan;
         tempPlan.planId = query.value(0).toInt();
         tempPlan.ball = query.value(1).toInt();
         tempPlan.endMode = getPolicyByIndex(query.value(2).toInt());
@@ -309,7 +309,7 @@ void playOnPlanSQL::loadPlan()
     playOnPlans.clear();
     agentPlan.clear();
 
-    kkPlayOnPlan tempPlayOnPlan;
+    PlayOnPlan tempPlayOnPlan;
     query.exec("SELECT * FROM playonplans ORDER BY id ASC");
     while (query.next()) {
         tempPlayOnPlan.planId = query.value(0).toInt();
@@ -319,7 +319,7 @@ void playOnPlanSQL::loadPlan()
         playOnPlans.append(tempPlayOnPlan);
     }
 
-    QList<kkAgentPlan> tempList[5];
+    QList<AgentPlan> tempList[5];
 
     query.exec("SELECT * FROM plan1agent ORDER BY id ASC");
     insertToList(tempList[0], query, 1);
@@ -371,9 +371,9 @@ void playOnPlanSQL::loadPlan()
     }
 }
 
-bool playOnPlanSQL::addPlan(int planId, kkAgentPlan plan, QString &str)
+bool playOnPlanSQL::addPlan(int planId, AgentPlan plan, QString &str)
 {
-    kkPlayOnPlan tempPlayOffPlan;
+    PlayOnPlan tempPlayOffPlan;
     tempPlayOffPlan.planId = planId;
     tempPlayOffPlan.ball = plan.ball;
     tempPlayOffPlan.tags = plan.tags;
@@ -429,7 +429,7 @@ int playOnPlanSQL::getPlanSize()
     return playOnPlans.length();
 }
 
-kkAgentPlan playOnPlanSQL::getPlan(int _index)
+AgentPlan playOnPlanSQL::getPlan(int _index)
 {
     return agentPlan.at(_index);
 }

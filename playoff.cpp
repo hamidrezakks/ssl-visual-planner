@@ -140,7 +140,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
             if (event->buttons() == Qt::LeftButton) {
                 if (validRubberBand) {
                     if (QRect(rbBeginPoint, rbEndPoint).normalized().contains(event->pos())) {
-                        QList<agentAndIndex> tempList;
+                        QList<AgentAndIndex> tempList;
                         tempList = getSelectedAgents(displayMode);
                         removeSelectedRobots(tempList);
                     }
@@ -204,7 +204,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
                 }
             }
             if (POReceiveIA[i]->underMouse()) {
-                playOffRobot tempIAStruct;
+                PlayOffRobot tempIAStruct;
                 if (robots[currentRobot.agent].at(currentRobot.index).IAMode[i]) {
                     tempIAStruct = robots[currentRobot.agent].at(currentRobot.index);
                     tempIAStruct.IAMode[i] = false;
@@ -282,7 +282,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
         else if (event->buttons() == Qt::RightButton) {
             if (POSkills[1]->text() != "+" && POSkills[2]->text() != "+") {
                 if (POSkills[2]->underMouse()) {
-                    robotAttr tempAttr = currentRobot;
+                    RobotAttr tempAttr = currentRobot;
                     currentRobot.skillNum = 2;
                     setSkill(NoSkill);
                     POOpenSkill(2);
@@ -291,7 +291,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
             }
             else if (POSkills[1]->text() != "+" && POSkills[2]->text() == "+") {
                 if (POSkills[1]->underMouse()) {
-                    robotAttr tempAttr = currentRobot;
+                    RobotAttr tempAttr = currentRobot;
                     currentRobot.skillNum = 1;
                     setSkill(NoSkill);
                     POOpenSkill(1);
@@ -314,7 +314,7 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
                 }
                 else {
                     setSkill(PassSkill, passReceiver.agent, passReceiver.index);
-                    robotAttr temp = currentRobot;
+                    RobotAttr temp = currentRobot;
                     currentRobot.agent = passReceiver.agent;
                     currentRobot.index = passReceiver.index;
                     currentRobot.skillNum = 1;
@@ -350,7 +350,7 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
             }
         }
 
-        robotGeom tempGeom;
+        RobotGeometry tempGeom;
         if (POCurrentRobot.index != -1) {
             tempGeom = getRobotGeom(POCurrentRobot.agent, POCurrentRobot.index);
             POTBPosX->setText(QString::number(tempGeom.pos.x()));
@@ -365,14 +365,14 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
             if (tempPoint.x() > fieldLabel->x() + fieldLabel->width()) {
                 tempPoint.setX(fieldLabel->x() + fieldLabel->width());
             }
-            if (tempPoint.y() > fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset) {
-                tempPoint.setY(fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset);
+            if (tempPoint.y() > fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET) {
+                tempPoint.setY(fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET);
             }
             if (tempPoint.x() < fieldLabel->x()) {
                 tempPoint.setX(fieldLabel->x());
             }
-            if (tempPoint.y() < fieldLabel->y() + _CenteralWidget_v_offset) {
-                tempPoint.setY(fieldLabel->y() + _CenteralWidget_v_offset);
+            if (tempPoint.y() < fieldLabel->y() + _CENTRALWIDGET_V_OFFSET) {
+                tempPoint.setY(fieldLabel->y() + _CENTRALWIDGET_V_OFFSET);
             }
             rbEndPoint = tempPoint;
         }
@@ -414,7 +414,7 @@ void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
             turnRobotAng(tempPos, POCurrentRobot.agent, POCurrentRobot.index);
         }
 
-        robotGeom tempGeom;
+        RobotGeometry tempGeom;
         if (POCurrentRobot.index != -1) {
             tempGeom = getRobotGeom(POCurrentRobot.agent, POCurrentRobot.index);
             if (!POCurrentRobot.isAng) {
@@ -434,14 +434,14 @@ void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
         if (tempPoint.x() > fieldLabel->x() + fieldLabel->width()) {
             tempPoint.setX(fieldLabel->x() + fieldLabel->width());
         }
-        if (tempPoint.y() > fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset) {
-            tempPoint.setY(fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset);
+        if (tempPoint.y() > fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET) {
+            tempPoint.setY(fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET);
         }
         if (tempPoint.x() < fieldLabel->x()) {
             tempPoint.setX(fieldLabel->x());
         }
-        if (tempPoint.y() < fieldLabel->y() + _CenteralWidget_v_offset) {
-            tempPoint.setY(fieldLabel->y() + _CenteralWidget_v_offset);
+        if (tempPoint.y() < fieldLabel->y() + _CENTRALWIDGET_V_OFFSET) {
+            tempPoint.setY(fieldLabel->y() + _CENTRALWIDGET_V_OFFSET);
 
         }
         if(containPoint(rbBeginPoint, tempPoint, 10)) {
@@ -466,11 +466,11 @@ void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
         if (tempRect.bottomRight().x() > fieldLabel->x() + fieldLabel->width()) {
             tempRect.moveRight(fieldLabel->x() + fieldLabel->width());
         }
-        if (tempRect.topLeft().y() < fieldLabel->y() + _CenteralWidget_v_offset) {
-            tempRect.moveTop(fieldLabel->y() + _CenteralWidget_v_offset);
+        if (tempRect.topLeft().y() < fieldLabel->y() + _CENTRALWIDGET_V_OFFSET) {
+            tempRect.moveTop(fieldLabel->y() + _CENTRALWIDGET_V_OFFSET);
         }
-        if (tempRect.bottomRight().y() > fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset) {
-            tempRect.moveBottom(fieldLabel->y() + fieldLabel->height() + _CenteralWidget_v_offset);
+        if (tempRect.bottomRight().y() > fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET) {
+            tempRect.moveBottom(fieldLabel->y() + fieldLabel->height() + _CENTRALWIDGET_V_OFFSET);
         }
         PORubberBand->setGeometry(tempRect);
         rbMoveChange = PORubberBand->geometry().topLeft() - rbMoveBase;
@@ -883,7 +883,7 @@ void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
             }
         }
     }
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     tempRobot.x = pos.x();
     tempRobot.y = pos.y();
     //tempRobot.label = "A";
@@ -926,7 +926,7 @@ void playoff::moveRobot(QPoint pos, int tAgent, int tIndex, bool tTemp)
     if (pos.y() > fieldLabel->height()-1) {
         pos.setY(fieldLabel->height()-1);
     }
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     tempRobot = robots[tAgent].at(tIndex);
     tempRobot.x = pos.x();
     tempRobot.y = pos.y();
@@ -940,9 +940,9 @@ void playoff::moveRobot(QPoint pos, int tAgent, int tIndex, bool tTemp)
     draw();
 }
 
-void playoff::moveSelectedRobots(QList<agentAndIndex> &tList, QPoint tOffset)
+void playoff::moveSelectedRobots(QList<AgentAndIndex> &tList, QPoint tOffset)
 {
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     for (int i = 0; i < tList.length(); i++) {
         tempRobot = robots[tList.at(i).agent].at(tList.at(i).index);
         tempRobot.x = toMoveAgentFirstPointList.at(i).x() + tOffset.x();
@@ -954,7 +954,7 @@ void playoff::moveSelectedRobots(QList<agentAndIndex> &tList, QPoint tOffset)
 
 void playoff::turnRobotAng(QPoint pos, int tAgent, int tIndex)
 {
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     tempRobot = robots[tAgent].at(tIndex);
     double tempAng = atan2(pos.y() - tempRobot.y, pos.x() - tempRobot.x);
     tempRobot.angle = tempAng*(360/(2*3.1415));
@@ -974,7 +974,7 @@ void playoff::removeRobot(int tAgent, int tIndex)
     draw();
 }
 
-void playoff::removeSelectedRobots(QList<agentAndIndex> &tList)
+void playoff::removeSelectedRobots(QList<AgentAndIndex> &tList)
 {
     for (int i = tList.length() - 1; i >= 0; i--) {
         robots[tList.at(i).agent].removeAt(tList.at(i).index);
@@ -994,9 +994,9 @@ bool playoff::containPoint(QPoint point, QPoint pos, int r)
     }
 }
 
-robotAttr playoff::getRobot(QPoint pos, bool passExp, QPoint *_base)
+RobotAttr playoff::getRobot(QPoint pos, bool passExp, QPoint *_base)
 {
-    robotAttr tempRobot;
+    RobotAttr tempRobot;
     for (int i = 0; i < 6; i++) {
         if (i == displayMode || displayMode == -1) {
             for (int j = 0; j < robots[i].length(); j++) {
@@ -1106,7 +1106,7 @@ void playoff::setShowAllFlag(bool tFlag)
     draw();
 }
 
-robotGeom playoff::getRobotGeom(int tAgent, int tIndex)
+RobotGeometry playoff::getRobotGeom(int tAgent, int tIndex)
 {
     if (tAgent < 0) {
         tAgent = 0;
@@ -1120,7 +1120,7 @@ robotGeom playoff::getRobotGeom(int tAgent, int tIndex)
     if (tIndex > robots[tAgent].length() - 1) {
         tIndex = robots[tAgent].length() - 1;
     }
-    robotGeom tempGeom;
+    RobotGeometry tempGeom;
     tempGeom.pos = QPoint(robots[tAgent].at(tIndex).x, robots[tAgent].at(tIndex).y)-QPoint(25,25);
     tempGeom.angle = robots[tAgent].at(tIndex).angle;
     tempGeom.tolerance = robots[tAgent].at(tIndex).tolerance;
@@ -1156,7 +1156,7 @@ void playoff::setGeomY(int tY)
 
 void playoff::setGeomAngle(double tAng)
 {
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     tempRobot = robots[currentRobot.agent].at(currentRobot.index);
     tempRobot.angle = tAng;
     tempRobot.angRect = QRect(QPoint(_RobotAngRad*cos( ( tempRobot.angle/360 )*2*3.1415 ) + tempRobot.x,
@@ -1169,7 +1169,7 @@ void playoff::setGeomAngle(double tAng)
 
 void playoff::setGeomTolerance(int tTol)
 {
-    playOffRobot tempRobot;
+    PlayOffRobot tempRobot;
     tempRobot = robots[currentRobot.agent].at(currentRobot.index);
     tempRobot.tolerance = tTol;
     robots[currentRobot.agent].replace(currentRobot.index, tempRobot);
@@ -1197,7 +1197,7 @@ int playoff::getCurrentSkillNum()
 void playoff::setCurrentSkillSize(int tSize)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
-        playOffRobot tempRobot;
+        PlayOffRobot tempRobot;
         tempRobot = robots[currentRobot.agent].at(currentRobot.index);
         tempRobot.skillSize = tSize;
         robots[currentRobot.agent].replace(currentRobot.index, tempRobot);
@@ -1212,7 +1212,7 @@ int playoff::getCurrentSkillSize()
     return 1;
 }
 
-void playoff::setSkill(playOffSkills tSkill, int targetAgent, int targetIndex)
+void playoff::setSkill(PlayOffSkills tSkill, int targetAgent, int targetIndex)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
         if (robots[currentRobot.agent].count()-1 >= currentRobot.index) {
@@ -1223,7 +1223,7 @@ void playoff::setSkill(playOffSkills tSkill, int targetAgent, int targetIndex)
                     setCurrentSkillNum(1);
                 }
             }
-            playOffRobot tempRobot;
+            PlayOffRobot tempRobot;
             tempRobot = robots[currentRobot.agent].at(currentRobot.index);
             if (targetAgent != -1 && targetIndex != -1) {
                 tempRobot.target.agent = targetAgent;
@@ -1249,7 +1249,7 @@ void playoff::setSkill(playOffSkills tSkill, int targetAgent, int targetIndex)
     }
 }
 
-playOffSkills playoff::getSkill(int &targetAgent, int &targetIndex)
+PlayOffSkills playoff::getSkill(int &targetAgent, int &targetIndex)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
         targetAgent = robots[currentRobot.agent].at(currentRobot.index).target.agent;
@@ -1259,13 +1259,13 @@ playOffSkills playoff::getSkill(int &targetAgent, int &targetIndex)
     return NoSkill;
 }
 
-playOffSkills playoff::getSkill()
+PlayOffSkills playoff::getSkill()
 {
     int tX, tY;
     return getSkill(tX, tY);
 }
 
-playOffSkills playoff::getSkill(int tSkillNum, int &targetAgent, int &targetIndex)
+PlayOffSkills playoff::getSkill(int tSkillNum, int &targetAgent, int &targetIndex)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
         targetAgent = robots[currentRobot.agent].at(currentRobot.index).target.agent;
@@ -1275,7 +1275,7 @@ playOffSkills playoff::getSkill(int tSkillNum, int &targetAgent, int &targetInde
     return NoSkill;
 }
 
-playOffSkills playoff::getSkill(int tSkillNum)
+PlayOffSkills playoff::getSkill(int tSkillNum)
 {
     int tX, tY;
     return getSkill(tSkillNum, tX, tY);
@@ -1677,7 +1677,7 @@ void playoff::POOpenSkill(int index, bool temp)
     }
 }
 
-void playoff::POSetSkill(int tAgent, int tIndex, int tSkillNum, playOffSkills tSkill)
+void playoff::POSetSkill(int tAgent, int tIndex, int tSkillNum, PlayOffSkills tSkill)
 {
 
 }
@@ -1744,13 +1744,13 @@ void playoff::POPaintSkill()
 }
 
 
-QList<agentAndIndex> playoff::getSelectedAgents(int filter)
+QList<AgentAndIndex> playoff::getSelectedAgents(int filter)
 {
-    QPoint tempOffset(fieldLabel->x(), fieldLabel->y() + _CenteralWidget_v_offset);
+    QPoint tempOffset(fieldLabel->x(), fieldLabel->y() + _CENTRALWIDGET_V_OFFSET);
     QRect tempRect(PORubberBand->geometry().topLeft() - tempOffset,
                    PORubberBand->geometry().bottomRight() - tempOffset);
-    QList<agentAndIndex> tempList;
-    agentAndIndex tempAAI;
+    QList<AgentAndIndex> tempList;
+    AgentAndIndex tempAAI;
 
 
     for (int i = 0; i < 6; i++) {
@@ -1768,7 +1768,7 @@ QList<agentAndIndex> playoff::getSelectedAgents(int filter)
     return tempList;
 }
 
-void playoff::fillFirstPointsList(QList<agentAndIndex> &tList)
+void playoff::fillFirstPointsList(QList<AgentAndIndex> &tList)
 {
     toMoveAgentFirstPointList.clear();
     for (int i = 0; i < tList.length(); i++) {
@@ -1783,7 +1783,7 @@ void playoff::POCopy(int filter)
         copyRobotList[i].clear();
     }
 
-    QPoint tempOffset(fieldLabel->x(), fieldLabel->y() + _CenteralWidget_v_offset);
+    QPoint tempOffset(fieldLabel->x(), fieldLabel->y() + _CENTRALWIDGET_V_OFFSET);
     QRect tempRect(PORubberBand->geometry().topLeft() - tempOffset,
                    PORubberBand->geometry().bottomRight() - tempOffset);
 
@@ -1826,7 +1826,7 @@ void playoff::POPaste()
 POInitPos playoff::getInitPos()
 {
     POInitPos tempInitPos;
-    playOffSkills tempSkill;
+    PlayOffSkills tempSkill;
     tempInitPos.ballX = tempInitPos.ballY = -100;
     for (int i = 0; i < 6; i++) {
         tempInitPos.AgentX[i] = tempInitPos.AgentY[i] = -100;
@@ -1947,7 +1947,7 @@ void playoff::insertSkillData(int _row, int _col, int data, bool noupdate)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
         if (robots[currentRobot.agent].count()-1 >= currentRobot.index) {
-            playOffRobot tempRobot;
+            PlayOffRobot tempRobot;
             tempRobot = robots[currentRobot.agent].at(currentRobot.index);
             if (_col == 1) {
                 if(robots[currentRobot.agent].at(currentRobot.index).skill[_row] == OneTouchSkill ||
@@ -2262,7 +2262,7 @@ void playoff::writePlanJSON(QJsonObject &json, int index ) const
 
 }
 
-void playoff::writePosJSON(QJsonObject &json , const QList<playOffRobot> &index) const
+void playoff::writePosJSON(QJsonObject &json , const QList<PlayOffRobot> &index) const
 {
     QJsonArray positions;
     Q_FOREACH(auto i, index)
@@ -2280,7 +2280,7 @@ void playoff::writePosJSON(QJsonObject &json , const QList<playOffRobot> &index)
     json["positions"] = positions;
 }
 
-void playoff::writeSkillJSON( QJsonObject &json, const playOffRobot &index) const
+void playoff::writeSkillJSON( QJsonObject &json, const PlayOffRobot &index) const
 {
     QJsonArray skillTEMP;
     for(int i = 0; i < index.skillSize ; i++)
@@ -2404,7 +2404,7 @@ void playoff::readJSON(const QJsonObject &playBook)
             QJsonArray posListJSON = agent["positions"].toArray();
             Q_FOREACH(QJsonValue positionValue, posListJSON) {
                 QJsonObject position = positionValue.toObject();
-                playOffRobot posTEMP;
+                PlayOffRobot posTEMP;
                 Vector2I pos = convertPosInverse(Vector2D(position["pos-x"].toDouble(),
                                                           position["pos-y"].toDouble()));
                 posTEMP.x         = pos.x;

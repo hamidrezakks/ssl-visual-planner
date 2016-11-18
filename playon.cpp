@@ -409,7 +409,7 @@ void playon::getSelectedSettings() {
 
     for (int i = 1; i < 5; i++) {
         if (playOnEndPolicyLabel[i]->underMouse()) {
-            currentState.endPolicy = PEndPolicy(i);
+            currentState.endPolicy = EndPolicy(i);
         }
     }
 
@@ -428,10 +428,10 @@ void playon::getSelectedSettings() {
 
     currentPlan->setAgentSize(currentState.agentSize);
     if (currentState.endPolicy == Cycle) {
-        currentPlan->setEndPolicy(PEndPolicy(currentState.endPolicy), playOnEndPolicyCycleValue->text().toInt());
+        currentPlan->setEndPolicy(EndPolicy(currentState.endPolicy), playOnEndPolicyCycleValue->text().toInt());
     }
     else {
-        currentPlan->setEndPolicy(PEndPolicy(currentState.endPolicy), currentState.endPolicyValue);
+        currentPlan->setEndPolicy(EndPolicy(currentState.endPolicy), currentState.endPolicyValue);
     }
 
 }
@@ -447,7 +447,7 @@ void playon::paintSettings() {
     }
 
     for (int i = 1; i < 5; i++) {
-        if (currentState.endPolicy == PEndPolicy(i)) {
+        if (currentState.endPolicy == EndPolicy(i)) {
             playOnEndPolicyLabel[i]->setStyleSheet("QLabel { background-color : #0866af; color : white; font-weight: bold;font-size:12px;} QLabel:HOVER { background-color : #2f78b3; }");
         }
         else {
@@ -575,8 +575,8 @@ void playon::drawRobot(QPainter &painter, int x, int y, QString label, int agent
 //It also decide where to draw robots and considers rectabgles layout
 void playon::drawRobots(QPainter &painter, int id)
 {
-    QList<kkRobot> areaAgents[10];
-    kkRobot tempRobot;
+    QList<Robot> areaAgents[10];
+    Robot tempRobot;
 
     for (int i = 0; i < currentState.agentSize; i++) {
         for (int j = 0; j < 2; j++) {
@@ -735,7 +735,7 @@ void playon::timerSlot() {
     }
 }
 
-bool playon::setPlan(PSkills skill)
+bool playon::setPlan(Skills skill)
 {
     bool temp;
     temp = currentPlan->setAgentSkill(currentState.agent + 1,
@@ -779,7 +779,7 @@ void playon::emptySkill(int agent, int priority)
     setSkillTexts();
 }
 
-QString playon::getSkillTextByEnum(PSkills skill)
+QString playon::getSkillTextByEnum(Skills skill)
 {
     switch(skill) {
     default:
@@ -844,7 +844,7 @@ void playon::apply(int _id)
     QString str;
     statusBar->setStyleSheet("QStatusBar {color: #cc0000;}");
     if (currentPlan->isExecutable(str)) {
-        kkAgentPlan tempPlan;
+        AgentPlan tempPlan;
         insertPlanToStruct(tempPlan);
         myPlan->addPlan(_id, tempPlan, str);
         statusBar->setStyleSheet("QStatusBar {color: #00cc00;}");
@@ -868,7 +868,7 @@ void playon::setABPointsLabelText()
     }
 }
 
-void playon::insertPlanToStruct(kkAgentPlan &plan)
+void playon::insertPlanToStruct(AgentPlan &plan)
 {
     for (int i = 0; i < 5; i++) {
         plan.agents[i].A = currentPlan->getAgentA(i + 1);

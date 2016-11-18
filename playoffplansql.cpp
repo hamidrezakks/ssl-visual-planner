@@ -1,4 +1,4 @@
-#include "kkplayoffplansql.h"
+#include "playoffplansql.h"
 
 playOffPlanSQL::playOffPlanSQL()
 {
@@ -110,7 +110,7 @@ void playOffPlanSQL::addEachPlanToSql(planStruct _plan, QString tName)
     }
 }
 
-void playOffPlanSQL::addStepToSql(QString tName, int tid, QList<playOffRobot> &tA1, QList<playOffRobot> &tA2, QList<playOffRobot> &tA3, QList<playOffRobot> &tA4, QList<playOffRobot> &tA5, QList<playOffRobot> &tA6)
+void playOffPlanSQL::addStepToSql(QString tName, int tid, QList<PlayOffRobot> &tA1, QList<PlayOffRobot> &tA2, QList<PlayOffRobot> &tA3, QList<PlayOffRobot> &tA4, QList<PlayOffRobot> &tA5, QList<PlayOffRobot> &tA6)
 {
     QString tempStr = "";
     if (tA1.count() > tid) {
@@ -160,7 +160,7 @@ void playOffPlanSQL::addStepToSql(QString tName, int tid, QList<playOffRobot> &t
     tempQuery.exec(tempStr);
 }
 
-QString playOffPlanSQL::convertStructToSQLCmd(int _agentId, playOffRobot tStep)
+QString playOffPlanSQL::convertStructToSQLCmd(int _agentId, PlayOffRobot tStep)
 {
     QString tempStr;
     for (int i = 0; i < 3; i++) {
@@ -223,7 +223,7 @@ QString playOffPlanSQL::convertEmptyStructToSQLCmd()
     return tempStr;
 }
 
-int playOffPlanSQL::addPlan(QList<playOffRobot> tPlan[],
+int playOffPlanSQL::addPlan(QList<PlayOffRobot> tPlan[],
                             POInitPos tInitPos,
                             POMODE tPOMode,
                             QString _tags,
@@ -239,7 +239,7 @@ int playOffPlanSQL::addPlan(QList<playOffRobot> tPlan[],
     tempPlan.lastDist  = _lastDist;
     tempPlan.planMode  = tPOMode;
     tempPlan.agentSize = agentSize;
-    playOffRobot tempPOP;
+    PlayOffRobot tempPOP;
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < tPlan[i].count(); j++) {
             tempPOP = tPlan[i].at(j);
@@ -294,7 +294,7 @@ void playOffPlanSQL::loadEachPlan(planStruct &_plan, QString _name)
 {
     QSqlQuery squery;
     squery.exec("SELECT * FROM "+_name+" ORDER BY id ASC");
-    playOffRobot tempStep;
+    PlayOffRobot tempStep;
     while (squery.next()) {
         for (int i = 0; i < 6; i++) {
             if (loadSQLtoStruct(squery, i, tempStep)) {
@@ -304,7 +304,7 @@ void playOffPlanSQL::loadEachPlan(planStruct &_plan, QString _name)
     }
 }
 
-bool playOffPlanSQL::loadSQLtoStruct(QSqlQuery _query, int _rIndex, playOffRobot &temp)
+bool playOffPlanSQL::loadSQLtoStruct(QSqlQuery _query, int _rIndex, PlayOffRobot &temp)
 {
     if (_query.value(_rIndex*7 + 1).toString() == "na") {
         return false;
@@ -318,14 +318,14 @@ bool playOffPlanSQL::loadSQLtoStruct(QSqlQuery _query, int _rIndex, playOffRobot
     temp.temp = false;
     for (int i = 0; i < 3; i++) {
         if (_query.value(_rIndex*7 + 4).toString() != "na") {
-            if (playOffSkills(_query.value(_rIndex*7 + 4 + i).toString().split("|").at(0).toInt()) == ReceivePassIASkill) {
+            if (PlayOffSkills(_query.value(_rIndex*7 + 4 + i).toString().split("|").at(0).toInt()) == ReceivePassIASkill) {
                 temp.skill[i] = ReceivePassSkill;
                 temp.skillData[i][0] = _query.value(_rIndex*7 + 4 + i).toString().split("|").at(1).toInt();
                 temp.skillData[i][1] = _query.value(_rIndex*7 + 4 + i).toString().split("|").at(2).toInt();
                 temp.IAMode[i] = true;
             }
             else {
-                temp.skill[i] = playOffSkills(_query.value(_rIndex*7 + 4 + i).toString().split("|").at(0).toInt());
+                temp.skill[i] = PlayOffSkills(_query.value(_rIndex*7 + 4 + i).toString().split("|").at(0).toInt());
                 temp.skillData[i][0] = _query.value(_rIndex*7 + 4 + i).toString().split("|").at(1).toInt();
                 temp.skillData[i][1] = _query.value(_rIndex*7 + 4 + i).toString().split("|").at(2).toInt();
                 temp.IAMode[i] = false;
@@ -342,7 +342,7 @@ bool playOffPlanSQL::loadSQLtoStruct(QSqlQuery _query, int _rIndex, playOffRobot
     return true;
 }
 
-void playOffPlanSQL::insertPlanToQList(QList<playOffRobot> _planList[], planMData &mData, int index)
+void playOffPlanSQL::insertPlanToQList(QList<PlayOffRobot> _planList[], planMData &mData, int index)
 {
     if (index < 0) {
         index = 0;

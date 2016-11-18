@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include "base.h"
-#include "kkagentplanclass.h"
-#include "kkplayonplansql.h"
+#include "agentplanclass.h"
+#include "playonplansql.h"
 
 #include <QMainWindow>
 #include <QPixmap>
