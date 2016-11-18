@@ -18,7 +18,7 @@ Typical configuration is:
 Software Requirements
 ---------------------
 
-Visual Planner need `Qt5.+`.
+Visual Planner need `Qt5.4+`.
 
 - Linux 14.04+ "TESTED"
 - macOS 10.10+ "TESTED"
