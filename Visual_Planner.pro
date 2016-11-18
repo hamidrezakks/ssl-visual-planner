@@ -15,22 +15,22 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    kkagentplanclass.cpp \
     playoff.cpp \
     playon.cpp \
     tags.cpp \
-    kkplayonplansql.cpp \
-    kkplayoffplansql.cpp
+    agentplanclass.cpp \
+    playoffplansql.cpp \
+    playonplansql.cpp
 
 HEADERS  += mainwindow.h \
-    kkagentplanclass.h \
     base.h \
     playoff.h \
     playon.h \
     tags.h \
-    kkplayonplansql.h \
-    kkplayoffplansql.h \
-    include/ul.h
+    include/ul.h \
+    agentplanclass.h \
+    playoffplansql.h \
+    playonplansql.h
 
 
 INCLUDEPATH += $$PWD/include
@@ -44,3 +44,6 @@ OBJECTS_DIR = $$PWD/objs
 UI_DIR      = $$PWD/ui_objs
 
 CONFIG += c++14
+
+RESOURCES += \
+    resource.qrc

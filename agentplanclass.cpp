@@ -1,4 +1,4 @@
-#include "kkagentplanclass.h"
+#include "agentplanclass.h"
 
 #include <QString>
 #include <QList>
@@ -57,7 +57,7 @@ bool kkAgentPlanClass::setAgentSize(int agentSize)
     return true;
 }
 
-bool kkAgentPlanClass::setAgentSkill(int agent, int priority, int a, int b, PSkills skill)
+bool kkAgentPlanClass::setAgentSkill(int agent, int priority, int a, int b, Skills skill)
 {
     if (agent > agentsSize || agent < 1) {
         return false;
@@ -107,7 +107,7 @@ bool kkAgentPlanClass::setBallPos(int ballPos)
     return true;
 }
 
-void kkAgentPlanClass::setEndPolicy(PEndPolicy mode, int policy)
+void kkAgentPlanClass::setEndPolicy(EndPolicy mode, int policy)
 {
     endMode = mode;
     if (mode == 0) {
@@ -168,7 +168,7 @@ int kkAgentPlanClass::getAgentB(int agent)
     return agents[agent - 1].B;
 }
 
-PSkills kkAgentPlanClass::getAgentSkill(int agent, int priority)
+Skills kkAgentPlanClass::getAgentSkill(int agent, int priority)
 {
     if (agent < 1) {
         agent = 1;
@@ -201,7 +201,7 @@ int kkAgentPlanClass::getBallPos()
     return ball;
 }
 
-PEndPolicy kkAgentPlanClass::getEndPolicyMode()
+EndPolicy kkAgentPlanClass::getEndPolicyMode()
 {
     return endMode;
 }
@@ -226,7 +226,7 @@ QString kkAgentPlanClass::getTags()
     return tags;
 }
 
-void kkAgentPlanClass::loadPlanByStruct(kkAgentPlan _plan)
+void kkAgentPlanClass::loadPlanByStruct(AgentPlan _plan)
 {
     agentsSize = _plan.agentsSize;
     endMode =  _plan.endMode;
@@ -247,7 +247,7 @@ void kkAgentPlanClass::loadPlanByStruct(kkAgentPlan _plan)
 bool kkAgentPlanClass::isExecutable(QString &error)
 {
     error = "";
-    QList<PSkills> twoPointSkills;
+    QList<Skills> twoPointSkills;
     twoPointSkills.append(MoveOffensive);
     twoPointSkills.append(MoveDefensive);
     twoPointSkills.append(PassOffensive);

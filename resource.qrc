@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="Field.png">image/double-sized-field.png</file>
+    </qresource>
+    <qresource prefix="/btn">
+        <file alias="wcopy.png">image/white/copy.png</file>
+        <file alias="wdel.png">image/white/delete.png</file>
+        <file alias="wmove.png">image/white/move.png</file>
+        <file alias="wpaste.png">image/white/paste.png</file>
+        <file alias="wsel.png">image/white/select.png</file>
+    </qresource>
+</RCC>

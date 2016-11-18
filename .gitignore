@@ -6,3 +6,8 @@ Makefile
 Visual_Planner.pro.*
 Visual_Planner.app/*
 .DS_Store
+data/*
+Visual_Planner
+*.db
+*.sql
+qrc_resource.cpp

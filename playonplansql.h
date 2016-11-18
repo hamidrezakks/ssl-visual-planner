@@ -18,22 +18,22 @@ public:
   bool changeSQLDir(QString directory);
 
 
-  int getIntByEnum(PEndPolicy tEnum);
-  int getIntByEnum(PSkills tEnum);
-  PEndPolicy getPolicyByIndex(int index);
-  PSkills getPSkillByIndex(int index);
+  int getIntByEnum(EndPolicy tEnum);
+  int getIntByEnum(Skills tEnum);
+  EndPolicy getPolicyByIndex(int index);
+  Skills getPSkillByIndex(int index);
 
   QString getCommentForSQL(QString string);
   QString getCommentForPlanner(QString string);
-  QString savePlanCommand(QString tableName, kkAgentPlan planStruct, int agentSize, int planId);
+  QString savePlanCommand(QString tableName, AgentPlan planStruct, int agentSize, int planId);
   void savePlanListInSQL(QSqlQuery &_query);
   void savePlan();
 
-  void insertToList(QList<kkAgentPlan> &list, QSqlQuery query, int agentSize = 1);
+  void insertToList(QList<AgentPlan> &list, QSqlQuery query, int agentSize = 1);
   void loadPlan();
 
-  bool addPlan(QList<kkAgentPlan> list, int agentSize = 1);
-  bool addPlan(int planId, kkAgentPlan plan, QString &str);
+  bool addPlan(QList<AgentPlan> list, int agentSize = 1);
+  bool addPlan(int planId, AgentPlan plan, QString &str);
 
   void removePlan(int _index);
 
@@ -42,10 +42,10 @@ public:
 
   int getPlanSize();
 
-  kkAgentPlan getPlan(int _index);
+  AgentPlan getPlan(int _index);
 private:
-  QList<kkPlayOnPlan> playOnPlans;
-  QList<kkAgentPlan> agentPlan;
+  QList<PlayOnPlan> playOnPlans;
+  QList<AgentPlan> agentPlan;
 
   QSqlDatabase planSQL;
   ~playOnPlanSQL();
