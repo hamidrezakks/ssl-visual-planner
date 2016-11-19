@@ -22,7 +22,7 @@
 #include "playoffplansql.h"
 #include "ul.h"
 
-struct kkTimeAndIndex {
+struct TimeAndIndex {
     long time;
     int index;
     int agent;
@@ -46,7 +46,11 @@ public:
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);
-    void setLineEdits(QLineEdit *_posX, QLineEdit *_posY, QLineEdit *_posAng, QLineEdit *_posTol);
+    void setLineEdits(QLineEdit *_posX,
+                      QLineEdit *_posY,
+                      QLineEdit *_posAng,
+                      QLineEdit *_posTol);
+
     void setStatusBar(QStatusBar *_statusBar);
     void setAgentSizeCB(QComboBox *_comboBox);
 
@@ -195,10 +199,6 @@ private:
 
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;
-
-
-
-
 
     playOffPlanSQL *myPlan;
 

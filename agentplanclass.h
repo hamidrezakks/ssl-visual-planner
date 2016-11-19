@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QString>
 
-class kkAgentPlanClass {
+class AgentPlanClass {
 private:
     Agent agents[5];
     EndPolicy endMode;
@@ -18,7 +18,7 @@ private:
     QString tags;
 
 public:
-    kkAgentPlanClass(int agentSize = 1, int id = 0);
+    AgentPlanClass(int agentSize = 1, int id = 0);
     void clear(int agentSize = 1);
     bool setAgentSize(int agentSize);
     bool setAgentSkill(int agent, int priority, int a, int b, Skills tSkill);

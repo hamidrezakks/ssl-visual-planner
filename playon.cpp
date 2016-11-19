@@ -31,7 +31,7 @@ playon::playon(QWidget *parent) :
     blinkCurrentAgent = true;
     connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
 
-    currentPlan = new kkAgentPlanClass();
+    currentPlan = new AgentPlanClass();
     currentPlan->clear(1);
 
     myPlan = new playOnPlanSQL("tempplayoff.sql");
@@ -235,7 +235,7 @@ void playon::mousePressed(QMouseEvent *event, QPoint tempPos)
         }
         else {
             if (event->buttons() == Qt::LeftButton) {
-                kkSelectedAgent tempSelected = getSelectedAgent();
+                SelectedAgent tempSelected = getSelectedAgent();
                 if (tempSelected.agent != -1 &&
                     tempSelected.priority != -1 &&
                     tempSelected.part != -1 &&
@@ -324,7 +324,7 @@ void playon::mouseReleased(QMouseEvent *event, QPoint tempPos)
     }
     else if (POTabWidget->underMouse()) {
         if (rightClickEmpty) {
-            kkSelectedAgent tempSelected = getSelectedAgent();
+            SelectedAgent tempSelected = getSelectedAgent();
             if(tempSelected.agent != -1 && tempSelected.priority != -1 && tempSelected.part != -1) {
                 emptySkill(tempSelected.agent, tempSelected.priority);
             }
@@ -333,9 +333,9 @@ void playon::mouseReleased(QMouseEvent *event, QPoint tempPos)
     }
 }
 
-kkSelectedAgent playon::getSelectedAgent()
+SelectedAgent playon::getSelectedAgent()
 {
-    kkSelectedAgent temp;
+    SelectedAgent temp;
     for (int i = 0; i < currentState.agentSize; i++) {
         for (int j = 0; j < 4; j++) {
             for (int k = 0; k < 3; k++) {
@@ -377,7 +377,7 @@ void playon::paintAgentLabels()
     }
 }
 
-void playon::insertSelectedAgentToState(kkSelectedAgent _selected) {
+void playon::insertSelectedAgentToState(SelectedAgent _selected) {
     currentSelected = _selected;
     currentState.agent = _selected.agent;
     currentState.priority = _selected.priority;

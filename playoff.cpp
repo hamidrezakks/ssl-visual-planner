@@ -1831,7 +1831,7 @@ POInitPos playoff::getInitPos()
     for (int i = 0; i < 6; i++) {
         tempInitPos.AgentX[i] = tempInitPos.AgentY[i] = -100;
     }
-    kkTimeAndIndex temp[6];
+    TimeAndIndex temp[6];
     for (int i = 0; i < 6; i++) {
         temp[i].index = -1;
         temp[i].agent = -1;
@@ -1906,7 +1906,7 @@ POInitPos playoff::getInitPos()
             }
         }
     }
-    kkTimeAndIndex tempTaI;
+    TimeAndIndex tempTaI;
     for (int i = 0; i < 6; i++) {
         for (int j = i; j < 6; j++) {
             if (temp[i].time > temp[j].time) {

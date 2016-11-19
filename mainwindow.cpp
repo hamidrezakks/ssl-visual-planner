@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     geometryIni();
 
-    currentVPMode = kkPlayOff;
+    currentVPMode = PlayOff;
     playOn = new playon(this);
     playOn->setLabel(ui->field);
     playOn->setWidget(ui->tab);
@@ -50,10 +50,10 @@ MainWindow::MainWindow(QWidget *parent) :
     tagDialog = new tags(this);
     connect(tagDialog, SIGNAL(tagExit(QString)), this, SLOT(tagDialogExit(QString)));
 
-    if(currentVPMode == kkPlayOn) {
+    if(currentVPMode == PlayOn) {
         ui->menuBar->actions().at(0)->menu()->actions().at(0)->setChecked(true);
         ui->menuBar->actions().at(0)->menu()->actions().at(1)->setChecked(false);
-        currentVPMode = kkPlayOn;
+        currentVPMode = PlayOn;
         playOn->enableSQL();
         playOff->disableSQL();
         initVPMode();
@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     else {
         ui->menuBar->actions().at(0)->menu()->actions().at(0)->setChecked(false);
         ui->menuBar->actions().at(0)->menu()->actions().at(1)->setChecked(true);
-        currentVPMode = kkPlayOff;
+        currentVPMode = PlayOff;
         playOn->disableSQL();
         playOff->enableSQL();
         initVPMode();
@@ -125,18 +125,18 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     tempPos = ui->field->mapFromParent(tempPos);
 
     if (ui->field->underMouse()) {
-        if ((currentVPMode == kkPlayOn && !playOnNew) ||
-                (currentVPMode == kkPlayOff && !playOffNew)) {
+        if ((currentVPMode == PlayOn && !playOnNew) ||
+                (currentVPMode == PlayOff && !playOffNew)) {
             QMessageBox::warning(this, ">>NEW BUTTON<<","You have to make a new plan!", QMessageBox::Ok);
             return;
         }
     }
     //PlayOn Mode
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOn->mousePressed(event, tempPos);
     }
     //PlayOff mode
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOff->mousePressed(event, tempPos);
     }
 }
@@ -148,10 +148,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     QPoint tempPos;
     tempPos = ui->centralWidget->mapFromParent(event->pos());
     tempPos = ui->field->mapFromParent(tempPos);
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOn->mouseReleased(event, tempPos);
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOff->mouseReleased(event, tempPos);
     }
 }
@@ -163,10 +163,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     QPoint tempPos;
     tempPos = ui->centralWidget->mapFromParent(event->pos());
     tempPos = ui->field->mapFromParent(tempPos);
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOn->mouseMoved(event, tempPos);
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOff->mouseMoved(event, tempPos);
     }
 }
@@ -175,7 +175,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 //Mainly for using shortcuts
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         if (!playOn->isInBallMode()) {
             switch (event->key()) {
             case Qt::Key_W:
@@ -220,7 +220,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
         }
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         if (event->modifiers() != Qt::ControlModifier) {
             switch (event->key()) {
             case Qt::Key_W:
@@ -333,7 +333,7 @@ void MainWindow::playOnCreateActions()
 //contex menu event/ it will be called if right click pressed
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         if (ui->field->underMouse() && !playOn->isInBallMode()) {
             QMenu *offMenu, *defMenu;
             QMenu menu(this);
@@ -555,10 +555,10 @@ MainWindow::~MainWindow()
 //Add/Apply/New button event
 void MainWindow::on_addBtn_clicked()
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOn->apply(playOnCurrentPlan);
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOff->apply(playOffCurrentPlan);
     }
 
@@ -568,7 +568,7 @@ void MainWindow::on_addBtn_clicked()
 void MainWindow::on_browseBtn_clicked()
 {
     QDir currentDir;
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         QSettings settings(settingAddress, QSettings::IniFormat);
         QString tempDir = QFileDialog::getOpenFileName(this, tr("Open SQL"),
                                                        settings.value(DEFAULT_DIR_KEY).toString(), tr("SQL Files (*.db3 *.db);;All Files (*.*)"));
@@ -588,7 +588,7 @@ void MainWindow::on_browseBtn_clicked()
             setWindowTitle("Visual Planner - "+playOnOpenFileDir);
         }
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         QSettings settings(settingAddress, QSettings::IniFormat);
         QString tempDir = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                        settings.value(DEFAULT_DIR_KEY).toString(),
@@ -625,7 +625,7 @@ void MainWindow::on_saveBtn_clicked()
 {
     QDir currentDir;
     QSettings settings(settingAddress, QSettings::IniFormat);
-    if(currentVPMode == kkPlayOn)
+    if(currentVPMode == PlayOn)
     {
         QMessageBox::StandardButton reply;
         if(playOnOpenFileDir.length() < 2)
@@ -672,7 +672,7 @@ void MainWindow::on_saveBtn_clicked()
         setWindowTitle("Visual Planner - "+playOnSaveFileDir);
 
     }
-    else if(currentVPMode == kkPlayOff)
+    else if(currentVPMode == PlayOff)
     {
         QMessageBox::StandardButton reply;
         if(playOffopenFileDir.length() < 2)
@@ -732,10 +732,10 @@ void MainWindow::on_resetBtn_clicked()
     reply = QMessageBox::question(this, "Reset Plan", "Are you sure?",
                                   QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
-        if( currentVPMode == kkPlayOn) {
+        if( currentVPMode == PlayOn) {
             playOn->reset();
         }
-        else if (currentVPMode == kkPlayOff) {
+        else if (currentVPMode == PlayOff) {
             playOff->reset();
         }
     }
@@ -746,7 +746,7 @@ void MainWindow::on_resetBtn_clicked()
 void MainWindow::on_spinBox_valueChanged(const QString &arg1)
 {
     int tempSpin = ui->spinBox->value();
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOnCurrentPlan = tempSpin;
         playOn->choosePlan(tempSpin);
         if (playOnCurrentPlan < playOn->getPlanSize() && playOn->getPlanSize() > 0) {
@@ -756,7 +756,7 @@ void MainWindow::on_spinBox_valueChanged(const QString &arg1)
             ui->removeBtn->setDisabled(true);
         }
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOffCurrentPlan = tempSpin;
         playOff->choosePlan(tempSpin);
         if (playOffCurrentPlan < playOff->getPlanSize() - 1 && playOff->getPlanSize() > 0) {
@@ -771,7 +771,7 @@ void MainWindow::on_spinBox_valueChanged(const QString &arg1)
 //Removes plan
 void MainWindow::on_removeBtn_clicked()
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Remove Plan", "Are you sure?",
                                       QMessageBox::Yes|QMessageBox::No);
@@ -784,7 +784,7 @@ void MainWindow::on_removeBtn_clicked()
         playOnCurrentPlan = 0;
         on_spinBox_valueChanged("");
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Remove Plan", "Are you sure?",
                                       QMessageBox::Yes|QMessageBox::No);
@@ -805,7 +805,7 @@ void MainWindow::on_actionPlayOn_triggered()
 {
     ui->menuBar->actions().at(0)->menu()->actions().at(0)->setChecked(true);
     ui->menuBar->actions().at(0)->menu()->actions().at(1)->setChecked(false);
-    currentVPMode = kkPlayOn;
+    currentVPMode = PlayOn;
     playOn->enableSQL();
     playOff->disableSQL();
     initVPMode();
@@ -819,7 +819,7 @@ void MainWindow::on_actionPlayOff_triggered()
 {
     ui->menuBar->actions().at(0)->menu()->actions().at(0)->setChecked(false);
     ui->menuBar->actions().at(0)->menu()->actions().at(1)->setChecked(true);
-    currentVPMode = kkPlayOff;
+    currentVPMode = PlayOff;
     playOn->disableSQL();
     playOff->enableSQL();
     initVPMode();
@@ -834,13 +834,13 @@ void MainWindow::on_actionPlayOff_triggered()
 //Initilize Visual Planner modes
 void MainWindow::initVPMode()
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         ui->tabWidget->setVisible(true);
         ui->ballLabel->setVisible(true);
         ui->POtabWidget->setVisible(false);
         playOn->initPainting();
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         ui->tabWidget->setVisible(false);
         ui->ballLabel->setVisible(false);
         ui->POtabWidget->setVisible(true);
@@ -961,14 +961,14 @@ void MainWindow::playOffActiveMove()
 //New button fot PlayOff
 void MainWindow::on_newBtn_clicked()
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         ui->spinBox->setMaximum(playOn->getPlanSize());
         ui->spinBox->setValue(playOn->getPlanSize());
         ui->spinBox->setEnabled(true);
         on_spinBox_valueChanged("");
         playOnNew = true;
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         ui->spinBox->setMaximum(playOff->getPlanSize());
         ui->spinBox->setValue(playOff->getPlanSize());
         ui->spinBox->setEnabled(true);
@@ -980,8 +980,8 @@ void MainWindow::on_newBtn_clicked()
 
 void MainWindow::on_tagsBtn_clicked()
 {
-    if ((currentVPMode == kkPlayOn && !playOnNew) ||
-            (currentVPMode == kkPlayOff && !playOffNew)) {
+    if ((currentVPMode == PlayOn && !playOnNew) ||
+            (currentVPMode == PlayOff && !playOffNew)) {
         QMessageBox::warning(this, ">>NEW BUTTON<<","You have to make a new plan!", QMessageBox::Ok);
         return;
     }
@@ -990,11 +990,11 @@ void MainWindow::on_tagsBtn_clicked()
 
 void MainWindow::tagDialogExit(QString str)
 {
-    if (currentVPMode == kkPlayOn) {
+    if (currentVPMode == PlayOn) {
         playOn->setTags(str);
         playOn->apply(playOnCurrentPlan);
     }
-    else if (currentVPMode == kkPlayOff) {
+    else if (currentVPMode == PlayOff) {
         playOff->setTags(str);
         playOff->apply(playOffCurrentPlan);
     }
@@ -1007,7 +1007,7 @@ void MainWindow::updateTags(QString str)
 
 void MainWindow::on_spinBox_2_valueChanged(int arg1)
 {
-    if (currentVPMode == kkPlayOff) {
+    if (currentVPMode == PlayOff) {
         playOff->setChance(arg1);
         playOff->apply(playOffCurrentPlan);
     }
@@ -1015,7 +1015,7 @@ void MainWindow::on_spinBox_2_valueChanged(int arg1)
 
 void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
 {
-    if (currentVPMode == kkPlayOff) {
+    if (currentVPMode == PlayOff) {
         playOff->setLastDist(arg1);
         playOff->apply(playOffCurrentPlan);
     }
