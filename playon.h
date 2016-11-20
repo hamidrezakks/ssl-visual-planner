@@ -17,24 +17,24 @@
 #include <QDebug>
 
 #include "base.h"
-#include "kkagentplanclass.h"
-#include "kkplayonplansql.h"
+#include "agentplanclass.h"
+#include "playonplansql.h"
 #include "ul.h"
 
-struct kkSelectedAgent {
+struct SelectedAgent {
     int agent = -1;
     int priority = -1;
     int part = -1;
 };
 
-struct kkCurrentState {
+struct CurrentState {
     int AorB = 0;
     int plan = -1;
     int agent = -1;
     int priority = -1;
     int agentSize = 1;
     int isBall = true;
-    PEndPolicy endPolicy = Cycle;
+    EndPolicy endPolicy = Cycle;
     int endPolicyValue = 1;
 };
 
@@ -62,7 +62,7 @@ public:
     void initPainting();
     // PLAN CONTROLS
 
-    bool setPlan(PSkills skill);
+    bool setPlan(Skills skill);
     bool setPlanPoints();
     bool isInBallMode();
     void setTags(QString str);
@@ -92,19 +92,19 @@ private:
     void setQlabelInTabWidget(QWidget *widget, QLabel **label, QRect rect, int size = 1);
     void setAgentLabel(QWidget *widget, QRect rect);
 
-    kkSelectedAgent getSelectedAgent();
-    kkSelectedAgent currentSelected;
+    SelectedAgent getSelectedAgent();
+    SelectedAgent currentSelected;
     void paintAgentLabels();
-    void insertSelectedAgentToState(kkSelectedAgent _selected);
+    void insertSelectedAgentToState(SelectedAgent _selected);
 
     void getSelectedSettings();
     void paintSettings();
     void setABPointsLabelText();
     void initVarForPainting();
-    kkCurrentState currentState;
-    kkCurrentState lastState;
+    CurrentState currentState;
+    CurrentState lastState;
 
-    void insertPlanToStruct(kkAgentPlan &plan);
+    void insertPlanToStruct(AgentPlan &plan);
 
     //migrated vars
 
@@ -127,7 +127,7 @@ private:
     int timerCounter;
     bool blinkCurrentAgent;
 
-    kkAgentPlanClass *currentPlan;
+    AgentPlanClass *currentPlan;
 
     void setSkillTexts();
     void emptySkill(int agent, int priority);
@@ -135,7 +135,7 @@ private:
     bool rightClickEmpty;
 
     //
-    QString getSkillTextByEnum(PSkills skill);
+    QString getSkillTextByEnum(Skills skill);
     //sql side
     playOnPlanSQL *myPlan;
 public:

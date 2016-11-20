@@ -3,11 +3,7 @@
 playon::playon(QWidget *parent) :
     QWidget(parent)
 {
-#if UL_MAC_OSX
-    fieldPix = new QPixmap("../../../image/double-sized-field.png");
-#else
-    fieldPix = new QPixmap("image/double-sized-field.png");
-#endif
+    fieldPix = new QPixmap(":images/Field.png");
 
     bRect[0].setRect(25, 25, 354, 605);
     bRect[1].setRect(379, 25, 455, 177);
@@ -35,7 +31,7 @@ playon::playon(QWidget *parent) :
     blinkCurrentAgent = true;
     connect(timer, SIGNAL(timeout()), this, SLOT(timerSlot()));
 
-    currentPlan = new kkAgentPlanClass();
+    currentPlan = new AgentPlanClass();
     currentPlan->clear(1);
 
     myPlan = new playOnPlanSQL("tempplayoff.sql");
@@ -239,7 +235,7 @@ void playon::mousePressed(QMouseEvent *event, QPoint tempPos)
         }
         else {
             if (event->buttons() == Qt::LeftButton) {
-                kkSelectedAgent tempSelected = getSelectedAgent();
+                SelectedAgent tempSelected = getSelectedAgent();
                 if (tempSelected.agent != -1 &&
                     tempSelected.priority != -1 &&
                     tempSelected.part != -1 &&
@@ -328,7 +324,7 @@ void playon::mouseReleased(QMouseEvent *event, QPoint tempPos)
     }
     else if (POTabWidget->underMouse()) {
         if (rightClickEmpty) {
-            kkSelectedAgent tempSelected = getSelectedAgent();
+            SelectedAgent tempSelected = getSelectedAgent();
             if(tempSelected.agent != -1 && tempSelected.priority != -1 && tempSelected.part != -1) {
                 emptySkill(tempSelected.agent, tempSelected.priority);
             }
@@ -337,9 +333,9 @@ void playon::mouseReleased(QMouseEvent *event, QPoint tempPos)
     }
 }
 
-kkSelectedAgent playon::getSelectedAgent()
+SelectedAgent playon::getSelectedAgent()
 {
-    kkSelectedAgent temp;
+    SelectedAgent temp;
     for (int i = 0; i < currentState.agentSize; i++) {
         for (int j = 0; j < 4; j++) {
             for (int k = 0; k < 3; k++) {
@@ -381,7 +377,7 @@ void playon::paintAgentLabels()
     }
 }
 
-void playon::insertSelectedAgentToState(kkSelectedAgent _selected) {
+void playon::insertSelectedAgentToState(SelectedAgent _selected) {
     currentSelected = _selected;
     currentState.agent = _selected.agent;
     currentState.priority = _selected.priority;
@@ -413,7 +409,7 @@ void playon::getSelectedSettings() {
 
     for (int i = 1; i < 5; i++) {
         if (playOnEndPolicyLabel[i]->underMouse()) {
-            currentState.endPolicy = PEndPolicy(i);
+            currentState.endPolicy = EndPolicy(i);
         }
     }
 
@@ -432,10 +428,10 @@ void playon::getSelectedSettings() {
 
     currentPlan->setAgentSize(currentState.agentSize);
     if (currentState.endPolicy == Cycle) {
-        currentPlan->setEndPolicy(PEndPolicy(currentState.endPolicy), playOnEndPolicyCycleValue->text().toInt());
+        currentPlan->setEndPolicy(EndPolicy(currentState.endPolicy), playOnEndPolicyCycleValue->text().toInt());
     }
     else {
-        currentPlan->setEndPolicy(PEndPolicy(currentState.endPolicy), currentState.endPolicyValue);
+        currentPlan->setEndPolicy(EndPolicy(currentState.endPolicy), currentState.endPolicyValue);
     }
 
 }
@@ -451,7 +447,7 @@ void playon::paintSettings() {
     }
 
     for (int i = 1; i < 5; i++) {
-        if (currentState.endPolicy == PEndPolicy(i)) {
+        if (currentState.endPolicy == EndPolicy(i)) {
             playOnEndPolicyLabel[i]->setStyleSheet("QLabel { background-color : #0866af; color : white; font-weight: bold;font-size:12px;} QLabel:HOVER { background-color : #2f78b3; }");
         }
         else {
@@ -579,8 +575,8 @@ void playon::drawRobot(QPainter &painter, int x, int y, QString label, int agent
 //It also decide where to draw robots and considers rectabgles layout
 void playon::drawRobots(QPainter &painter, int id)
 {
-    QList<kkRobot> areaAgents[10];
-    kkRobot tempRobot;
+    QList<Robot> areaAgents[10];
+    Robot tempRobot;
 
     for (int i = 0; i < currentState.agentSize; i++) {
         for (int j = 0; j < 2; j++) {
@@ -739,7 +735,7 @@ void playon::timerSlot() {
     }
 }
 
-bool playon::setPlan(PSkills skill)
+bool playon::setPlan(Skills skill)
 {
     bool temp;
     temp = currentPlan->setAgentSkill(currentState.agent + 1,
@@ -783,7 +779,7 @@ void playon::emptySkill(int agent, int priority)
     setSkillTexts();
 }
 
-QString playon::getSkillTextByEnum(PSkills skill)
+QString playon::getSkillTextByEnum(Skills skill)
 {
     switch(skill) {
     default:
@@ -848,7 +844,7 @@ void playon::apply(int _id)
     QString str;
     statusBar->setStyleSheet("QStatusBar {color: #cc0000;}");
     if (currentPlan->isExecutable(str)) {
-        kkAgentPlan tempPlan;
+        AgentPlan tempPlan;
         insertPlanToStruct(tempPlan);
         myPlan->addPlan(_id, tempPlan, str);
         statusBar->setStyleSheet("QStatusBar {color: #00cc00;}");
@@ -872,7 +868,7 @@ void playon::setABPointsLabelText()
     }
 }
 
-void playon::insertPlanToStruct(kkAgentPlan &plan)
+void playon::insertPlanToStruct(AgentPlan &plan)
 {
     for (int i = 0; i < 5; i++) {
         plan.agents[i].A = currentPlan->getAgentA(i + 1);

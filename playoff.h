@@ -19,14 +19,14 @@
 #include <QDebug>
 
 #include "base.h"
-#include "kkplayoffplansql.h"
+#include "playoffplansql.h"
 #include "ul.h"
 
-struct kkTimeAndIndex {
+struct TimeAndIndex {
     long time;
     int index;
     int agent;
-    playOffSkills skill;
+    PlayOffSkills skill;
 };
 
 class playoff : public QWidget
@@ -46,7 +46,11 @@ public:
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);
-    void setLineEdits(QLineEdit *_posX, QLineEdit *_posY, QLineEdit *_posAng, QLineEdit *_posTol);
+    void setLineEdits(QLineEdit *_posX,
+                      QLineEdit *_posY,
+                      QLineEdit *_posAng,
+                      QLineEdit *_posTol);
+
     void setStatusBar(QStatusBar *_statusBar);
     void setAgentSizeCB(QComboBox *_comboBox);
 
@@ -59,13 +63,13 @@ public:
     void reset();
     void placeRobot(QPoint pos, int tAgent, bool tTemp = false);
     void moveRobot(QPoint pos, int tAgent, int tIndex, bool tTemp = false);
-    void moveSelectedRobots(QList<agentAndIndex> &tList, QPoint tOffset);
+    void moveSelectedRobots(QList<AgentAndIndex> &tList, QPoint tOffset);
     void turnRobotAng(QPoint pos, int tAgent, int tIndex);
     void removeRobot(int tAgent, int tIndex);
-    void removeSelectedRobots(QList<agentAndIndex> &tList);
+    void removeSelectedRobots(QList<AgentAndIndex> &tList);
 
     bool containPoint(QPoint point, QPoint pos, int r);
-    robotAttr getRobot(QPoint pos, bool passExp = false, QPoint *_base = new QPoint );
+    RobotAttr getRobot(QPoint pos, bool passExp = false, QPoint *_base = new QPoint );
     void setDisplayMode(int tMode, bool noDraw = false);
     int getDisplayMode();
     void setCurrentAgent(int tAgent);
@@ -76,7 +80,7 @@ public:
 
     void setShowAllFlag(bool tFlag);
 
-    robotGeom getRobotGeom(int tAgent, int tIndex);
+    RobotGeometry getRobotGeom(int tAgent, int tIndex);
     void setGeomX(int tX);
     void setGeomY(int tY);
     void setGeomAngle(double tAng);
@@ -87,11 +91,11 @@ public:
     void setCurrentSkillSize(int tSize);
     int getCurrentSkillSize();
 
-    void setSkill(playOffSkills tSkill, int targetAgent = -1, int targetIndex = -1);
-    playOffSkills getSkill(int &targetAgent, int &targetIndex);
-    playOffSkills getSkill();
-    playOffSkills getSkill(int tSkillNum);
-    playOffSkills getSkill(int tSkillNum, int &targetAgent, int &targetIndex);
+    void setSkill(PlayOffSkills tSkill, int targetAgent = -1, int targetIndex = -1);
+    PlayOffSkills getSkill(int &targetAgent, int &targetIndex);
+    PlayOffSkills getSkill();
+    PlayOffSkills getSkill(int tSkillNum);
+    PlayOffSkills getSkill(int tSkillNum, int &targetAgent, int &targetIndex);
 
     //////
     void POSetSelectedDisplayLabel(int index);
@@ -140,21 +144,21 @@ private:
     QPoint baseMove;
     QPoint rbMoveBase, rbMoveChange;
 
-    QList<agentAndIndex> getSelectedAgents(int filter = -1);
+    QList<AgentAndIndex> getSelectedAgents(int filter = -1);
 
-    QList<agentAndIndex> toMoveAgentList;
+    QList<AgentAndIndex> toMoveAgentList;
     QList<QPoint> toMoveAgentFirstPointList;
-    void fillFirstPointsList(QList<agentAndIndex> &tList);
+    void fillFirstPointsList(QList<AgentAndIndex> &tList);
 
     void drawRobot(QPainter &painter, int x, int y, QString label, int agent, bool selected = true, bool blink = false);
     void drawRobots(QPainter &painter, int tRobotIndex, bool selected = true);
 
-    QList<playOffRobot> robots[6];
+    QList<PlayOffRobot> robots[6];
 
-    QList<playOffRobot> unsavedPlan[6];
+    QList<PlayOffRobot> unsavedPlan[6];
     planMData unsavedMPlan;
 
-    robotAttr currentRobot;
+    RobotAttr currentRobot;
     int displayMode;
 
     int currentAgent;
@@ -165,8 +169,8 @@ private:
 
     bool passFlag;
     ////////
-    robotAttr POCurrentRobot;
-    robotAttr passReceiver;
+    RobotAttr POCurrentRobot;
+    RobotAttr passReceiver;
     bool POFieldSelected;
     QLabel *PODisplayModeLabel[8];
     QLabel *POCurrentAgentLabel[7];
@@ -183,22 +187,18 @@ private:
 
     void POOpenSkill(int index, bool temp = true);
 
-    void POSetSkill(int tAgent, int tIndex, int tSkillNum, playOffSkills tSkill);
+    void POSetSkill(int tAgent, int tIndex, int tSkillNum, PlayOffSkills tSkill);
 
     void POPaintSkill();
 
     void writeJSON( QJsonObject &json, QString dir) const;
     void writePlanJSON( QJsonObject &json, int index) const;
-    void writePosJSON( QJsonObject &json, const QList<playOffRobot> &index) const;
-    void writeSkillJSON(QJsonObject &json, const playOffRobot &index) const;
+    void writePosJSON( QJsonObject &json, const QList<PlayOffRobot> &index) const;
+    void writeSkillJSON(QJsonObject &json, const PlayOffRobot &index) const;
 
 
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;
-
-
-
-
 
     playOffPlanSQL *myPlan;
 
@@ -206,7 +206,7 @@ private:
     void POCopy(int filter);
     void POPaste();
 
-    QList<playOffRobot> copyRobotList[6];
+    QList<PlayOffRobot> copyRobotList[6];
 
     QPoint currentBase;
 

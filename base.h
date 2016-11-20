@@ -6,6 +6,7 @@
 #include <QString>
 #include <QRect>
 #include <QPoint>
+#include <QResource>
 
 enum PlannerMode{
     BALL = 0,
@@ -16,20 +17,20 @@ enum PlannerMode{
     _5AGENT = 5
 };
 
-struct kkLabelMode {
+struct LabelMode {
     int agent;
     int priority;
     int part;
 };
 
-struct kkRobot {
+struct Robot {
     int x, y;
     QString label;
     int agent;
     int aOrB;
 };
 
-enum PSkills {
+enum Skills {
     None = 0,
     MoveOffensive = 1,
     MoveDefensive = 2,
@@ -48,7 +49,7 @@ enum PSkills {
     ChipToGoal = 15
 };
 
-enum PEndPolicy {
+enum EndPolicy {
     NoPolicy = 0,
     Cycle = 1,
     ExactAgent = 2,
@@ -56,24 +57,24 @@ enum PEndPolicy {
     ExactDisturb = 4
 };
 
-struct kkAgent {
+struct Agent {
     int A, B;
-    PSkills skill[4];
+    Skills skill[4];
     int pSize;
 };
 
-struct kkAgentPlan {
+struct AgentPlan {
     int planId;
     int ball;
-    PEndPolicy endMode;
+    EndPolicy endMode;
     int endPolicy;
     int possession;
     int agentsSize;
     QString tags;
-    kkAgent agents[5];
+    Agent agents[5];
 };
 
-struct kkPlayOnPlan {
+struct PlayOnPlan {
     int planId;
     int ball;
     int agentSize;
@@ -82,9 +83,9 @@ struct kkPlayOnPlan {
 
 #define _RobotAngRad 25
 #define _MAX_ROBOT_COUNT 6
-#define _CenteralWidget_v_offset 25
+#define _CENTRALWIDGET_V_OFFSET 25
 
-enum playOffSkills {
+enum PlayOffSkills {
     NoSkill = 0,
     PassSkill = 1,
     ReceivePassSkill = 2,
@@ -95,19 +96,19 @@ enum playOffSkills {
     ReceivePassIASkill = 7
 };
 
-struct agentAndIndex {
+struct AgentAndIndex {
     int agent;
     int index;
 };
 
-struct robotAttr {
+struct RobotAttr {
     int index;
     int agent;
     int skillNum;
     bool isAng;
 };
 
-struct playOffRobot {
+struct PlayOffRobot {
     int x, y;
     QString label;
     int agent;
@@ -115,14 +116,14 @@ struct playOffRobot {
     QRect angRect;
     int tolerance;
     bool temp;
-    robotAttr target;
-    playOffSkills skill[3];
+    RobotAttr target;
+    PlayOffSkills skill[3];
     int skillData[3][2];
     int skillSize;
     bool IAMode[3];
 };
 
-struct robotGeom {
+struct RobotGeometry {
     QPoint pos;
     double angle;
     int tolerance;

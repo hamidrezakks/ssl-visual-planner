@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mahi97/ssl-visual-planner.svg?branch=master)](https://travis-ci.org/mahi97/ssl-visual-planner)
+
 Visual Planner
 =====
 
@@ -18,7 +20,7 @@ Typical configuration is:
 Software Requirements
 ---------------------
 
-Visual Planner need `Qt5.+`.
+Visual Planner need `Qt5.4+`.
 
 - Linux 14.04+ "TESTED"
 - macOS 10.10+ "TESTED"

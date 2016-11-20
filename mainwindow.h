@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include "base.h"
-#include "kkagentplanclass.h"
-#include "kkplayonplansql.h"
+#include "agentplanclass.h"
+#include "playonplansql.h"
 
 #include <QMainWindow>
 #include <QPixmap>
@@ -36,8 +36,8 @@ class MainWindow : public QMainWindow
 
 public:
     enum VPMode {
-        kkPlayOn = 1,
-        kkPlayOff = 2
+        PlayOn = 1,
+        PlayOff = 2
     };
 
     VPMode currentVPMode;
@@ -59,29 +59,48 @@ public:
 private:
     playon *playOn;
     void playOnCreateActions();
-    QAction *playOnPassSkill[2], *playOnMoveSkill[2], *playOnKickSkill[2],
-            *playOnChipSkill[2], *playOnMarkSkill[2],
-            *playOnOneTouchSkill, *playOnCatchBallSkill,
-            *playOnReceivePass, *playOnShotSkill, *playOnChipToGoalSkill;
-    QAction *playOnPrevAgent, *playOnNextAgent;
-    QAction *playOnPrevPriority, *playOnNextPriority;
-    QString playOnOpenFileDir, playOnSaveFileDir;
+    QAction *playOnPassSkill[2],
+            *playOnMoveSkill[2],
+            *playOnKickSkill[2],
+            *playOnChipSkill[2],
+            *playOnMarkSkill[2],
+            *playOnOneTouchSkill,
+            *playOnCatchBallSkill,
+            *playOnReceivePass,
+            *playOnShotSkill,
+            *playOnChipToGoalSkill;
+
+    QAction *playOnPrevAgent,
+            *playOnNextAgent;
+
+    QAction *playOnPrevPriority,
+            *playOnNextPriority;
+
+    QString playOnOpenFileDir,
+            playOnSaveFileDir;
+
     int playOnCurrentPlan;
     bool playOnNew;
 
     playoff *playOff;
     void playOffCreateActions();
-    QAction *playOffPass, *playOffReceivePass, *playOffShotToGoal,
-            *playOffChipToGoal, *playOffOneTouch, *playOffMove;
-    QString playOffopenFileDir, playOffsaveFileDir;
+
+    QAction *playOffPass,
+            *playOffReceivePass,
+            *playOffShotToGoal,
+            *playOffChipToGoal,
+            *playOffOneTouch,
+            *playOffMove;
+
+    QString playOffopenFileDir,
+            playOffsaveFileDir;
+
     int playOffCurrentPlan;
     bool playOffSpinInit;
     bool playOffNew;
 
     //tags dialog
     tags *tagDialog;
-
-
 
 private slots:
     void playOnActivePassO();
@@ -136,6 +155,14 @@ private slots:
 
     void on_POTBPosTol_returnPressed();
 
+    void on_newBtn_clicked();
+
+    void on_tagsBtn_clicked();
+
+    void on_spinBox_2_valueChanged(int arg1);
+
+    void on_doubleSpinBox_valueChanged(double arg1);
+
     /* Play off */
     void playOffActivePass();
     void playOffActiveReceivePass();
@@ -145,16 +172,8 @@ private slots:
     void playOffActiveMove();
     /* play off */
 
-    void on_newBtn_clicked();
-
-    void on_tagsBtn_clicked();
-
     void tagDialogExit(QString str);
     void updateTags(QString str);
-
-    void on_spinBox_2_valueChanged(int arg1);
-
-    void on_doubleSpinBox_valueChanged(double arg1);
 
 private:
     Ui::MainWindow *ui;
