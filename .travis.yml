@@ -2,10 +2,13 @@ language: cpp
 
 compiler:
   - gcc
+  - clang
 
 sudo: required
-dist: trusty
-
+dist: 
+  - trusty
+  - xenial
+  
 env:
   - QT_BASE=54
   - QT_BASE=55
