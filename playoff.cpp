@@ -2490,7 +2490,7 @@ Vector2I playoff::convertPosInverse(Vector2D _input) const
     _input.y /= (6.000/2);
 
     int tempX = (int)((_input.x)*404.5);
-    int tempY = (int)((_input.y)*304);
+    int tempY = -(int)((_input.y)*304);
 
     tempX += 429;
     tempY += 328;
