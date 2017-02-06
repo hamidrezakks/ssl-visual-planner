@@ -6,6 +6,7 @@
 
 QT       += core gui\
             sql
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +22,11 @@ SOURCES += main.cpp\
     agentplanclass.cpp \
     playoffplansql.cpp \
     playonplansql.cpp \
-    ssl-playbook.pb.cc
+    ssl-playbook.pb.cc \
+    statuswidget.cpp \
+    logger.cpp \
+    client.cpp \
+    server.cpp
 
 HEADERS  += mainwindow.h \
     base.h \
@@ -32,7 +37,11 @@ HEADERS  += mainwindow.h \
     agentplanclass.h \
     playoffplansql.h \
     playonplansql.h \
-    ssl-playbook.pb.h
+    ssl-playbook.pb.h \
+    statuswidget.h \
+    logger.h \
+    client.h \
+    server.h
 
 
 INCLUDEPATH += $$PWD/include
