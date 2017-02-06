@@ -22,6 +22,9 @@
 #include "playon.h"
 #include "tags.h"
 
+#include "client.h"
+#include "server.h"
+
 const QString DEFAULT_DIR_KEY("default_dir");
 
 const QString settingAddress(QDir::currentPath()+"/data/setting.ini");
@@ -174,6 +177,8 @@ private slots:
 
     void tagDialogExit(QString str);
     void updateTags(QString str);
+
+    void on_Send_clicked();
 
 private:
     Ui::MainWindow *ui;
