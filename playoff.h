@@ -22,6 +22,7 @@
 #include "playoffplansql.h"
 #include "ul.h"
 #include "ssl-playbook.pb.h"
+#include "receive.h"
 
 
 struct TimeAndIndex {
@@ -45,6 +46,9 @@ public:
         TCOPY = 4,
         TPASTE = 5
     };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////we added this
+    Receive* rc;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);
@@ -123,10 +127,10 @@ public:
     inline void setLastDist(double _lastDist) {
         lastDist = _lastDist;
     }
+     playOffPlanSQL *myPlan;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       PlanBook* pb;
-      void writeproto(PlanBook*,int index, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index);
-
+      void writeproto(PlanBook*, int index);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
     QLabel *fieldLabel;
@@ -206,7 +210,7 @@ private:
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;
 
-    playOffPlanSQL *myPlan;
+    //playOffPlanSQL *myPlan;      we added this comment
 
     //copy & paste
     void POCopy(int filter);

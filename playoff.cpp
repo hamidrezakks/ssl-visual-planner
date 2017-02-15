@@ -12,7 +12,10 @@ playoff::playoff(QWidget *parent) :
     showAll = false;
     agentSize = 1;
     currentSkillNum = 0;
-
+    //////////////////////////////////////////////////////////////////////////////////////we added this
+    pb = new PlanBook();
+    rc = new Receive();
+   //////////////////////////////////////////////////////////////////////////////////////
     POFieldSelected = false;
 
     currentTool = TMOVE;
@@ -2498,9 +2501,11 @@ Vector2I playoff::convertPosInverse(Vector2D _input) const
     return Vector2I(tempX, tempY);
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////we added this
-void playoff::writeproto(PlanBook* pb,int index, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index)
+void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index*/)
 {
 
+    PlayOffRobot _index{};
+    QList<PlayOffRobot> __index{};
    //::PLAN::
    Plans* plan = pb->add_plans();
    AgentInitPos* aip = NULL;
@@ -2536,8 +2541,15 @@ void playoff::writeproto(PlanBook* pb,int index, const PlayOffRobot& _index, con
    Positions* pos = NULL;
    Skill* skill = NULL;
    Target* target = NULL;
-   Q_FOREACH(auto i, __index)
-   {
+//   myPlan->planList[index].AgentPlan[i]
+
+//   Q_FOREACH(auto i, __index)
+//   {
+   for(int k{};k < myPlan->planList[index].agentSize;k++)
+       for(int j{};j< myPlan->planList[index].AgentPlan[k].size();j++)
+       {
+           PlayOffRobot i = myPlan->planList[index].AgentPlan[k][j];
+
        pos = agent->add_p();
        Vector2D _pos = convertPos(Vector2I(i.x, i.y));
 
@@ -2547,9 +2559,9 @@ void playoff::writeproto(PlanBook* pb,int index, const PlayOffRobot& _index, con
        pos->set_tolerance(i.tolerance);
        pos->add_skills();
        skill = pos->add_skills();
-       for(int i = 0; i < _index.skillSize ; i++)
+       for(int l = 0; l < _index.skillSize ; l++)
        {
-           switch (_index.skill[i]) {
+           switch (i.skill[l]) {
            case NoSkill:
                skill->set_name("NoSkill");
                break;
@@ -2557,8 +2569,8 @@ void playoff::writeproto(PlanBook* pb,int index, const PlayOffRobot& _index, con
            {
                skill->set_name("PassSkill");
                target = skill->mutable_target();
-               target->set_index(_index.target.index);
-               target->set_agent(_index.target.agent);
+               target->set_index(i.target.index);
+               target->set_agent(i.target.agent);
            }
                break;
            case ReceivePassSkill:
@@ -2581,9 +2593,9 @@ void playoff::writeproto(PlanBook* pb,int index, const PlayOffRobot& _index, con
                break;
 
            }
-           skill->set_primary(_index.skillData[i][0]);
-           skill->set_secondry(_index.skillData[i][1]);
-           skill->set_flag(_index.IAMode[i]);
+           skill->set_primary(i.skillData[l][0]);
+           skill->set_secondry(i.skillData[l][1]);
+           skill->set_flag(i.IAMode[l]);
        }
 
    }
