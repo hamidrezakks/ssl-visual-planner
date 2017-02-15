@@ -73,7 +73,7 @@ bool Client::open()
     return true;
 }
 
-bool Client::receive(PlanBook* & packet)
+bool Client::receive(PlanBook &packet)
 {
     if(_socket->state() == QUdpSocket::BoundState && _socket->hasPendingDatagrams()) {
         QByteArray datagram;
@@ -82,7 +82,7 @@ bool Client::receive(PlanBook* & packet)
         _socket->readDatagram(datagram.data(), datagram.size());
         mutex.unlock();
         //decode packet:
-        return packet->ParseFromArray(datagram.data(), datagram.size());
+        return packet.ParseFromArray(datagram.data(), datagram.size());
     } else {
         return false;
     }

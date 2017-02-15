@@ -46,7 +46,7 @@ public:
 
     bool open();
     void close();
-    bool receive(PlanBook* & packet);
+    bool receive(PlanBook & packet);
     inline void changePort(quint16 port) {_port = port;}
 
 protected:
