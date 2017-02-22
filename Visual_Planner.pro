@@ -48,15 +48,34 @@ HEADERS  += mainwindow.h \
 
 INCLUDEPATH += $$PWD/include
 
-INCLUDEPATH += /usr/local/include
+INCLUDEPATH += /usr/include
 
 FORMS    += mainwindow.ui \
             tags.ui
 
+
+unix:!macx:!contains(QMAKE_HOST.arch, x86_64) {
+message("Use Lib")
+message("Libs not found!")
+}
+
+macx {
+
+message("MacOS Libs")
+
 LIBS += -L/usr/local/lib \
      -lprotobuf \
      -lprotobuf-lite
+}
 
+contains(QMAKE_HOST.arch, x86_64):!macx {
+
+message("Unix 64")
+
+LIBS += -L/usr/lib/x86_64-linux-gnu \
+        -lprotobuf \
+        -lprotobuf-lite
+}
 
 MOC_DIR     = $$PWD/moc_objs
 OBJECTS_DIR = $$PWD/objs

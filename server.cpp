@@ -65,13 +65,15 @@ void Server::change_interface(const string & net_interface)
 bool Server::send(const PlanBook* packet)
 {
     QByteArray datagram;
+//    qDebug() << packet;
     if(packet != NULL)
     {
         datagram.resize(packet->ByteSize());
-        bool success = packet->SerializeToArray(datagram.data(), datagram.size());
+        bool success = false;
+        success = packet->SerializeToArray(datagram.data(), datagram.size());
         if(!success) {
             //TODO: print useful info
-            logStatus(QString("Serializing packet to array failed."), QColor("red"));
+            //logStatus(QString("Serializing packet to array failed."), QColor("red"));
             return false;
         }
 
@@ -79,7 +81,7 @@ bool Server::send(const PlanBook* packet)
         quint64 bytes_sent = _socket->writeDatagram(datagram, *_net_address, _port);
         mutex.unlock();
         if (bytes_sent != datagram.size()) {
-            logStatus(QString("Sending UDP datagram failed (maybe too large?). Size was: %1 byte(s).").arg(datagram.size()), QColor("red"));
+//            logStatus(QString("Sending UDP datagram failed (maybe too large?). Size was: %1 byte(s).").arg(datagram.size()), QColor("red"));
             return false;
         }
     }
