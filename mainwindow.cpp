@@ -1023,11 +1023,13 @@ void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindow::on_Send_clicked()
 {
-    PlanBook* _pb = playOff->pb;
+    playOff->pb->set_id(1);
+    playOff->pb->set_apiversion(API_VERSION);
+    //PlanBook* _pb = playOff->pb;
     for(int i{};i< playOff->myPlan->planList.size();i++)
-        playOff->writeproto(_pb , i);
+        playOff->writeproto(playOff->pb , i);
     Server s{};
 
-        s.send(_pb);
+        s.send(playOff->pb);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

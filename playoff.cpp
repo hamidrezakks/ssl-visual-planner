@@ -2500,19 +2500,36 @@ Vector2I playoff::convertPosInverse(Vector2D _input) const
 
     return Vector2I(tempX, tempY);
 }
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////we added this
-void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index*/)
+void playoff::writeproto(PlanBook* pb,int index)/*, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index*/
 {
 
-    PlayOffRobot _index{};
-    QList<PlayOffRobot> __index{};
+   PlayOffRobot _index{};
+   QList<PlayOffRobot> __index{};
    //::PLAN::
    Plans* plan = pb->add_plans();
-   AgentInitPos* aip = NULL;
-   Agents* agent = plan->add_agents();
    Tags* tag = NULL;
+
    plan->set_chance(static_cast<int>(myPlan->planList[index].chance));
    plan->set_lastdist(myPlan->planList[index].lastDist);
+
+   BallInitPos* bip = plan->mutable_bip();
+   Vector2D BallPos = convertPos(Vector2I(myPlan->planList[index].initPos.ballX,
+                                          myPlan->planList[index].initPos.ballY));
+   bip->set_x(BallPos.x);
+   bip->set_y(BallPos.y);
+
+   //::TAGS::
+   QStringList tagList = myPlan->planList[index].tags.split("|");
+   Q_FOREACH(QString tTag, tagList){
+       tag = plan->add_tags();
+       tag->set_s(tTag.toStdString());
+
    switch (myPlan->planList[index].planMode)
    {
    case KICKOFF:
@@ -2528,6 +2545,7 @@ void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, c
 
 
    //::AGENTINITPOS::
+   AgentInitPos* aip = NULL;
    for(int i = 0; i < myPlan->planList[index].agentSize; i++)
    {
        aip = plan->add_agentinitpos();
@@ -2538,84 +2556,67 @@ void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, c
 
    }
    //::AGENT::
-   Positions* pos = NULL;
-   Skill* skill = NULL;
-   Target* target = NULL;
-//   myPlan->planList[index].AgentPlan[i]
 
-//   Q_FOREACH(auto i, __index)
-//   {
-   for(int k{};k < myPlan->planList[index].agentSize;k++)
-       for(int j{};j< myPlan->planList[index].AgentPlan[k].size();j++)
-       {
-           PlayOffRobot i = myPlan->planList[index].AgentPlan[k][j];
-
-       pos = agent->add_p();
-       Vector2D _pos = convertPos(Vector2I(i.x, i.y));
-
-       pos->set_pos_x(_pos.x);
-       pos->set_pos_y(_pos.y);
-       pos->set_angle(i.angle);
-       pos->set_tolerance(i.tolerance);
-       pos->add_skills();
-       skill = pos->add_skills();
-       for(int l = 0; l < _index.skillSize ; l++)
-       {
-           switch (i.skill[l]) {
-           case NoSkill:
-               skill->set_name("NoSkill");
-               break;
-           case PassSkill:
-           {
-               skill->set_name("PassSkill");
+   Agents* agent = NULL;
+   for (int i = 0; i < myPlan->planList[index].agentSize; i++) {
+       agent = plan->add_agents();
+       agent->set_id(i);
+       Positions* pos = NULL;
+       for (int j = 0; j < myPlan->planList[index].AgentPlan[i].size(); j++) {
+           pos = agent->add_p();
+           PlayOffRobot k = myPlan->planList[index].AgentPlan[i][j];
+           pos->set_angle(k.angle);
+           Vector2D _pos = convertPos(Vector2I(k.x, k.y));
+           pos->set_pos_x(_pos.x);
+           pos->set_pos_y(_pos.y);
+           pos->set_tolerance(k.tolerance);
+           Skill* skill = NULL;
+           Target* target = NULL;
+           for (int m = 0; m < _index.skillSize; m++) {
+               skill = pos->add_skills();
                target = skill->mutable_target();
-               target->set_index(i.target.index);
-               target->set_agent(i.target.agent);
-           }
-               break;
-           case ReceivePassSkill:
-               skill->set_name("ReceivePassSkill");
-               break;
-           case ShotToGoalSkill:
-               skill->set_name("ShotToGoalSkill");
-               break;
-           case ChipToGoalSkill:
-               skill->set_name("ChipToGoalSkill");
-               break;
-           case OneTouchSkill:
-               skill->set_name("OneTouchSkill");
-               break;
-           case MoveSkill:
-               skill->set_name("MoveSkill");
-               break;
-           case ReceivePassIASkill:
-               skill->set_name("ReceivePassIASkill");
-               break;
+               switch (k.skill[m]) {
+               case NoSkill:
+                   skill->set_name("NoSkill");
+                   break;
+               case PassSkill:
+               {
+                   skill->set_name("PassSkill");
+                   target = skill->mutable_target();
+                   target->set_index(k.target.index);
+                   target->set_agent(k.target.agent);
+               }
+                   break;
+               case ReceivePassSkill:
+                   skill->set_name("ReceivePassSkill");
+                   break;
+               case ShotToGoalSkill:
+                   skill->set_name("ShotToGoalSkill");
+                   break;
+               case ChipToGoalSkill:
+                   skill->set_name("ChipToGoalSkill");
+                   break;
+               case OneTouchSkill:
+                   skill->set_name("OneTouchSkill");
+                   break;
+               case MoveSkill:
+                   skill->set_name("MoveSkill");
+                   break;
+               case ReceivePassIASkill:
+                   skill->set_name("ReceivePassIASkill");
+                   break;
 
+               }
+               skill->set_primary(k.skillData[m][0]);
+               skill->set_secondry(k.skillData[m][1]);
+               skill->set_flag(k.IAMode[m]);
            }
-           skill->set_primary(i.skillData[l][0]);
-           skill->set_secondry(i.skillData[l][1]);
-           skill->set_flag(i.IAMode[l]);
+           }
        }
 
    }
-   //agent->set_id();
+
    //::BALLINITPOS::
-   BallInitPos* bip = plan->mutable_bip();
-   Vector2D BallPos = convertPos(Vector2I(myPlan->planList[index].initPos.ballX,
-                                          myPlan->planList[index].initPos.ballY));
-   bip->set_x(BallPos.x);
-   bip->set_y(BallPos.y);
-
-   //::TAGS::
-   QStringList tagList = myPlan->planList[index].tags.split("|");
-   Q_FOREACH(QString tTag, tagList){
-       tag = plan->add_tags();
-       tag->set_s(tTag.toStdString());
-   }
-
-
-
 
 }
 
@@ -2623,3 +2624,133 @@ void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, c
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////we added this
+//void playoff::writeproto(PlanBook* pb,int index/*, const PlayOffRobot& _index, const QList<PlayOffRobot> & __index*/)
+//{
+
+//    PlayOffRobot _index{};
+//    QList<PlayOffRobot> __index{};
+//   //::PLAN::
+//   Plans* plan = pb->add_plans();
+//   AgentInitPos* aip = NULL;
+//   Agents* agent = plan->add_agents();
+//   Tags* tag = NULL;
+//   plan->set_chance(static_cast<int>(myPlan->planList[index].chance));
+//   plan->set_lastdist(myPlan->planList[index].lastDist);
+//   switch (myPlan->planList[index].planMode)
+//   {
+//   case KICKOFF:
+//       plan->set_planmode("KICKOFF");
+//       break;
+//   case DIRECT:
+//       plan->set_planmode("DIRECT");
+//       break;
+//   case INDIRECT:
+//       plan->set_planmode("INDIRECT");
+//       break;
+//   }
+
+
+//   //::AGENTINITPOS::
+//   for(int i = 0; i < myPlan->planList[index].agentSize; i++)
+//   {
+//       aip = plan->add_agentinitpos();
+//       Vector2D agentPos = convertPos(Vector2I(myPlan->planList[index].initPos.AgentX[i],
+//                                              myPlan->planList[index].initPos.AgentY[i]));
+//       aip->set_x(agentPos.x);
+//       aip->set_y(agentPos.y);
+
+//   }
+//   //::AGENT::
+//   Positions* pos = NULL;
+//   Skill* skill = NULL;
+//   Target* target = NULL;
+////   myPlan->planList[index].AgentPlan[i]
+
+////   Q_FOREACH(auto i, __index)
+////   {
+//   for(int k{};k < myPlan->planList[index].agentSize;k++)
+//       for(int j{};j< myPlan->planList[index].AgentPlan[k].size();j++)
+//       {
+//           PlayOffRobot i = myPlan->planList[index].AgentPlan[k][j];
+
+//       pos = agent->add_p();
+//       Vector2D _pos = convertPos(Vector2I(i.x, i.y));
+
+//       pos->set_pos_x(_pos.x);
+//       pos->set_pos_y(_pos.y);
+//       pos->set_angle(i.angle);
+//       pos->set_tolerance(i.tolerance);
+//       pos->add_skills();
+//       skill = pos->add_skills();
+//       for(int l = 0; l < _index.skillSize ; l++)
+//       {
+//           switch (i.skill[l]) {
+//           case NoSkill:
+//               skill->set_name("NoSkill");
+//               break;
+//           case PassSkill:
+//           {
+//               skill->set_name("PassSkill");
+//               target = skill->mutable_target();
+//               target->set_index(i.target.index);
+//               target->set_agent(i.target.agent);
+//           }
+//               break;
+//           case ReceivePassSkill:
+//               skill->set_name("ReceivePassSkill");
+//               break;
+//           case ShotToGoalSkill:
+//               skill->set_name("ShotToGoalSkill");
+//               break;
+//           case ChipToGoalSkill:
+//               skill->set_name("ChipToGoalSkill");
+//               break;
+//           case OneTouchSkill:
+//               skill->set_name("OneTouchSkill");
+//               break;
+//           case MoveSkill:
+//               skill->set_name("MoveSkill");
+//               break;
+//           case ReceivePassIASkill:
+//               skill->set_name("ReceivePassIASkill");
+//               break;
+
+//           }
+//           skill->set_primary(i.skillData[l][0]);
+//           skill->set_secondry(i.skillData[l][1]);
+//           skill->set_flag(i.IAMode[l]);
+//       }
+
+//   }
+//   //agent->set_id();
+//   //::BALLINITPOS::
+//   BallInitPos* bip = plan->mutable_bip();
+//   Vector2D BallPos = convertPos(Vector2I(myPlan->planList[index].initPos.ballX,
+//                                          myPlan->planList[index].initPos.ballY));
+//   bip->set_x(BallPos.x);
+//   bip->set_y(BallPos.y);
+
+//   //::TAGS::
+//   QStringList tagList = myPlan->planList[index].tags.split("|");
+//   Q_FOREACH(QString tTag, tagList){
+//       tag = plan->add_tags();
+//       tag->set_s(tTag.toStdString());
+//   }
+
+
+
+
+//}
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

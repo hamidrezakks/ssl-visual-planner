@@ -12,12 +12,15 @@ Receive::Receive(QObject* parent) : QObject(parent)
 
 void Receive::re() {
     PlanBook pb;
-    qDebug() << "--" << counter++;
-
+   qDebug() << "--" << cl->receive(pb);
     if (cl->receive(pb)) {
-        if (pb.has_id()) {
-            qDebug() << pb.id();
-            qDebug() << pb.apiversion();
-        }
+        qDebug() << "--ahsdgfJHFhgfbvlzfdjxngbvz.fdjgvzj,fhgvb<Fxjmgvb<Fjhb<JhdgfB<hgfb<DSh";
     }
+
+//    if (cl->receive(pb)) {
+//        if (pb.has_id()) {
+//            qDebug() << pb.id();
+//            qDebug() << pb.apiversion();
+//        }
+//    }
 }
