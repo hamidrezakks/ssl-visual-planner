@@ -1,0 +1,57 @@
+message AgentInitPos {
+	required double x = 1;
+	required double y = 2;
+}
+
+message Target {
+	required int64 agent = 1;
+	required int64 index = 2;
+
+}
+
+message Skill {	
+	required bool      flag     = 1;
+	required string    name     = 2;
+	required int64     primary  = 3;
+	required int64     secondry = 4;
+	optional Target	   target   = 5;
+}
+
+message Positions {
+	required float   angle     = 1;
+	required double  pos_x     = 2;
+	required double  pos_y     = 3;
+	repeated Skill   skills    = 4;
+	required int64   tolerance = 6;
+}
+
+
+message Agents {
+	required uint64 	   id = 1;
+	repeated Positions	   p  = 2;
+}
+
+message BallInitPos {
+	required double x = 1;
+	required double y = 2;
+}
+
+message Tags {
+	required string s = 1;
+}
+
+message Plans {
+	repeated AgentInitPos   agentInitPos = 1;
+	repeated Agents 		agents       = 2;
+	required BallInitPos 	bip          = 3;
+	required float 			chance       = 4;
+	required float 			lastdist     = 5;
+	required string 		planMode     = 6;
+	repeated Tags 			tags         = 7;
+}
+
+message PlanBook {
+	repeated Plans 		  	  plans      = 1;
+	required float 	 	      apiversion = 2;
+	required int64 			  id         = 3;
+}
