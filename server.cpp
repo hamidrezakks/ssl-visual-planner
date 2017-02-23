@@ -69,6 +69,7 @@ bool Server::send(const PlanBook* packet)
     {
         datagram.resize(packet->ByteSize());
         bool success = packet->SerializeToArray(datagram.data(), datagram.size());
+        //success = false;
         if(!success) {
             //TODO: print useful info
             logStatus(QString("Serializing packet to array failed."), QColor("red"));
