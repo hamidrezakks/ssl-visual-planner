@@ -38,7 +38,7 @@ class Server
 public:
     Server(QObject *parent=0,
                      const quint16 &port=10002,
-                     const string &net_address="224.5.23.2",
+                     const string &net_address="0.0.0.0",
                      const string &net_interface="");
 
     ~Server();
