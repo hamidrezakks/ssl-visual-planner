@@ -22,3 +22,7 @@ HEADERS += \
 LIBS += -L/usr/local/lib \
      -lprotobuf \
      -lprotobuf-lite
+
+INCLUDEPATH += $$PWD/include
+
+INCLUDEPATH += /usr/local/include

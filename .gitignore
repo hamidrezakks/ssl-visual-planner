@@ -13,3 +13,6 @@ Visual_Planner
 qrc_resource.cpp
 ssl-playbook.pb.cc
 ssl-playbook.pb.h
+*.pro.user
+*.o
+moc_*

@@ -1,5 +1,4 @@
 #include "client.h"
-#include "ssl-playbook.pb.h"
 
 Client::Client(QObject *parent) :
     QObject(parent)

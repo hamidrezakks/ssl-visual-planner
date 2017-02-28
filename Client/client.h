@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QUdpSocket>
 
+#include "../ssl-playbook.pb.h"
+
 class Client : public QObject
 {
     Q_OBJECT
