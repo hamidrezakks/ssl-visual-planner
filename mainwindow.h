@@ -22,7 +22,6 @@
 #include "playon.h"
 #include "tags.h"
 
-#include "client.h"
 #include "server.h"
 
 const QString DEFAULT_DIR_KEY("default_dir");

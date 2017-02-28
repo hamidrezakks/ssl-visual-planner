@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     playoffplansql.cpp \
     playonplansql.cpp \
     ssl-playbook.pb.cc \
-    client.cpp \
     server.cpp
 
 HEADERS  += mainwindow.h \
@@ -37,7 +36,6 @@ HEADERS  += mainwindow.h \
     playoffplansql.h \
     playonplansql.h \
     ssl-playbook.pb.h \
-    client.h \
     server.h
 
 
