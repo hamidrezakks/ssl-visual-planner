@@ -21,6 +21,9 @@
 #include "base.h"
 #include "playoffplansql.h"
 #include "ul.h"
+#include "ssl-playbook.pb.h"
+#include "receive.h"
+
 
 struct TimeAndIndex {
     long time;
@@ -43,6 +46,9 @@ public:
         TCOPY = 4,
         TPASTE = 5
     };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////we added this
+    Receive* rc;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);
@@ -121,7 +127,11 @@ public:
     inline void setLastDist(double _lastDist) {
         lastDist = _lastDist;
     }
-
+     playOffPlanSQL *myPlan;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PlanBook* pb;
+      void writeproto(PlanBook*, int index);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
     QLabel *fieldLabel;
     QPixmap *fieldPix;
@@ -200,7 +210,7 @@ private:
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;
 
-    playOffPlanSQL *myPlan;
+    //playOffPlanSQL *myPlan;      we added this comment
 
     //copy & paste
     void POCopy(int filter);
@@ -245,8 +255,10 @@ public slots:
     void POLineEdit2_0(QString str = "", bool noupdate = false);
     void POLineEdit2_1(QString str = "", bool noupdate = false);
 
+
 signals:
     void updateTags(QString str);
+
 
 };
 

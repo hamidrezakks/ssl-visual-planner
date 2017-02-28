@@ -1,3 +1,4 @@
+
 #-------------------------------------------------
 #
 # Project created by QtCreator 2015-02-27T12:34:16
@@ -6,6 +7,7 @@
 
 QT       += core gui\
             sql
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +22,13 @@ SOURCES += main.cpp\
     tags.cpp \
     agentplanclass.cpp \
     playoffplansql.cpp \
-    playonplansql.cpp
+    playonplansql.cpp \
+    ssl-playbook.pb.cc \
+    statuswidget.cpp \
+    logger.cpp \
+    client.cpp \
+    server.cpp \
+    receive.cpp
 
 HEADERS  += mainwindow.h \
     base.h \
@@ -30,13 +38,25 @@ HEADERS  += mainwindow.h \
     include/ul.h \
     agentplanclass.h \
     playoffplansql.h \
-    playonplansql.h
+    playonplansql.h \
+    ssl-playbook.pb.h \
+    statuswidget.h \
+    logger.h \
+    client.h \
+    server.h \
+    receive.h
 
 
 INCLUDEPATH += $$PWD/include
 
+INCLUDEPATH += /usr/local/include
+
 FORMS    += mainwindow.ui \
             tags.ui
+
+LIBS += -L/usr/local/lib \
+     -lprotobuf \
+     -lprotobuf-lite
 
 
 MOC_DIR     = $$PWD/moc_objs
