@@ -25,7 +25,6 @@
 #include <QMutex>
 #include <QObject>
 #include "ssl-playbook.pb.h"
-#include "logger.h"
 using namespace std;
 
 class QUdpSocket;

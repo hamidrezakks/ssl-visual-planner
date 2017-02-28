@@ -23,7 +23,6 @@
 #define ROBOCUP_SSL_CLIENT_H
 #include <string>
 #include <QMutex>
-#include "logger.h"
 #include "ssl-playbook.pb.h"
 using namespace std;
 

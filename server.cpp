@@ -72,7 +72,7 @@ bool Server::send(const PlanBook* packet)
         //success = false;
         if(!success) {
             //TODO: print useful info
-            logStatus(QString("Serializing packet to array failed."), QColor("red"));
+            qDebug() << "Serializing packet to array failed.";
             return false;
         }
 
@@ -80,7 +80,7 @@ bool Server::send(const PlanBook* packet)
         quint64 bytes_sent = _socket->writeDatagram(datagram, QHostAddress::LocalHost, _port);
         mutex.unlock();
         if (bytes_sent != datagram.size()) {
-            logStatus(QString("Sending UDP datagram failed (maybe too large?). Size was: %1 byte(s).").arg(datagram.size()), QColor("red"));
+            qDebug() << QString("Sending UDP datagram failed (maybe too large?). Size was: %1 byte(s).").arg(datagram.size());
             return false;
         }
     }
