@@ -1561,7 +1561,7 @@ void playoff::POOpenSkill(int index, bool temp)
         POSkills[i]->setVisible(true);
         switch(getSkill(i)) {
         case MoveSkill:
-            POTiming[i*2]->setText("1000");
+            POTiming[i*2]->setText("0");
             POTiming[i*2]->setVisible(true);
             POTimingLable[i*2]->setVisible(true);
             POTimingLable[i*2]->setText("Duration\n(ms)");
@@ -1644,7 +1644,7 @@ void playoff::POOpenSkill(int index, bool temp)
             POTimingLable[i*2+1]->setText("Y-Goal\n0~100.0%");
         }
         else {
-            POTiming[i*2+1]->setText("1000");
+            POTiming[i*2+1]->setText("0");
             POTiming[i*2+1]->setVisible(true);
             //POTimingLable[index*2 + j]->setGeometry(QRect(hMargin*2 + (75+hMargin)*j + frameWidth/2, (vMargin + 50)*i + 245 + vMargin, 30, 50 - vMargin*2));
             POTimingLable[i*2+1]->setVisible(true);
