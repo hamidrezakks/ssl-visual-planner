@@ -107,7 +107,7 @@
         <x>10</x>
         <y>10</y>
         <width>361</width>
-        <height>29</height>
+        <height>32</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -222,7 +222,7 @@
       <x>10</x>
       <y>660</y>
       <width>1261</width>
-      <height>31</height>
+      <height>36</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -260,6 +260,13 @@
       <widget class="QPushButton" name="resetBtn">
        <property name="text">
         <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Send">
+       <property name="text">
+        <string>Send</string>
        </property>
       </widget>
      </item>
@@ -338,7 +345,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="layoutDirection">

@@ -11,3 +11,8 @@ Visual_Planner
 *.db
 *.sql
 qrc_resource.cpp
+ssl-playbook.pb.cc
+ssl-playbook.pb.h
+*.pro.user
+*.o
+moc_*

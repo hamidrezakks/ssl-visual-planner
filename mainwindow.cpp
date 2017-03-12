@@ -1020,3 +1020,16 @@ void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
         playOff->apply(playOffCurrentPlan);
     }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void MainWindow::on_Send_clicked()
+{
+    playOff->pb->set_id(1);
+    playOff->pb->set_apiversion(API_VERSION);
+    //PlanBook* _pb = playOff->pb;
+    for(int i{};i< playOff->myPlan->planList.size();i++)
+        playOff->writeproto(playOff->pb , i);
+    Server s{};
+
+        s.send(playOff->pb);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
