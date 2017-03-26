@@ -2,16 +2,16 @@
 
 playOnPlanSQL::playOnPlanSQL(QString directory)
 {
-    planSQL = QSqlDatabase::addDatabase("QSQLITE");
-    planSQL.setDatabaseName(directory);
-    if (!planSQL.open()) {
-        QMessageBox::critical(0, "Cannot open database",
-                              "Unable to establish a database connection.\n"\
-                              "This example needs SQLite support. Please read "\
-                              "the Qt SQL driver documentation for information how "\
-                              "to build it.\n\n"\
-                              "Click Cancel to exit.", QMessageBox::Cancel);
-    }
+//    planSQL = QSqlDatabase::addDatabase("QSQLITE");
+//    planSQL.setDatabaseName(directory);
+//    if (!planSQL.open()) {
+//        QMessageBox::critical(0, "Cannot open database",
+//                              "Unable to establish a database connection.\n"\
+//                              "This example needs SQLite support. Please read "\
+//                              "the Qt SQL driver documentation for information how "\
+//                              "to build it.\n\n"\
+//                              "Click Cancel to exit.", QMessageBox::Cancel);
+//    }
 }
 
 bool playOnPlanSQL::changeSQLDir(QString directory)
