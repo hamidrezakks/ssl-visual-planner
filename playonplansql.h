@@ -15,6 +15,7 @@ class playOnPlanSQL
 {
 public:
   playOnPlanSQL(QString directory);
+  ~playOnPlanSQL();
   bool changeSQLDir(QString directory);
 
 
@@ -48,7 +49,6 @@ private:
   QList<AgentPlan> agentPlan;
 
   QSqlDatabase planSQL;
-  ~playOnPlanSQL();
 };
 
 #endif // PLAYONPLANSQL_H
