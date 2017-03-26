@@ -208,7 +208,7 @@
        <item>
         <widget class="QLineEdit" name="POTBPosTol">
          <property name="text">
-          <string>0</string>
+          <string>30</string>
          </property>
         </widget>
        </item>
@@ -345,7 +345,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="layoutDirection">

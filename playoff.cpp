@@ -894,7 +894,7 @@ void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
                               QPoint(_RobotAngRad*cos( ( tempRobot.angle/360 )*2*3.1415 ) + tempRobot.x,
                                      _RobotAngRad*sin( ( tempRobot.angle/360 )*2*3.1415 ) + tempRobot.y)+QPoint(4,4));
     tempRobot.temp = tTemp;
-    tempRobot.tolerance = 0;
+    tempRobot.tolerance = 30;
     tempRobot.skillSize = 1;
     tempRobot.skill[0] = MoveSkill;
     tempRobot.skill[1] = NoSkill;
