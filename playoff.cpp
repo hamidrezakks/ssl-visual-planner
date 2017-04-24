@@ -2411,6 +2411,7 @@ void playoff::readJSON(const QJsonObject &playBook)
                 posTEMP.y         = pos.y;
                 posTEMP.angle     = position["angel"].toDouble();
                 posTEMP.tolerance = position["tolerance"].toInt();
+                posTEMP.agent     = agent["ID"].toInt();
 
                 QJsonArray skillsJSON = position["skills"].toArray();
                 posTEMP.skillSize = skillsJSON.size();
