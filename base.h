@@ -93,7 +93,13 @@ enum PlayOffSkills {
     ChipToGoalSkill = 4,
     OneTouchSkill = 5,
     MoveSkill = 6,
-    ReceivePassIASkill = 7
+    ReceivePassIASkill = 7,
+    //////////// Afterlife Roles
+    Defense = 8,
+    Support = 9,
+    Position = 10,
+    Goalie = 11,
+    Mark = 12
 };
 
 struct AgentAndIndex {

@@ -60,6 +60,9 @@ public:
     void mouseMoved(QMouseEvent *event, QPoint tempPos);
     void mouseReleased(QMouseEvent *event, QPoint tempPos);
 
+    void mousePressedOnField(QMouseEvent* _event, QPoint _pos);
+    void mousePressedOnTabWidget(QMouseEvent* _event);
+
     void draw();
 
     void reset();
@@ -202,6 +205,8 @@ private:
     void writePosJSON( QJsonObject &json, const QList<PlayOffRobot> &index) const;
     void writeSkillJSON(QJsonObject &json, const PlayOffRobot &index) const;
 
+    QString getStrFromPlayOffSkillEnum(PlayOffSkills _enum) const;
+    PlayOffSkills getPlayoffSkillEnumFromStr(QString _skillName) const;
 
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;

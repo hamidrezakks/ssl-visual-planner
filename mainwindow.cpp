@@ -365,8 +365,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
             menu.exec(event->globalPos());
         }
-    }
-    else {
+    } else { // PlayOff
         if (ui->field->underMouse()) {
             QMenu menu(this);
             menu.addAction(playOffMove);
@@ -376,7 +375,12 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
             menu.addAction(playOffShotToGoal);
             menu.addAction(playOffChipToGoal);
             menu.addAction(playOffOneTouch);
-
+            menu.addSeparator();
+            menu.addAction(afterlifeDefense);
+            menu.addAction(afterlifePosition);
+            menu.addAction(afterlifeSupport);
+            menu.addAction(afterlifeMark);
+            menu.addAction(afterlifeGoalie);
             menu.exec(event->globalPos());
         }
     }
@@ -923,6 +927,26 @@ void MainWindow::playOffCreateActions()
     playOffMove = new QAction(tr("&Move"), this);
     playOffMove->setStatusTip(tr("Move"));
     connect(playOffMove, SIGNAL(triggered()),this,SLOT(playOffActiveMove()));
+
+    afterlifeDefense = new QAction(tr("&Defense"), this);
+    afterlifeDefense -> setStatusTip("Defense");
+    connect(afterlifeDefense, SIGNAL(triggered()), this, SLOT(afterlifeActionDefense()));
+
+    afterlifeSupport = new QAction(tr("&Support"), this);
+    afterlifeSupport -> setStatusTip("Support");
+    connect(afterlifeSupport, SIGNAL(triggered()), this, SLOT(afterlifeActionSupport()));
+
+    afterlifeMark = new QAction(tr("&Mark"), this);
+    afterlifeMark -> setStatusTip("Mark");
+    connect(afterlifeMark, SIGNAL(triggered()), this, SLOT(afterlifeActionMark()));
+
+    afterlifeGoalie = new QAction(tr("&Goalie"), this);
+    afterlifeGoalie -> setStatusTip("Goalie");
+    connect(afterlifeGoalie, SIGNAL(triggered()), this, SLOT(afterlifeActionGoalie()));
+
+    afterlifePosition = new QAction(tr("&Position"), this);
+    afterlifePosition -> setStatusTip("Position");
+    connect(afterlifePosition, SIGNAL(triggered()), this, SLOT(afterlifeActionPosition()));
 }
 
 //PlayOff contex menu slots
@@ -955,6 +979,31 @@ void MainWindow::playOffActiveOneTouch()
 void MainWindow::playOffActiveMove()
 {
     playOff->setSkill(MoveSkill);
+}
+
+void MainWindow::afterlifeActionDefense() {
+    playOff->setSkill(Defense);
+
+}
+
+void MainWindow::afterlifeActionSupport() {
+    playOff->setSkill(Support);
+
+}
+
+void MainWindow::afterlifeActionPosition() {
+    playOff->setSkill(Position);
+
+}
+
+void MainWindow::afterlifeActionGoalie() {
+    playOff->setSkill(Goalie);
+
+}
+
+void MainWindow::afterlifeActionMark() {
+    playOff->setSkill(Mark);
+
 }
 //end
 
