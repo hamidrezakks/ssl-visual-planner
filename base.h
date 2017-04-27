@@ -167,7 +167,7 @@ struct Vector2I{
     int y;
 };
 
-#define API_VERSION 1.3
+#define API_VERSION 1.2
 
 #endif // BASE
 
