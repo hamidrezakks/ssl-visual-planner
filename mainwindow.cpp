@@ -16,6 +16,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+bool Gupdate;
+QString Gdir;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -74,6 +77,36 @@ MainWindow::MainWindow(QWidget *parent) :
             playOffSpinInit = false;
         }
     }
+
+    if (Gupdate) {
+        ////////////////////
+
+        playOff->cleanPlans();
+        ui->spinBox->setEnabled(true);
+        int tempCnt ;
+        if (Gdir.endsWith(QString("json"))) {
+            tempCnt = playOff->loadPlanJson(Gdir);
+        }
+        if (tempCnt > 0) {
+            playOff->choosePlan(0);
+            playOffNew = true;
+        }
+        ui->spinBox->setMaximum(tempCnt-1);
+        playOffCurrentPlan = 0;
+        on_spinBox_valueChanged("");
+        if (tempCnt) {
+            qDebug() << "Loaded Succesfully!";
+        }
+        //////////////////////
+
+        if (playOff->savePlanJson(Gdir)) {
+            qDebug() << "Saved Succesfully!";
+        }
+        //////////////////////
+        exit(0);
+    }
+
+
 }
 
 //this allows user to have cross platform availability with same style

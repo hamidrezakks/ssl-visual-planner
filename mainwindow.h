@@ -196,4 +196,7 @@ private:
     Ui::MainWindow *ui;
 };
 
+extern bool Gupdate;
+extern QString Gdir;
+
 #endif // MAINWINDOW_H

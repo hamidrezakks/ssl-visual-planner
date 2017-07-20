@@ -2206,6 +2206,11 @@ void playoff::setTags(QString str)
 bool playoff::savePlanJson(QString directory)
 {
 
+    QImage img = fieldLabel->pixmap()->toImage();
+    QString temp = directory;
+    temp.chop(5);
+    img.save(temp + ".png");
+
     planMData tempMData;
     POInitPos tempInit;
     for (int i = 0; i < myPlan->getPlanSize(); i++) {
