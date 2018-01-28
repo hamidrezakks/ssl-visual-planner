@@ -12,7 +12,7 @@
 #include <QtSql/QSqlError>
 
 struct planStruct {
-    QList<PlayOffRobot> AgentPlan[6];
+    QList<PlayOffRobot> AgentPlan[_MAX_ROBOT_COUNT];
     POMODE planMode;
     int agentSize;
     POInitPos initPos;
@@ -50,7 +50,7 @@ public:
 
     QList<planStruct> planList;
 
-    int addPlan(QList<PlayOffRobot> tPlan[6],
+    int addPlan(QList<PlayOffRobot> tPlan[_MAX_ROBOT_COUNT],
                 POInitPos tInitPos,
                 POMODE tPOMode,
                 QString tags,
@@ -70,7 +70,7 @@ public:
                       QList<PlayOffRobot> &tA6);
     QString convertStructToSQLCmd(int _agentId, PlayOffRobot tStep);
     QString convertEmptyStructToSQLCmd();
-    void insertPlanToQList(QList<PlayOffRobot> _planList[6], planMData &mData, int index);
+    void insertPlanToQList(QList<PlayOffRobot> _planList[_MAX_ROBOT_COUNT], planMData &mData, int index);
     QSqlDatabase planSQL;
 
     void disableSQL();
