@@ -8,15 +8,6 @@
 #include <QPoint>
 #include <QResource>
 
-enum PlannerMode{
-    BALL = 0,
-    _1AGENT = 1,
-    _2AGENT = 2,
-    _3AGENT = 3,
-    _4AGENT = 4,
-    _5AGENT = 5
-};
-
 struct LabelMode {
     int agent;
     int priority;
@@ -82,7 +73,7 @@ struct PlayOnPlan {
 };
 
 #define _RobotAngRad 25
-#define _MAX_ROBOT_COUNT 6
+#define _MAX_ROBOT_COUNT 8
 #define _CENTRALWIDGET_V_OFFSET 25
 
 enum PlayOffSkills {
@@ -136,14 +127,14 @@ struct RobotGeometry {
 };
 
 enum POMODE {
-    KICKOFF = 1,
-    DIRECT = 2,
+    KICKOFF  = 1,
+    DIRECT   = 2,
     INDIRECT = 3
 };
 
 struct POInitPos {
     int ballX, ballY;
-    int AgentX[6], AgentY[6];
+    int AgentX[_MAX_ROBOT_COUNT], AgentY[_MAX_ROBOT_COUNT];
 };
 
 
