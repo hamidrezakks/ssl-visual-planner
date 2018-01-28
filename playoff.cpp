@@ -741,8 +741,8 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
             if (robots[tRobotIndex].at(i).skill[j] == ShotToGoalSkill) {
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
-                tempP2.setX(834);
-                tempP2.setY(377 - (100*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setX(1148);
+                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
@@ -771,8 +771,8 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
             if (robots[tRobotIndex].at(i).skill[j] == ChipToGoalSkill) {
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
-                tempP2.setX(834);
-                tempP2.setY(377 - (100*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setX(1148);
+                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
@@ -801,8 +801,8 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
             if (robots[tRobotIndex].at(i).skill[j] == OneTouchSkill) {
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
-                tempP2.setX(834);
-                tempP2.setY(377 - (100*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setX(1148);
+                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
@@ -1284,7 +1284,7 @@ void playoff::POinitLables()
         for(int j = 0; j < 2; j++) {
             POTiming[i*2 + j] = new QLineEdit(POWidget);
             POTiming[i*2 + j]->setGeometry(QRect(hMargin*2 + (85+hMargin)*j + 20 + frameWidth/2, (vMargin + 50)*i + 245 + vMargin*2, 45, 50 - vMargin*4));
-            POTiming[i*2 + j]->setText("1000");
+            POTiming[i*2 + j]->setText("500");
             POTiming[i*2 + j]->setVisible(false);
 
             POTimingLable[i*2 + j] = new QLabel(POWidget);
@@ -1320,9 +1320,13 @@ void playoff::POinitLables()
     POOpenSkill(1);
 
     POPaintSkill();
-    for (auto& lineEdit : POTiming) {
-        connect(lineEdit,SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_0()));
-    }
+
+   connect(POTiming[0],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_0()));
+   connect(POTiming[1],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_1()));
+   connect(POTiming[2],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_0()));
+   connect(POTiming[3],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_1()));
+   connect(POTiming[4],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_0()));
+   connect(POTiming[5],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_1()));
 
     // tools
     int toolVOffset = 500;
@@ -2454,8 +2458,8 @@ void playoff::readJSON(const QJsonObject &playBook)
                 }
                 for(int i = posTEMP.skillSize; i < 3 ; i++) {
                     posTEMP.skill[i] = NoSkill;
-                    posTEMP.skillData[i][0] = 1000;
-                    posTEMP.skillData[i][1] = 1000;
+                    posTEMP.skillData[i][0] = 500;
+                    posTEMP.skillData[i][1] = 500;
                     posTEMP.IAMode[i] = false;
                 }
                 planTEMP.AgentPlan[counter].append(posTEMP);
