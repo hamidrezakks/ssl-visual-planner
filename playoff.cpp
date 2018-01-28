@@ -585,24 +585,25 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
         tempPen.setColor(QColor(243, 223, 28));
         break;
     case 1:
-        tempPen.setColor(QColor(191, 25, 34));
+        tempPen.setColor(QColor(191, 25, 148));
         break;
     case 2:
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(25, 191, 28));
         break;
     case 3:
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(255, 131, 29));
+        break;
     case 4:
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(231, 106, 80));
         break;
     case 5:
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(9, 106, 80));
         break;
     case 6: // TODO: new color
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(80, 100, 255));
         break;
     case 7: // TODO: new color
-        tempPen.setColor(QColor(243, 223, 28));
+        tempPen.setColor(QColor(40, 40, 40));
         break;
     default:
         tempPen.setColor(QColor(243, 223, 28));
@@ -831,14 +832,14 @@ void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
     if (pos.x() < 50) {
         pos.setX(50);
     }
-    if (pos.x() > fieldLabel->width()-1) {
-        pos.setX(fieldLabel->width()-1);
+    if (pos.x() > 1176) {
+        pos.setX(1175);
     }
     if (pos.y() < 50) {
         pos.setY(50);
     }
-    if (pos.y() > fieldLabel->height()-1) {
-        pos.setY(fieldLabel->height()-1);
+    if (pos.y() > 891) {
+        pos.setY(891);
     }
     qDebug() << fieldLabel->height() << fieldLabel->width();
     for (int i = 0; i < _MAX_ROBOT_COUNT; i++) {
@@ -876,17 +877,17 @@ void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
 
 void playoff::moveRobot(QPoint pos, int tAgent, int tIndex, bool tTemp)
 {
-    if (pos.x() < 0) {
-        pos.setX(0);
+    if (pos.x() < 50) {
+        pos.setX(50);
     }
-    if (pos.x() > fieldLabel->width()-1) {
-        pos.setX(fieldLabel->width()-1);
+    if (pos.x() > 1176) {
+        pos.setX(1175);
     }
-    if (pos.y() < 0) {
-        pos.setY(0);
+    if (pos.y() < 50) {
+        pos.setY(50);
     }
-    if (pos.y() > fieldLabel->height()-1) {
-        pos.setY(fieldLabel->height()-1);
+    if (pos.y() > 891) {
+        pos.setY(891);
     }
     PlayOffRobot tempRobot;
     tempRobot = robots[tAgent].at(tIndex);
@@ -942,12 +943,7 @@ void playoff::removeSelectedRobots(QList<AgentAndIndex> &tList)
 
 bool playoff::containPoint(QPoint point, QPoint pos, int r)
 {
-    if (sqrt( (pos.x() - point.x())*(pos.x() - point.x()) + (pos.y() - point.y())*(pos.y() - point.y()) ) <= r) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return sqrt( (pos.x() - point.x())*(pos.x() - point.x()) + (pos.y() - point.y())*(pos.y() - point.y()) ) <= r;
 }
 
 RobotAttr playoff::getRobot(QPoint pos, bool passExp, QPoint *_base)
@@ -1237,19 +1233,19 @@ PlayOffSkills playoff::getSkill(int tSkillNum)
 void playoff::POinitLables()
 {
     int frameHeight = POWidget->height(), frameWidth = POWidget->width();
-    const int vMargin = 5, hMargin = 10, yStart = 90, boxHeight = 50;
+    const int vMargin = 5, hMargin = 10, yStart = 90, boxHeight = 50, boxWidth = 70;
     for (int i = 0; i < _MAX_ROBOT_COUNT + 2; i++) {
         PODisplayModeLabel[i] = new QLabel(POWidget);
         PODisplayModeLabel[i]->setAlignment(Qt::AlignCenter|Qt::AlignHCenter);
         PODisplayModeLabel[i]->setCursor(Qt::PointingHandCursor);
         if (i == 0) {
             PODisplayModeLabel[i]->setCursor(Qt::ArrowCursor);
-            PODisplayModeLabel[i]->setGeometry(QRect(hMargin, vMargin + yStart, 70, boxHeight));
+            PODisplayModeLabel[i]->setGeometry(QRect(hMargin, vMargin + yStart, boxWidth, boxHeight));
             PODisplayModeLabel[i]->setStyleSheet("QLabel { background-color : #ea8c00; color : white; font-weight: bold;}");
             PODisplayModeLabel[i]->setText("Display\nMode");
         }
         else {
-            PODisplayModeLabel[i]->setGeometry(QRect(hMargin + ((frameWidth-(hMargin*2 + 70) )/7)*(i-1) + 70, vMargin + yStart, (frameWidth-(hMargin*2+70))/7, 50));
+            PODisplayModeLabel[i]->setGeometry(QRect(hMargin + ((frameWidth-(hMargin*2 + 70) )/(_MAX_ROBOT_COUNT+1))*(i-1) + 70, vMargin + yStart, (frameWidth-(hMargin*2+70))/(_MAX_ROBOT_COUNT+1), 50));
             PODisplayModeLabel[i]->setStyleSheet("QLabel { background-color : #89a1b5; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             if (i == 1) {
                 PODisplayModeLabel[i]->setText("All");
@@ -1271,7 +1267,7 @@ void playoff::POinitLables()
             POCurrentAgentLabel[i]->setText("Current\nAgent");
         }
         else {
-            POCurrentAgentLabel[i]->setGeometry(QRect(hMargin + ((frameWidth-(hMargin*2 + 70) )/6)*(i-1) + 70, vMargin*2 + yStart + boxHeight , (frameWidth-(hMargin*2+70))/6, 50));
+            POCurrentAgentLabel[i]->setGeometry(QRect(hMargin + ((frameWidth-(hMargin*2 + 70) )/_MAX_ROBOT_COUNT)*(i-1) + 70, vMargin*2 + yStart + boxHeight , (frameWidth-(hMargin*2+70))/_MAX_ROBOT_COUNT, 50));
             POCurrentAgentLabel[i]->setStyleSheet("QLabel { background-color : #89a1b5; color : white; font-weight: bold;} QLabel:HOVER { background-color : #2f78b3; }");
             POCurrentAgentLabel[i]->setText(QString::number(i));
         }

@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1280</width>
-    <height>740</height>
-   </rect>
-  </property>
   <property name="minimumSize">
    <size>
     <width>1280</width>
@@ -148,6 +140,16 @@
          <item>
           <property name="text">
            <string>6 Agent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>7 Agent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>8 Agent</string>
           </property>
          </item>
         </widget>
