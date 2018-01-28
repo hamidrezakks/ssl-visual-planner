@@ -39,11 +39,11 @@ public:
     ~playoff();
 
     enum toolMode {
-        TMOVE = 1,
+        TMOVE   = 1,
         TDELETE = 2,
         TSELECT = 3,
-        TCOPY = 4,
-        TPASTE = 5
+        TCOPY   = 4,
+        TPASTE  = 5
     };
 
     void setLabel(QLabel *tLabel);
@@ -162,9 +162,9 @@ private:
     void drawRobot(QPainter &painter, int x, int y, QString label, int agent, bool selected = true, bool blink = false);
     void drawRobots(QPainter &painter, int tRobotIndex, bool selected = true);
 
-    QList<PlayOffRobot> robots[6];
+    QList<PlayOffRobot> robots[_MAX_ROBOT_COUNT];
 
-    QList<PlayOffRobot> unsavedPlan[6];
+    QList<PlayOffRobot> unsavedPlan[_MAX_ROBOT_COUNT];
     planMData unsavedMPlan;
 
     RobotAttr currentRobot;
@@ -181,8 +181,8 @@ private:
     RobotAttr POCurrentRobot;
     RobotAttr passReceiver;
     bool POFieldSelected;
-    QLabel *PODisplayModeLabel[8];
-    QLabel *POCurrentAgentLabel[7];
+    QLabel *PODisplayModeLabel[_MAX_ROBOT_COUNT + 2];
+    QLabel *POCurrentAgentLabel[_MAX_ROBOT_COUNT + 1];
     QLabel *POSkills[3];
     QLabel *POTools[6];
     QLabel *POMode[4];
@@ -191,6 +191,7 @@ private:
     QLabel *POPassTarget[3];
     QLabel *POReceiveIA[3];
     void POinitLables();
+    QRect getRobotAngRect(const PlayOffRobot &_robot);
 
     void insertSkillData(int _row, int _col, int data, bool noupdate);
 
@@ -217,7 +218,7 @@ private:
     void POCopy(int filter);
     void POPaste();
 
-    QList<PlayOffRobot> copyRobotList[6];
+    QList<PlayOffRobot> copyRobotList[_MAX_ROBOT_COUNT];
 
     QPoint currentBase;
 
