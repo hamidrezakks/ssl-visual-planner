@@ -3,7 +3,7 @@
 playon::playon(QWidget *parent) :
     QWidget(parent)
 {
-    fieldPix = new QPixmap(":images/Field.png");
+    fieldPix = new QPixmap(":images/quadField.png");
 
     bRect[0].setRect(25, 25, 354, 605);
     bRect[1].setRect(379, 25, 455, 177);

@@ -3,7 +3,7 @@
 playoff::playoff(QWidget *parent) :
     QWidget(parent)
 {
-    fieldPix = new QPixmap(":images/Field.png");
+    fieldPix = new QPixmap(":images/quadField.png");
     currentRobot.agent = -1;
     currentRobot.index = -1;
     currentRobot.skillNum = 0;
@@ -88,6 +88,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
 
 void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
 {
+    tempPos *= 1.41;
     if (POFieldSelected) {
         if (passFlag) {
             if (passReceiver.agent != -1 && passReceiver.index != -1) {
@@ -182,6 +183,7 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
 }
 
 void playoff::mousePressedOnField(QMouseEvent *_event, QPoint _pos) {
+    _pos *= 1.41;
     if (currentTool == TMOVE) {
         if (_event->buttons() == Qt::LeftButton) {
             if (passFlag) {
@@ -408,6 +410,7 @@ void playoff::mousePressedOnTabWidget(QMouseEvent *_event) {
 
 void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
 {
+    tempPos *= 1.41;
     if (POFieldSelected) {
         statusBar->showMessage(QString("%1, %2").arg(tempPos.x()).arg(tempPos.y()),1000);
         if (!POCurrentRobot.isAng) {
@@ -500,7 +503,7 @@ void playoff::reset()
 
 void playoff::draw()
 {
-    QPixmap tempPix(859, 655);
+    QPixmap tempPix(1639, 1272);
     tempPix = *fieldPix;
     QPainter painter(&tempPix);
 
@@ -541,6 +544,7 @@ void playoff::draw()
         drawRobots(painter, 5, false);
     }
     fieldLabel->setPixmap(tempPix);
+    fieldLabel->setScaledContents(true);
 }
 
 void playoff::drawRobot(QPainter &painter, int x, int y, QString label, int agent, bool selected, bool blink)
@@ -872,18 +876,19 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
 
 void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
 {
-    if (pos.x() < 0) {
-        pos.setX(0);
+    if (pos.x() < 50) {
+        pos.setX(50);
     }
-    if (pos.x() > fieldLabel->width()-1) {
-        pos.setX(fieldLabel->width()-1);
+//    if (pos.x() > fieldLabel->width()-1) {
+//        pos.setX(fieldLabel->width()-1);
+//    }
+    if (pos.y() < 50) {
+        pos.setY(50);
     }
-    if (pos.y() < 0) {
-        pos.setY(0);
-    }
-    if (pos.y() > fieldLabel->height()-1) {
-        pos.setY(fieldLabel->height()-1);
-    }
+//    if (pos.y() > fieldLabel->height()-1) {
+//        pos.setY(fieldLabel->height()-1);
+//    }
+    qDebug() << fieldLabel->height() << fieldLabel->width();
     for (int i = 0; i < _MAX_ROBOT_COUNT; i++) {
         for (int j = 0; j < robots[i].length(); j++) {
             if (robots[i].at(j).temp) {
@@ -925,15 +930,15 @@ void playoff::moveRobot(QPoint pos, int tAgent, int tIndex, bool tTemp)
     if (pos.x() < 0) {
         pos.setX(0);
     }
-    if (pos.x() > fieldLabel->width()-1) {
-        pos.setX(fieldLabel->width()-1);
-    }
+//    if (pos.x() > fieldLabel->width()-1) {
+//        pos.setX(fieldLabel->width()-1);
+//    }
     if (pos.y() < 0) {
         pos.setY(0);
     }
-    if (pos.y() > fieldLabel->height()-1) {
-        pos.setY(fieldLabel->height()-1);
-    }
+//    if (pos.y() > fieldLabel->height()-1) {
+//        pos.setY(fieldLabel->height()-1);
+//    }
     PlayOffRobot tempRobot;
     tempRobot = robots[tAgent].at(tIndex);
     tempRobot.x = pos.x();
@@ -2536,32 +2541,34 @@ void playoff::readJSON(const QJsonObject &playBook)
 Vector2D playoff::convertPos(Vector2I _input) const
 {
     // nowhere Exeption
+    qDebug() << _input.x << "MAHI" << _input.y;
     if (_input.x == -100) return Vector2D(-100.0000, -100.0000);
 
-    _input.x -= 429;
-    _input.y -= 328;
+    _input.x -= 65;
+    _input.y -= 67;
 
-    double tempX =  double(_input.x)/404.5;
-    double tempY = -double(_input.y)/304;
+    double tempX =  double(_input.x)/1086;
+    double tempY = -double(_input.y)/800;
 
-    tempX *= (9.000/2);
-    tempY *= (6.000/2);
-    return Vector2D(tempX, tempY);
+    tempX *= (12.000);
+    tempY *= (9.000);
+    return Vector2D(tempX - 6, tempY + 4.5);
 }
 
 Vector2I playoff::convertPosInverse(Vector2D _input) const
 {
 
     if (_input.x == -100) return Vector2I(-100, -100);
+    _input.x += 6;
+    _input.y -= 4.5;
+    _input.x /= (12.000);
+    _input.y /= (9.000);
 
-    _input.x /= (9.000/2);
-    _input.y /= (6.000/2);
+    int tempX = (int)((_input.x)*1086);
+    int tempY = -(int)((_input.y)*800);
 
-    int tempX = (int)((_input.x)*404.5);
-    int tempY = -(int)((_input.y)*304);
-
-    tempX += 429;
-    tempY += 328;
+    tempX += 65;
+    tempY += 67;
 
     return Vector2I(tempX, tempY);
 }

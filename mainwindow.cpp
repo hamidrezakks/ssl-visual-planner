@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentVPMode = PlayOff;
     playOn = new playon(this);
+    ui->field->setScaledContents(true);
     playOn->setLabel(ui->field);
     playOn->setWidget(ui->tab);
     playOn->setStatusBar(ui->statusBar);

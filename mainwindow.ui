@@ -37,8 +37,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>351</width>
-      <height>655</height>
+      <width>1639</width>
+      <height>1272</height>
      </rect>
     </property>
     <property name="text">
@@ -345,7 +345,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="layoutDirection">
