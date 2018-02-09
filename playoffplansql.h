@@ -67,7 +67,9 @@ public:
                       QList<PlayOffRobot> &tA3,
                       QList<PlayOffRobot> &tA4,
                       QList<PlayOffRobot> &tA5,
-                      QList<PlayOffRobot> &tA6);
+                      QList<PlayOffRobot> &tA6,
+                      QList<PlayOffRobot> &tA7,
+                      QList<PlayOffRobot> &tA8);
     QString convertStructToSQLCmd(int _agentId, PlayOffRobot tStep);
     QString convertEmptyStructToSQLCmd();
     void insertPlanToQList(QList<PlayOffRobot> _planList[_MAX_ROBOT_COUNT], planMData &mData, int index);
