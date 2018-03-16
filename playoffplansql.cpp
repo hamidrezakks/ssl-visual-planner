@@ -48,7 +48,8 @@ void playOffPlanSQL::savePlan()
     }
     squery.exec("CREATE TABLE poplanlist (id int PRIMARY KEY, pname varchar(16), pmode int,"\
                 " psize int, pball varchar(16), pagent1 varchar(16), pagent2 varchar(16),"\
-                " pagent3 varchar(16), pagent4 varchar(16), pagent5 varchar(16), pagent6 varchar(16), tags varchar(1024) )");
+                " pagent3 varchar(16), pagent4 varchar(16), pagent5 varchar(16), pagent6 varchar(16),"\
+                " tags varchar(1024))");
     QString tempTableName = "";
     QString tempTableStruct = " (id int PRIMARY KEY ";
     for (int i = 1; i < 6; i++) {
@@ -246,15 +247,19 @@ int playOffPlanSQL::addPlan(QList<PlayOffRobot> tPlan[],
                             int agentSize,
                             int itemId,
                             unsigned int _chance,
-                            double _lastDist)
+                            double _lastDist,
+                            int _maxEffective,
+                            int _minNeeded)
 {
     planStruct tempPlan;
-    tempPlan.tags      = _tags;
-    tempPlan.chance    = _chance;
-    tempPlan.initPos   = tInitPos;
-    tempPlan.lastDist  = _lastDist;
-    tempPlan.planMode  = tPOMode;
-    tempPlan.agentSize = agentSize;
+    tempPlan.tags         = _tags;
+    tempPlan.chance       = _chance;
+    tempPlan.initPos      = tInitPos;
+    tempPlan.lastDist     = _lastDist;
+    tempPlan.planMode     = tPOMode;
+    tempPlan.agentSize    = agentSize;
+    tempPlan.maxEffective = _maxEffective;
+    tempPlan.minNeeded    = _minNeeded;
     PlayOffRobot tempPOP;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < tPlan[i].count(); j++) {
@@ -369,11 +374,26 @@ void playOffPlanSQL::insertPlanToQList(QList<PlayOffRobot> _planList[], planMDat
     if (index < 0) {
         return;
     }
-    mData.tags      = planList.at(index).tags;
-    mData.chance    = planList.at(index).chance;
-    mData.lastDist  = planList.at(index).lastDist;
-    mData.planMode  = planList.at(index).planMode;
-    mData.agentSize = planList.at(index).agentSize;
+    mData.tags         = planList.at(index).tags;
+    mData.chance       = planList.at(index).chance;
+    mData.lastDist     = planList.at(index).lastDist;
+    mData.planMode     = planList.at(index).planMode;
+    mData.agentSize    = planList.at(index).agentSize;
+
+    int maxeff = planList.at(index).maxEffective;
+    if(maxeff <= planList.at(index).agentSize){
+        mData.maxEffective = maxeff;
+    } else {
+        mData.maxEffective = planList.at(index).agentSize;
+        maxeff = mData.maxEffective;
+    }
+
+    if(planList.at(index).minNeeded <= maxeff){
+        mData.minNeeded = planList.at(index).minNeeded;
+    } else {
+        mData.minNeeded= maxeff;
+    }
+
     for (int i = 0; i < 8; i++) {
         _planList[i].clear();
         for (int j = 0; j < planList.at(index).AgentPlan[i].count(); j++) {

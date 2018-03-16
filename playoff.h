@@ -56,6 +56,9 @@ public:
     void setStatusBar(QStatusBar *_statusBar);
     void setAgentSizeCB(QComboBox *_comboBox);
 
+    void setMaxEffectiveCB(QComboBox * _maxEffective);
+    void setMinNeededCB(QComboBox * _minNeeded);
+
     void mousePressed(QMouseEvent *event, QPoint tempPos);
     void mouseMoved(QMouseEvent *event, QPoint tempPos);
     void mouseReleased(QMouseEvent *event, QPoint tempPos);
@@ -126,6 +129,12 @@ public:
     inline void setLastDist(double _lastDist) {
         lastDist = _lastDist;
     }
+    inline void setMaxEffective(double _MaxEff) {
+        maxEff = _MaxEff;
+    }
+    inline void setMinNeeded(double _MinNeed) {
+        minNeed= _MinNeed;
+    }
      playOffPlanSQL *myPlan;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       PlanBook* pb;
@@ -137,6 +146,8 @@ private:
     QWidget *POWidget;
     QStatusBar *statusBar;
     QComboBox *agentSizeCB;
+
+    QComboBox *maxEffective, *minNeeded;
 
     QLineEdit *POTBPosX, *POTBPosY, *POTBPosAng, *POTBPosTol;
 
@@ -175,6 +186,8 @@ private:
     bool showAll;
     int agentSize;
     int currentSkillNum;
+
+    int maxEff, minNeed;
 
     bool passFlag;
     ////////

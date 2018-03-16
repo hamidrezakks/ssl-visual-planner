@@ -36,6 +36,9 @@ playoff::playoff(QWidget *parent) :
     chance   = 1;
     lastDist = 1.5;
 
+    maxEff = 2;
+    minNeed = 2;
+
 }
 
 playoff::~playoff()
@@ -72,6 +75,14 @@ void playoff::setStatusBar(QStatusBar *_statusBar)
 void playoff::setAgentSizeCB(QComboBox *_comboBox)
 {
     agentSizeCB = _comboBox;
+}
+
+void playoff::setMaxEffectiveCB(QComboBox *_maxEffective){
+    maxEffective = _maxEffective;
+}
+
+void playoff::setMinNeededCB(QComboBox *_minNeeded){
+    minNeeded = _minNeeded;
 }
 
 void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
@@ -1996,7 +2007,7 @@ void playoff::apply(int _id)
 {
     POInitPos tempInit;
     tempInit = getInitPos();
-    myPlan->addPlan(robots, tempInit, currentPOMode, tags, agentSize, _id, chance, lastDist);
+    myPlan->addPlan(robots, tempInit, currentPOMode, tags, agentSize, _id, chance, lastDist, maxEff, minNeed);
 }
 
 void playoff::savePlan(QString directory)
@@ -2007,7 +2018,8 @@ void playoff::savePlan(QString directory)
     for (int i = 0; i < myPlan->getPlanSize(); i++) {
         myPlan->insertPlanToQList(robots, tempMData, i);
         tempInit = getInitPos();
-        myPlan->addPlan(robots, tempInit, tempMData.planMode, tempMData.tags, tempMData.agentSize, i, tempMData.chance, tempMData.lastDist);
+        myPlan->addPlan(robots, tempInit, tempMData.planMode, tempMData.tags, tempMData.agentSize, i, tempMData.chance,
+                        tempMData.lastDist, tempMData.maxEffective, tempMData.minNeeded);
     }
     myPlan->changeSQLDir(directory);
     myPlan->savePlan();
@@ -2156,7 +2168,8 @@ bool playoff::savePlanJson(QString directory)
     for (int i = 0; i < myPlan->getPlanSize(); i++) {
         myPlan->insertPlanToQList(robots, tempMData, i);
         tempInit = getInitPos();
-        myPlan->addPlan(robots, tempInit, tempMData.planMode, tempMData.tags, tempMData.agentSize, i, tempMData.chance, tempMData.lastDist);
+        myPlan->addPlan(robots, tempInit, tempMData.planMode, tempMData.tags, tempMData.agentSize, i,
+                        tempMData.chance, tempMData.lastDist, tempMData.maxEffective, tempMData.minNeeded);
     }
     myPlan->changeSQLDir(directory);
 
@@ -2243,6 +2256,8 @@ void playoff::writePlanJSON(QJsonObject &json, int index ) const
 
     json["chance"]   = static_cast<int>(myPlan->planList[index].chance);
     json["lastDist"] = myPlan->planList[index].lastDist;
+    json["maxEffective"] = myPlan->planList[index].maxEffective;
+    json["minNeeded"] = myPlan->planList[index].minNeeded;
 
 }
 
@@ -2467,8 +2482,10 @@ void playoff::readJSON(const QJsonObject &playBook)
             counter++;
         }
 
-        planTEMP.chance   = plan["chance"].toInt();
-        planTEMP.lastDist = plan["lastDist"].toDouble();
+        planTEMP.chance       = plan["chance"].toInt();
+        planTEMP.lastDist     = plan["lastDist"].toDouble();
+        planTEMP.minNeeded    = plan["minNeeded"].toInt();
+        planTEMP.maxEffective = plan["maxEffective"].toInt();
         myPlan->planList.append(planTEMP);
     }
 }

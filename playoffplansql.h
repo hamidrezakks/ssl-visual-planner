@@ -19,6 +19,8 @@ struct planStruct {
     QString tags;
     unsigned int chance;
     double lastDist;
+    int maxEffective;
+    int minNeeded;
 };
 
 struct planMData {
@@ -27,6 +29,8 @@ struct planMData {
     QString tags;
     unsigned int chance;
     double lastDist;
+    int maxEffective;
+    int minNeeded;
 };
 
 class playOffPlanSQL
@@ -57,7 +61,9 @@ public:
                 int agentSize,
                 int itemId,
                 unsigned int _chance = 1,
-                double _lastDist = 1.5);
+                double _lastDist = 1.5,
+                int _maxEffective = 2,
+                int _minNeeded = 2);
 
     int findMaxSteps(planStruct &_plan);
     void addEachPlanToSql(planStruct _plan, QString tName);
