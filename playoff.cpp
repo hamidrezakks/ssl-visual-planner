@@ -78,11 +78,21 @@ void playoff::setAgentSizeCB(QComboBox *_comboBox)
 }
 
 void playoff::setMaxEffectiveCB(QComboBox *_maxEffective){
-    maxEffective = _maxEffective;
+    maxEffectiveCB = _maxEffective;
 }
 
 void playoff::setMinNeededCB(QComboBox *_minNeeded){
-    minNeeded = _minNeeded;
+    minNeededCB = _minNeeded;
+}
+
+void playoff::setLastDistDSB(QDoubleSpinBox *_lastDistDSB)
+{
+    lastDistDSB = _lastDistDSB;
+}
+
+void playoff::setChanceSB(QSpinBox *_chanceSB)
+{
+    chanceSB = _chanceSB;
 }
 
 void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
@@ -2062,6 +2072,10 @@ void playoff::choosePlan(int index)
         currentPOMode = tempMData.planMode;
         //setAgentSize(tempMData.agentSize);
         agentSizeCB->setCurrentIndex(tempMData.agentSize-1);
+        maxEffectiveCB->setCurrentIndex(tempMData.maxEffective - 2);
+        minNeededCB->setCurrentIndex(tempMData.minNeeded - 2);
+        lastDistDSB->setValue(tempMData.lastDist);
+        chanceSB->setValue(tempMData.chance);
         setDisplayMode(-1, true);
 
         passFlag = false;

@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     playOff->setAgentSizeCB(ui->comboBox_2);
     playOff->setMaxEffectiveCB(ui->Max_Effective);
     playOff->setMinNeededCB(ui->Min_Needed);
+    playOff->setChanceSB(ui->spinBox_2);
+    playOff->setLastDistDSB(ui->doubleSpinBox);
     playOffCurrentPlan = 0;
     playOffCreateActions();
     playOffNew = false;

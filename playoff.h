@@ -17,6 +17,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QDoubleSpinBox>
+#include <QSpinBox>
 
 #include "base.h"
 #include "playoffplansql.h"
@@ -58,6 +60,8 @@ public:
 
     void setMaxEffectiveCB(QComboBox * _maxEffective);
     void setMinNeededCB(QComboBox * _minNeeded);
+    void setLastDistDSB(QDoubleSpinBox * _lastDistDSB);
+    void setChanceSB(QSpinBox * _chanceSB);
 
     void mousePressed(QMouseEvent *event, QPoint tempPos);
     void mouseMoved(QMouseEvent *event, QPoint tempPos);
@@ -147,7 +151,11 @@ private:
     QStatusBar *statusBar;
     QComboBox *agentSizeCB;
 
-    QComboBox *maxEffective, *minNeeded;
+    QComboBox *maxEffectiveCB, *minNeededCB;
+
+    QDoubleSpinBox *lastDistDSB;
+
+    QSpinBox *chanceSB;
 
     QLineEdit *POTBPosX, *POTBPosY, *POTBPosAng, *POTBPosTol;
 
