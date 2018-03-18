@@ -17,6 +17,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QDoubleSpinBox>
+#include <QSpinBox>
 
 #include "base.h"
 #include "playoffplansql.h"
@@ -39,11 +41,11 @@ public:
     ~playoff();
 
     enum toolMode {
-        TMOVE = 1,
+        TMOVE   = 1,
         TDELETE = 2,
         TSELECT = 3,
-        TCOPY = 4,
-        TPASTE = 5
+        TCOPY   = 4,
+        TPASTE  = 5
     };
 
     void setLabel(QLabel *tLabel);
@@ -56,9 +58,17 @@ public:
     void setStatusBar(QStatusBar *_statusBar);
     void setAgentSizeCB(QComboBox *_comboBox);
 
+    void setMaxEffectiveCB(QComboBox * _maxEffective);
+    void setMinNeededCB(QComboBox * _minNeeded);
+    void setLastDistDSB(QDoubleSpinBox * _lastDistDSB);
+    void setChanceSB(QSpinBox * _chanceSB);
+
     void mousePressed(QMouseEvent *event, QPoint tempPos);
     void mouseMoved(QMouseEvent *event, QPoint tempPos);
     void mouseReleased(QMouseEvent *event, QPoint tempPos);
+
+    void mousePressedOnField(QMouseEvent* _event, QPoint _pos);
+    void mousePressedOnTabWidget(QMouseEvent* _event);
 
     void draw();
 
@@ -123,6 +133,12 @@ public:
     inline void setLastDist(double _lastDist) {
         lastDist = _lastDist;
     }
+    inline void setMaxEffective(double _MaxEff) {
+        maxEff = _MaxEff;
+    }
+    inline void setMinNeeded(double _MinNeed) {
+        minNeed= _MinNeed;
+    }
      playOffPlanSQL *myPlan;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       PlanBook* pb;
@@ -134,6 +150,12 @@ private:
     QWidget *POWidget;
     QStatusBar *statusBar;
     QComboBox *agentSizeCB;
+
+    QComboBox *maxEffectiveCB, *minNeededCB;
+
+    QDoubleSpinBox *lastDistDSB;
+
+    QSpinBox *chanceSB;
 
     QLineEdit *POTBPosX, *POTBPosY, *POTBPosAng, *POTBPosTol;
 
@@ -159,9 +181,9 @@ private:
     void drawRobot(QPainter &painter, int x, int y, QString label, int agent, bool selected = true, bool blink = false);
     void drawRobots(QPainter &painter, int tRobotIndex, bool selected = true);
 
-    QList<PlayOffRobot> robots[6];
+    QList<PlayOffRobot> robots[_MAX_ROBOT_COUNT];
 
-    QList<PlayOffRobot> unsavedPlan[6];
+    QList<PlayOffRobot> unsavedPlan[_MAX_ROBOT_COUNT];
     planMData unsavedMPlan;
 
     RobotAttr currentRobot;
@@ -173,13 +195,15 @@ private:
     int agentSize;
     int currentSkillNum;
 
+    int maxEff, minNeed;
+
     bool passFlag;
     ////////
     RobotAttr POCurrentRobot;
     RobotAttr passReceiver;
     bool POFieldSelected;
-    QLabel *PODisplayModeLabel[8];
-    QLabel *POCurrentAgentLabel[7];
+    QLabel *PODisplayModeLabel[_MAX_ROBOT_COUNT + 2];
+    QLabel *POCurrentAgentLabel[_MAX_ROBOT_COUNT + 1];
     QLabel *POSkills[3];
     QLabel *POTools[6];
     QLabel *POMode[4];
@@ -188,6 +212,7 @@ private:
     QLabel *POPassTarget[3];
     QLabel *POReceiveIA[3];
     void POinitLables();
+    QRect getRobotAngRect(const PlayOffRobot &_robot);
 
     void insertSkillData(int _row, int _col, int data, bool noupdate);
 
@@ -202,6 +227,8 @@ private:
     void writePosJSON( QJsonObject &json, const QList<PlayOffRobot> &index) const;
     void writeSkillJSON(QJsonObject &json, const PlayOffRobot &index) const;
 
+    QString getStrFromPlayOffSkillEnum(PlayOffSkills _enum) const;
+    PlayOffSkills getPlayoffSkillEnumFromStr(QString _skillName) const;
 
     Vector2D convertPos(Vector2I _input) const;
     Vector2I convertPosInverse(Vector2D _input) const;
@@ -212,7 +239,7 @@ private:
     void POCopy(int filter);
     void POPaste();
 
-    QList<PlayOffRobot> copyRobotList[6];
+    QList<PlayOffRobot> copyRobotList[_MAX_ROBOT_COUNT];
 
     QPoint currentBase;
 

@@ -16,6 +16,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+bool Gupdate;
+QString Gdir;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -26,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentVPMode = PlayOff;
     playOn = new playon(this);
+    ui->field->setScaledContents(true);
     playOn->setLabel(ui->field);
     playOn->setWidget(ui->tab);
     playOn->setStatusBar(ui->statusBar);
@@ -41,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     playOff->setLineEdits(ui->POTBPosX, ui->POTBPosY, ui->POTBPosAng, ui->POTBPosTol);
     playOff->setStatusBar(ui->statusBar);
     playOff->setAgentSizeCB(ui->comboBox_2);
+    playOff->setMaxEffectiveCB(ui->Max_Effective);
+    playOff->setMinNeededCB(ui->Min_Needed);
+    playOff->setChanceSB(ui->spinBox_2);
+    playOff->setLastDistDSB(ui->doubleSpinBox);
     playOffCurrentPlan = 0;
     playOffCreateActions();
     playOffNew = false;
@@ -74,6 +82,36 @@ MainWindow::MainWindow(QWidget *parent) :
             playOffSpinInit = false;
         }
     }
+
+    if (Gupdate) {
+        ////////////////////
+
+        playOff->cleanPlans();
+        ui->spinBox->setEnabled(true);
+        int tempCnt ;
+        if (Gdir.endsWith(QString("json"))) {
+            tempCnt = playOff->loadPlanJson(Gdir);
+        }
+        if (tempCnt > 0) {
+            playOff->choosePlan(0);
+            playOffNew = true;
+        }
+        ui->spinBox->setMaximum(tempCnt-1);
+        playOffCurrentPlan = 0;
+        on_spinBox_valueChanged("");
+        if (tempCnt) {
+            qDebug() << "Loaded Succesfully!";
+        }
+        //////////////////////
+
+        if (playOff->savePlanJson(Gdir)) {
+            qDebug() << "Saved Succesfully!";
+        }
+        //////////////////////
+        exit(0);
+    }
+
+
 }
 
 //this allows user to have cross platform availability with same style
@@ -365,8 +403,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
             menu.exec(event->globalPos());
         }
-    }
-    else {
+    } else { // PlayOff
         if (ui->field->underMouse()) {
             QMenu menu(this);
             menu.addAction(playOffMove);
@@ -376,7 +413,12 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
             menu.addAction(playOffShotToGoal);
             menu.addAction(playOffChipToGoal);
             menu.addAction(playOffOneTouch);
-
+            menu.addSeparator();
+            menu.addAction(afterlifeDefense);
+            menu.addAction(afterlifePosition);
+            menu.addAction(afterlifeSupport);
+            menu.addAction(afterlifeMark);
+            menu.addAction(afterlifeGoalie);
             menu.exec(event->globalPos());
         }
     }
@@ -923,6 +965,26 @@ void MainWindow::playOffCreateActions()
     playOffMove = new QAction(tr("&Move"), this);
     playOffMove->setStatusTip(tr("Move"));
     connect(playOffMove, SIGNAL(triggered()),this,SLOT(playOffActiveMove()));
+
+    afterlifeDefense = new QAction(tr("&Defense"), this);
+    afterlifeDefense -> setStatusTip("Defense");
+    connect(afterlifeDefense, SIGNAL(triggered()), this, SLOT(afterlifeActionDefense()));
+
+    afterlifeSupport = new QAction(tr("&Support"), this);
+    afterlifeSupport -> setStatusTip("Support");
+    connect(afterlifeSupport, SIGNAL(triggered()), this, SLOT(afterlifeActionSupport()));
+
+    afterlifeMark = new QAction(tr("&Mark"), this);
+    afterlifeMark -> setStatusTip("Mark");
+    connect(afterlifeMark, SIGNAL(triggered()), this, SLOT(afterlifeActionMark()));
+
+    afterlifeGoalie = new QAction(tr("&Goalie"), this);
+    afterlifeGoalie -> setStatusTip("Goalie");
+    connect(afterlifeGoalie, SIGNAL(triggered()), this, SLOT(afterlifeActionGoalie()));
+
+    afterlifePosition = new QAction(tr("&Position"), this);
+    afterlifePosition -> setStatusTip("Position");
+    connect(afterlifePosition, SIGNAL(triggered()), this, SLOT(afterlifeActionPosition()));
 }
 
 //PlayOff contex menu slots
@@ -955,6 +1017,31 @@ void MainWindow::playOffActiveOneTouch()
 void MainWindow::playOffActiveMove()
 {
     playOff->setSkill(MoveSkill);
+}
+
+void MainWindow::afterlifeActionDefense() {
+    playOff->setSkill(Defense);
+
+}
+
+void MainWindow::afterlifeActionSupport() {
+    playOff->setSkill(Support);
+
+}
+
+void MainWindow::afterlifeActionPosition() {
+    playOff->setSkill(Position);
+
+}
+
+void MainWindow::afterlifeActionGoalie() {
+    playOff->setSkill(Goalie);
+
+}
+
+void MainWindow::afterlifeActionMark() {
+    playOff->setSkill(Mark);
+
 }
 //end
 
@@ -1020,6 +1107,23 @@ void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
         playOff->apply(playOffCurrentPlan);
     }
 }
+
+void MainWindow::on_Max_Effective_currentIndexChanged(int arg1)
+{
+    if (currentVPMode == PlayOff) {
+        playOff->setMaxEffective(arg1+2);
+        playOff->apply(playOffCurrentPlan);
+    }
+}
+
+void MainWindow::on_Min_Needed_currentIndexChanged(int arg1)
+{
+    if (currentVPMode == PlayOff) {
+        playOff->setMinNeeded(arg1+2);
+        playOff->apply(playOffCurrentPlan);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindow::on_Send_clicked()
 {

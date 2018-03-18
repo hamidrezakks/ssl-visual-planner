@@ -86,13 +86,18 @@ private:
 
     playoff *playOff;
     void playOffCreateActions();
-
     QAction *playOffPass,
             *playOffReceivePass,
             *playOffShotToGoal,
             *playOffChipToGoal,
             *playOffOneTouch,
             *playOffMove;
+
+    QAction *afterlifeDefense,
+            *afterlifeSupport,
+            *afterlifePosition,
+            *afterlifeGoalie,
+            *afterlifeMark;
 
     QString playOffopenFileDir,
             playOffsaveFileDir;
@@ -165,6 +170,10 @@ private slots:
 
     void on_doubleSpinBox_valueChanged(double arg1);
 
+    void on_Max_Effective_currentIndexChanged(int arg1);
+
+    void on_Min_Needed_currentIndexChanged(int arg1);
+
     /* Play off */
     void playOffActivePass();
     void playOffActiveReceivePass();
@@ -174,6 +183,14 @@ private slots:
     void playOffActiveMove();
     /* play off */
 
+    /* after life */
+    void afterlifeActionDefense();
+    void afterlifeActionSupport();
+    void afterlifeActionPosition();
+    void afterlifeActionGoalie();
+    void afterlifeActionMark();
+
+    /* after life */
     void tagDialogExit(QString str);
     void updateTags(QString str);
 
@@ -182,5 +199,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
 };
+
+extern bool Gupdate;
+extern QString Gdir;
 
 #endif // MAINWINDOW_H
