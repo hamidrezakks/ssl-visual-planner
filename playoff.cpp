@@ -862,7 +862,6 @@ void playoff::placeRobot(QPoint pos, int tAgent, bool tTemp)
     if (pos.y() > 891) {
         pos.setY(891);
     }
-    qDebug() << fieldLabel->height() << fieldLabel->width();
     for (int i = 0; i < _MAX_ROBOT_COUNT; i++) {
         for (int j = 0; j < robots[i].length(); j++) {
             if (robots[i].at(j).temp) {
@@ -2431,8 +2430,8 @@ void playoff::readJSON(const QJsonObject &playBook)
 
         planTEMP.initPos.ballX = ballPos.x;
         planTEMP.initPos.ballY = ballPos.y;
-
         QJsonArray agentInitPosArray = plan["agentInitPos"].toArray();
+        planTEMP.agentSize = agentInitPosArray.size();
         for(int i = 0; i < planTEMP.agentSize; i++) {
             Vector2I agentPos = convertPosInverse(Vector2D(agentInitPosArray.at(i).toObject()["x"].toDouble(),
                                                   agentInitPosArray.at(i).toObject()["y"].toDouble()));
@@ -2462,6 +2461,7 @@ void playoff::readJSON(const QJsonObject &playBook)
                 posTEMP.angle     = position["angel"].toDouble();
                 posTEMP.tolerance = position["tolerance"].toInt();
                 posTEMP.agent     = agent["ID"].toInt();
+                posTEMP.temp      = false;
 
                 QJsonArray skillsJSON = position["skills"].toArray();
                 posTEMP.skillSize = skillsJSON.size();
