@@ -1,7 +1,7 @@
 #include "playoff.h"
 
 playoff::playoff(QWidget *parent) :
-    QWidget(parent)
+        QWidget(parent)
 {
     fieldPix = new QPixmap(":images/quadField.png");
     currentRobot.agent = -1;
@@ -11,7 +11,6 @@ playoff::playoff(QWidget *parent) :
     currentAgent = 0;
     showAll = false;
     agentSize = 1;
-    currentSkillNum = 0;
     POFieldSelected = false;
 
     currentTool = TMOVE;
@@ -108,7 +107,7 @@ void playoff::mousePressed(QMouseEvent *event, QPoint tempPos)
 
 void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
 {
-    tempPos *= 1.41;
+    tempPos = tempPos * 1.41;
     if (POFieldSelected) {
         if (passFlag) {
             if (passReceiver.agent != -1 && passReceiver.index != -1) {
@@ -203,7 +202,7 @@ void playoff::mouseReleased(QMouseEvent *event, QPoint tempPos)
 }
 
 void playoff::mousePressedOnField(QMouseEvent *_event, QPoint _pos) {
-    _pos *= 1.41;
+    _pos = _pos * 1.41;
     if (currentTool == TMOVE) {
         if (_event->buttons() == Qt::LeftButton) {
             if (passFlag) {
@@ -330,15 +329,9 @@ void playoff::mousePressedOnTabWidget(QMouseEvent *_event) {
         }
         if (POReceiveIA[i]->underMouse()) {
             PlayOffRobot tempIAStruct;
-            if (robots[currentRobot.agent].at(currentRobot.index).IAMode[i]) {
+            {
                 tempIAStruct = robots[currentRobot.agent].at(currentRobot.index);
-                tempIAStruct.IAMode[i] = false;
-                robots[currentRobot.agent].replace(currentRobot.index, tempIAStruct);
-                POSetCheckedIA();
-            }
-            else {
-                tempIAStruct = robots[currentRobot.agent].at(currentRobot.index);
-                tempIAStruct.IAMode[i] = true;
+                tempIAStruct.IAMode[i] = !robots[currentRobot.agent].at(currentRobot.index).IAMode[i];
                 robots[currentRobot.agent].replace(currentRobot.index, tempIAStruct);
                 POSetCheckedIA();
             }
@@ -430,7 +423,7 @@ void playoff::mousePressedOnTabWidget(QMouseEvent *_event) {
 
 void playoff::mouseMoved(QMouseEvent *event, QPoint tempPos)
 {
-    tempPos *= 1.41;
+    tempPos = tempPos * 1.41;
     if (POFieldSelected) {
         statusBar->showMessage(QString("%1, %2").arg(tempPos.x()).arg(tempPos.y()),1000);
         if (!POCurrentRobot.isAng) {
@@ -601,33 +594,33 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
 
     }
     switch (tRobotIndex) {
-    case 0:
-        tempPen.setColor(QColor(243, 223, 28));
-        break;
-    case 1:
-        tempPen.setColor(QColor(191, 25, 148));
-        break;
-    case 2:
-        tempPen.setColor(QColor(25, 191, 28));
-        break;
-    case 3:
-        tempPen.setColor(QColor(255, 131, 29));
-        break;
-    case 4:
-        tempPen.setColor(QColor(231, 106, 80));
-        break;
-    case 5:
-        tempPen.setColor(QColor(9, 106, 80));
-        break;
-    case 6: // TODO: new color
-        tempPen.setColor(QColor(80, 100, 255));
-        break;
-    case 7: // TODO: new color
-        tempPen.setColor(QColor(40, 40, 40));
-        break;
-    default:
-        tempPen.setColor(QColor(243, 223, 28));
-        break;
+        case 0:
+            tempPen.setColor(QColor(243, 223, 28));
+            break;
+        case 1:
+            tempPen.setColor(QColor(191, 25, 148));
+            break;
+        case 2:
+            tempPen.setColor(QColor(25, 191, 28));
+            break;
+        case 3:
+            tempPen.setColor(QColor(255, 131, 29));
+            break;
+        case 4:
+            tempPen.setColor(QColor(231, 106, 80));
+            break;
+        case 5:
+            tempPen.setColor(QColor(9, 106, 80));
+            break;
+        case 6: // TODO: new color
+            tempPen.setColor(QColor(80, 100, 255));
+            break;
+        case 7: // TODO: new color
+            tempPen.setColor(QColor(40, 40, 40));
+            break;
+        default:
+            tempPen.setColor(QColor(243, 223, 28));
+            break;
     }
 
     // Transparent when it's not selected
@@ -660,13 +653,13 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
             tempPen.setColor(QColor(209, 26, 28, 64));
 
             QRect tempCircle(QPoint(robots[currentRobot.agent].at(currentRobot.index).x, robots[currentRobot.agent].at(currentRobot.index).y)-QPoint(25, 25),
-                    QSize(50, 50));
+                             QSize(50, 50));
             painter.setPen(tempPen);
             painter.drawArc(tempCircle, 0, 360*16);
             QLine tempAngle;
             tempAngle.setP1(QPoint(robots[currentRobot.agent].at(currentRobot.index).x, robots[currentRobot.agent].at(currentRobot.index).y));
-            tempAngle.setP2(QPoint(_RobotAngRad*cos( ( robots[currentRobot.agent].at(currentRobot.index).angle/360 )*2*M_PI ) + robots[currentRobot.agent].at(currentRobot.index).x,
-                    _RobotAngRad*sin( ( robots[currentRobot.agent].at(currentRobot.index).angle/360 )*2*M_PI ) + robots[currentRobot.agent].at(currentRobot.index).y));
+            tempAngle.setP2(QPoint(static_cast<int>(_RobotAngRad * cos((robots[currentRobot.agent].at(currentRobot.index).angle / 360 ) * 2 * M_PI ) + robots[currentRobot.agent].at(currentRobot.index).x),
+                                   static_cast<int>(_RobotAngRad * sin((robots[currentRobot.agent].at(currentRobot.index).angle / 360 ) * 2 * M_PI ) + robots[currentRobot.agent].at(currentRobot.index).y)));
             tempPen.setColor(QColor(209, 26, 28));
             painter.setPen(tempPen);
             painter.drawLine(tempAngle);
@@ -679,10 +672,10 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
                 tempPen.setStyle(Qt::SolidLine);
                 painter.setPen(tempPen);
                 QPoint tempPoint(robots[currentRobot.agent].at(currentRobot.index).tolerance,
-                        robots[currentRobot.agent].at(currentRobot.index).tolerance);
+                                 robots[currentRobot.agent].at(currentRobot.index).tolerance);
                 QRect tempTol(QPoint(robots[currentRobot.agent].at(currentRobot.index).x, robots[currentRobot.agent].at(currentRobot.index).y)-tempPoint,
-                        QSize(robots[currentRobot.agent].at(currentRobot.index).tolerance*2,
-                        robots[currentRobot.agent].at(currentRobot.index).tolerance*2));
+                              QSize(robots[currentRobot.agent].at(currentRobot.index).tolerance*2,
+                                    robots[currentRobot.agent].at(currentRobot.index).tolerance*2));
                 painter.drawArc(tempTol,0,360*16);
             }
         }
@@ -698,8 +691,9 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
             painter.drawArc(tempCircle, 0, 360*16);
             QLine tempAngle;
             tempAngle.setP1(QPoint(robots[tRobotIndex].at(i).x, robots[tRobotIndex].at(i).y));
-            tempAngle.setP2(QPoint(_RobotAngRad*cos( ( robots[tRobotIndex].at(i).angle/360 )*2*M_PI ) + robots[tRobotIndex].at(i).x,
-                                   _RobotAngRad*sin( ( robots[tRobotIndex].at(i).angle/360 )*2*M_PI ) + robots[tRobotIndex].at(i).y));
+            tempAngle.setP2(QPoint(
+                    static_cast<int>(_RobotAngRad * cos((robots[tRobotIndex].at(i).angle / 360 ) * 2 * M_PI ) + robots[tRobotIndex].at(i).x),
+                    static_cast<int>(_RobotAngRad * sin((robots[tRobotIndex].at(i).angle / 360 ) * 2 * M_PI ) + robots[tRobotIndex].at(i).y)));
             tempPen.setColor(QColor(209, 26, 28));
             painter.setPen(tempPen);
             painter.drawLine(tempAngle);
@@ -735,9 +729,12 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
                         tempAng = atan2(tempP2.y() - tempP1.y(),
                                         tempP2.x() - tempP1.x());
                         tempPoly.append(tempP2);
-                        tempPoly.append(QPoint(tempP1.x() + cos(tempAng-M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng-M_PI_2)*tempArrowW));
-                        tempPoly.append(QPoint(tempP1.x() + cos(tempAng)*tempArrowW*3, tempP1.y() + sin(tempAng)*tempArrowW*3));
-                        tempPoly.append(QPoint(tempP1.x() + cos(tempAng+M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng+M_PI_2)*tempArrowW));
+                        tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng - M_PI_2) * tempArrowW),
+                                               static_cast<int>(tempP1.y() + sin(tempAng - M_PI_2) * tempArrowW)));
+                        tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng) * tempArrowW * 3),
+                                               static_cast<int>(tempP1.y() + sin(tempAng) * tempArrowW * 3)));
+                        tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng + M_PI_2) * tempArrowW),
+                                               static_cast<int>(tempP1.y() + sin(tempAng + M_PI_2) * tempArrowW)));
                         tempPoly.append(tempP2);
                         painter.drawPolygon(tempPoly);
                     }
@@ -762,15 +759,18 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
                 tempP2.setX(1148);
-                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setY(static_cast<int>(516 - (110 * (double(robots[tRobotIndex].at(i).skillData[j][1]) / 1000))));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
 
                 tempPoly.append(tempP2);
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng-M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng-M_PI_2)*tempArrowW));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng)*tempArrowW*3, tempP1.y() + sin(tempAng)*tempArrowW*3));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng+M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng+M_PI_2)*tempArrowW));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng - M_PI_2) * tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng - M_PI_2) * tempArrowW)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng) * tempArrowW * 3),
+                                       static_cast<int>(tempP1.y() + sin(tempAng) * tempArrowW * 3)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng + M_PI_2) * tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng + M_PI_2) * tempArrowW)));
                 tempPoly.append(tempP2);
                 painter.drawPolygon(tempPoly);
             }
@@ -792,15 +792,18 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
                 tempP2.setX(1148);
-                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setY(static_cast<int>(516 - (110 * (double(robots[tRobotIndex].at(i).skillData[j][1]) / 1000))));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
 
                 tempPoly.append(tempP2);
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng-M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng-M_PI_2)*tempArrowW));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng)*tempArrowW*3, tempP1.y() + sin(tempAng)*tempArrowW*3));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng+M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng+M_PI_2)*tempArrowW));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng - M_PI_2) * tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng - M_PI_2) * tempArrowW)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng) * tempArrowW * 3),
+                                       static_cast<int>(tempP1.y() + sin(tempAng) * tempArrowW * 3)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng + M_PI_2) * tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng + M_PI_2) * tempArrowW)));
                 tempPoly.append(tempP2);
                 painter.drawPolygon(tempPoly);
             }
@@ -822,15 +825,18 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
                 tempP1.setX(robots[tRobotIndex].at(i).x);
                 tempP1.setY(robots[tRobotIndex].at(i).y);
                 tempP2.setX(1148);
-                tempP2.setY(516 - (110*(double(robots[tRobotIndex].at(i).skillData[j][1])/1000)));
+                tempP2.setY(static_cast<int>(516 - (110 * (double(robots[tRobotIndex].at(i).skillData[j][1]) / 1000))));
 
                 tempAng = atan2(tempP2.y() - tempP1.y(),
                                 tempP2.x() - tempP1.x());
 
                 tempPoly.append(tempP2);
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng-M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng-M_PI_2)*tempArrowW));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng)*tempArrowW*3, tempP1.y() + sin(tempAng)*tempArrowW*3));
-                tempPoly.append(QPoint(tempP1.x() + cos(tempAng+M_PI_2)*tempArrowW, tempP1.y() + sin(tempAng+M_PI_2)*tempArrowW));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng-M_PI_2)*tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng-M_PI_2)*tempArrowW)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng)*tempArrowW*3),
+                                       static_cast<int>(tempP1.y() + sin(tempAng)*tempArrowW*3)));
+                tempPoly.append(QPoint(static_cast<int>(tempP1.x() + cos(tempAng+M_PI_2)*tempArrowW),
+                                       static_cast<int>(tempP1.y() + sin(tempAng+M_PI_2)*tempArrowW)));
                 tempPoly.append(tempP2);
                 painter.drawPolygon(tempPoly);
             }
@@ -841,7 +847,7 @@ void playoff::drawRobots(QPainter &painter, int tRobotIndex, bool selected)
         drawRobot(painter,
                   robots[tRobotIndex].at(i).x,
                   robots[tRobotIndex].at(i).y,
-                  /*robots[tRobotIndex].at(i).label,*/QString::number(i+1),
+                /*robots[tRobotIndex].at(i).label,*/QString::number(i+1),
                   robots[tRobotIndex].at(i).agent,
                   selected);
     }
@@ -1098,17 +1104,6 @@ RobotGeometry playoff::getRobotGeom(int tAgent, int tIndex)
     return tempGeom;
 }
 
-int playoff::getRobotSize(int tAgent)
-{
-    if (tAgent < 0) {
-        tAgent = 0;
-    }
-    if (tAgent > _MAX_ROBOT_COUNT - 1) {
-        tAgent = _MAX_ROBOT_COUNT - 1;
-    }
-    return robots[tAgent].length();
-}
-
 void playoff::setGeomX(int tX)
 {
     QPoint tempPos;
@@ -1217,22 +1212,6 @@ void playoff::setSkill(PlayOffSkills tSkill, int targetAgent, int targetIndex)
     }
 }
 
-PlayOffSkills playoff::getSkill(int &targetAgent, int &targetIndex)
-{
-    if (currentRobot.agent != -1 && currentRobot.index != -1) {
-        targetAgent = robots[currentRobot.agent].at(currentRobot.index).target.agent;
-        targetIndex = robots[currentRobot.agent].at(currentRobot.index).target.index;
-        return robots[currentRobot.agent].at(currentRobot.index).skill[currentRobot.skillNum];
-    }
-    return NoSkill;
-}
-
-PlayOffSkills playoff::getSkill()
-{
-    int tX, tY;
-    return getSkill(tX, tY);
-}
-
 PlayOffSkills playoff::getSkill(int tSkillNum, int &targetAgent, int &targetIndex)
 {
     if (currentRobot.agent != -1 && currentRobot.index != -1) {
@@ -1251,7 +1230,7 @@ PlayOffSkills playoff::getSkill(int tSkillNum)
 
 void playoff::POinitLables()
 {
-    int frameHeight = POWidget->height(), frameWidth = POWidget->width();
+    int frameWidth = POWidget->width();
     const int vMargin = 5, hMargin = 10, yStart = 90, boxHeight = 50, boxWidth = 70;
     for (int i = 0; i < _MAX_ROBOT_COUNT + 2; i++) {
         PODisplayModeLabel[i] = new QLabel(POWidget);
@@ -1340,12 +1319,12 @@ void playoff::POinitLables()
 
     POPaintSkill();
 
-   connect(POTiming[0],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_0()));
-   connect(POTiming[1],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_1()));
-   connect(POTiming[2],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_0()));
-   connect(POTiming[3],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_1()));
-   connect(POTiming[4],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_0()));
-   connect(POTiming[5],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_1()));
+    connect(POTiming[0],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_0()));
+    connect(POTiming[1],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit0_1()));
+    connect(POTiming[2],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_0()));
+    connect(POTiming[3],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit1_1()));
+    connect(POTiming[4],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_0()));
+    connect(POTiming[5],SIGNAL(textEdited(QString)),this,SLOT(POLineEdit2_1()));
 
     // tools
     int toolVOffset = 500;
@@ -1420,10 +1399,10 @@ QRect playoff::getRobotAngRect(const PlayOffRobot& _robot) {
     const int& x = _robot.x;
     const int& y = _robot.y;
     const double ang = _robot.angle;
-    return QRect(QPoint(_RobotAngRad*cos( ( ang/360 )*2*M_PI ) + x,
-                        _RobotAngRad*sin( ( ang/360 )*2*M_PI ) + y)-QPoint(4,4),
-                 QPoint(_RobotAngRad*cos( ( ang/360 )*2*M_PI ) + x,
-                        _RobotAngRad*sin( ( ang/360 )*2*M_PI ) + y)+QPoint(4,4));
+    return QRect(QPoint(static_cast<int>(_RobotAngRad*cos( ( ang/360 )*2*M_PI ) + x),
+                        static_cast<int>(_RobotAngRad*sin( ( ang/360 )*2*M_PI ) + y))-QPoint(4,4),
+                 QPoint(static_cast<int>(_RobotAngRad*cos( ( ang/360 )*2*M_PI ) + x),
+                        static_cast<int>(_RobotAngRad*sin( ( ang/360 )*2*M_PI ) + y))+QPoint(4,4));
 }
 
 void playoff::POSetSelectedDisplayLabel(int index)
@@ -1524,7 +1503,7 @@ void playoff::POSetCheckedIA()
 
 void playoff::POOpenSkill(int index, bool temp)
 {
-    int frameHeight = POWidget->height(), frameWidth = POWidget->width();
+    int frameWidth = POWidget->width();
 
     if(temp) {
         setCurrentSkillSize(index);
@@ -1537,80 +1516,80 @@ void playoff::POOpenSkill(int index, bool temp)
         POSkills[i]->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
         POSkills[i]->setVisible(true);
         switch(getSkill(i)) {
-        case MoveSkill:
-            POTiming[i*2]->setText("0");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Duration\n(ms)");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            break;
-        case ReceivePassSkill:
-            POTiming[i*2]->setText("70");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Radius\n(cm)");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(true);
-            break;
-        case ReceivePassIASkill:
-            POTiming[i*2]->setText("70");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Radius\n(cm)");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(true);
-            break;
-        case PassSkill:
-            POTiming[i*2]->setText("850");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Kick-Speed\n-1~1023");
-            POPassTarget[i]->setVisible(true);
-            POReceiveIA[i]->setVisible(false);
-            break;
-        case ShotToGoalSkill:
-            POTiming[i*2]->setText("850");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Kick-Speed\n0~1023");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            break;
-        case ChipToGoalSkill:
-            POTiming[i*2]->setText("850");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Chip\n0~1023");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            break;
-        case OneTouchSkill:
-            POTiming[i*2]->setText("1023");
-            POTiming[i*2]->setVisible(true);
-            POTimingLable[i*2]->setVisible(true);
-            POTimingLable[i*2]->setText("Kick-Speed\n0~1023");
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            break;
-        case Defense:
-        case Goalie:
-        case Mark:
-        case Support:
-        case Position:
-            //            POTiming[i*2]->setText("0");
-            //            POTiming[i*2]->setVisible(true);
-            //            POTimingLable[i*2]->setVisible(true);
-            //            POTimingLable[i*2]->setText("Duration\n(ms)");
-            //            POPassTarget[i]->setVisible(false);
-            //            POReceiveIA[i]->setVisible(false);
-            //            break;
-        case NoSkill:
-            POTiming[i*2]->setVisible(false);
-            POTimingLable[i*2]->setVisible(false);
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            break;
+            case MoveSkill:
+                POTiming[i*2]->setText("0");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Duration\n(ms)");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                break;
+            case ReceivePassSkill:
+                POTiming[i*2]->setText("70");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Radius\n(cm)");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(true);
+                break;
+            case ReceivePassIASkill:
+                POTiming[i*2]->setText("70");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Radius\n(cm)");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(true);
+                break;
+            case PassSkill:
+                POTiming[i*2]->setText("850");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Kick-Speed\n-1~1023");
+                POPassTarget[i]->setVisible(true);
+                POReceiveIA[i]->setVisible(false);
+                break;
+            case ShotToGoalSkill:
+                POTiming[i*2]->setText("850");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Kick-Speed\n0~1023");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                break;
+            case ChipToGoalSkill:
+                POTiming[i*2]->setText("850");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Chip\n0~1023");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                break;
+            case OneTouchSkill:
+                POTiming[i*2]->setText("1023");
+                POTiming[i*2]->setVisible(true);
+                POTimingLable[i*2]->setVisible(true);
+                POTimingLable[i*2]->setText("Kick-Speed\n0~1023");
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                break;
+            case Defense:
+            case Goalie:
+            case Mark:
+            case Support:
+            case Position:
+                //            POTiming[i*2]->setText("0");
+                //            POTiming[i*2]->setVisible(true);
+                //            POTimingLable[i*2]->setVisible(true);
+                //            POTimingLable[i*2]->setText("Duration\n(ms)");
+                //            POPassTarget[i]->setVisible(false);
+                //            POReceiveIA[i]->setVisible(false);
+                //            break;
+            case NoSkill:
+                POTiming[i*2]->setVisible(false);
+                POTimingLable[i*2]->setVisible(false);
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                break;
         }
         if (getSkill(i) == NoSkill || getSkill(i) == -1) {
             POTiming[i*2+1]->setVisible(false);
@@ -1666,11 +1645,6 @@ void playoff::POOpenSkill(int index, bool temp)
     }
 }
 
-void playoff::POSetSkill(int tAgent, int tIndex, int tSkillNum, PlayOffSkills tSkill)
-{
-
-}
-
 void playoff::POPaintSkill()
 {
     POOpenSkill(getCurrentSkillSize(), false);
@@ -1685,51 +1659,52 @@ void playoff::POPaintSkill()
 
     for (int i = 0; i < 3; i++) {
         switch(getSkill(i)) {
-        case MoveSkill:
-            POSkills[i]->setText("   Skill: Move");
-            break;
-        case PassSkill:
-            POSkills[i]->setText("   Skill: Pass");
-            break;
-        case ReceivePassSkill:
-            POSkills[i]->setText("   Skill: Receive");
-            break;
-        case ShotToGoalSkill:
-            POSkills[i]->setText("   Skill: Shot");
-            break;
-        case ChipToGoalSkill:
-            POSkills[i]->setText("   Skill: Chip");
-            break;
-        case OneTouchSkill:
-            POSkills[i]->setText("   Skill: OneTouch");
-            break;
-        case Defense:
-            POSkills[i]->setText("   After: Defense");
-            break;
-        case Goalie:
-            POSkills[i]->setText("   After: Goalie");
-            break;
-        case Mark:
-            POSkills[i]->setText("   After: Mark");
-            break;
+            case MoveSkill:
+                POSkills[i]->setText("   Skill: Move");
+                break;
+            case PassSkill:
+                POSkills[i]->setText("   Skill: Pass");
+                break;
+            case ReceivePassSkill:
+                POSkills[i]->setText("   Skill: Receive");
+                break;
+            case ShotToGoalSkill:
+                POSkills[i]->setText("   Skill: Shot");
+                break;
+            case ChipToGoalSkill:
+                POSkills[i]->setText("   Skill: Chip");
+                break;
+            case OneTouchSkill:
+                POSkills[i]->setText("   Skill: OneTouch");
+                break;
+            case Defense:
+                POSkills[i]->setText("   After: Defense");
+                break;
+            case Goalie:
+                POSkills[i]->setText("   After: Goalie");
+                break;
+            case Mark:
+                POSkills[i]->setText("   After: Mark");
+                break;
 
-        case Support:
-            POSkills[i]->setText("   After: Support");
-            break;
+            case Support:
+                POSkills[i]->setText("   After: Support");
+                break;
 
-        case Position:
-            POSkills[i]->setText("   After: Position");
-            break;
+            case Position:
+                POSkills[i]->setText("   After: Position");
+                break;
 
-        case NoSkill:
+            case NoSkill:
 
-            POPassTarget[i]->setVisible(false);
-            POReceiveIA[i]->setVisible(false);
-            POTimingLable[i*2]->setVisible(false);
-            POTimingLable[i*2 + 1]->setVisible(false);
-            POTiming[i*2]->setVisible(false);
-            POTiming[i*2 + 1]->setVisible(false);
-            break;
+                POPassTarget[i]->setVisible(false);
+                POReceiveIA[i]->setVisible(false);
+                POTimingLable[i*2]->setVisible(false);
+                POTimingLable[i*2 + 1]->setVisible(false);
+                POTiming[i*2]->setVisible(false);
+                POTiming[i*2 + 1]->setVisible(false);
+                break;
+            case ReceivePassIASkill:break;
         }
         if (currentRobot.agent != -1 && currentRobot.index != -1) {
             if (robots[currentRobot.agent].count()-1 >= currentRobot.index) {
@@ -1781,7 +1756,7 @@ void playoff::fillFirstPointsList(QList<AgentAndIndex> &tList)
     toMoveAgentFirstPointList.clear();
     for (int i = 0; i < tList.length(); i++) {
         toMoveAgentFirstPointList.append(QPoint(robots[tList.at(i).agent].at(tList.at(i).index).x,
-                                         robots[tList.at(i).agent].at(tList.at(i).index).y));
+                                                robots[tList.at(i).agent].at(tList.at(i).index).y));
     }
 }
 
@@ -1871,7 +1846,6 @@ POInitPos playoff::getInitPos()
                 if(flag) {
                     temp[i].index = j;
                     temp[i].agent = i;
-                    temp[i].skill = tempSkill;
                     break;
                 }
             }
@@ -1883,8 +1857,8 @@ POInitPos playoff::getInitPos()
             for (int j = 0; j < robots[i].length(); j++) {
                 for (int k = 0; k < robots[i].at(j).skillSize; k++) {
                     if(robots[i].at(j).skill[k] == PassSkill ||
-                            robots[i].at(j).skill[k] == ShotToGoalSkill ||
-                            robots[i].at(j).skill[k] == ChipToGoalSkill)
+                       robots[i].at(j).skill[k] == ShotToGoalSkill ||
+                       robots[i].at(j).skill[k] == ChipToGoalSkill)
                     {
                         flag = true;
                         tempSkill = robots[i].at(j).skill[k];
@@ -1898,7 +1872,6 @@ POInitPos playoff::getInitPos()
                 if(flag) {
                     temp[i].index = j;
                     temp[i].agent = i;
-                    temp[i].skill = tempSkill;
                     break;
                 }
             }
@@ -1949,8 +1922,8 @@ void playoff::insertSkillData(int _row, int _col, int data, bool noupdate)
             tempRobot = robots[currentRobot.agent].at(currentRobot.index);
             if (_col == 1) {
                 if(robots[currentRobot.agent].at(currentRobot.index).skill[_row] == OneTouchSkill ||
-                        robots[currentRobot.agent].at(currentRobot.index).skill[_row] == ShotToGoalSkill ||
-                        robots[currentRobot.agent].at(currentRobot.index).skill[_row] == ChipToGoalSkill) {
+                   robots[currentRobot.agent].at(currentRobot.index).skill[_row] == ShotToGoalSkill ||
+                   robots[currentRobot.agent].at(currentRobot.index).skill[_row] == ChipToGoalSkill) {
                     if (data > 1000) {
                         data = 1000;
                     }
@@ -2220,15 +2193,15 @@ void playoff::writePlanJSON(QJsonObject &json, int index ) const
 {
     switch (myPlan->planList[index].planMode)
     {
-    case KICKOFF:
-        json["planMode"] = "KICKOFF";
-        break;
-    case DIRECT:
-        json["planMode"] = "DIRECT";
-        break;
-    case INDIRECT:
-        json["planMode"] = "INDIRECT";
-        break;
+        case KICKOFF:
+            json["planMode"] = "KICKOFF";
+            break;
+        case DIRECT:
+            json["planMode"] = "DIRECT";
+            break;
+        case INDIRECT:
+            json["planMode"] = "INDIRECT";
+            break;
     }
     QJsonArray tagsArray;
     QStringList tagList = myPlan->planList[index].tags.split("|");
@@ -2277,17 +2250,17 @@ void playoff::writePosJSON(QJsonObject &json , const QList<PlayOffRobot> &index)
 {
     QJsonArray positions;
     Q_FOREACH(auto i, index)
-    {
-        QJsonObject object;
-        Vector2D pos = convertPos(Vector2I(i.x, i.y));
+        {
+            QJsonObject object;
+            Vector2D pos = convertPos(Vector2I(i.x, i.y));
 
-        object["pos-x"]     = pos.x;
-        object["pos-y"]     = pos.y;
-        object["angel"]     = i.angle;
-        object["tolerance"] = i.tolerance;
-        writeSkillJSON(object, i);
-        positions.append(object);
-    }
+            object["pos-x"]     = pos.x;
+            object["pos-y"]     = pos.y;
+            object["angel"]     = i.angle;
+            object["tolerance"] = i.tolerance;
+            writeSkillJSON(object, i);
+            positions.append(object);
+        }
     json["positions"] = positions;
 }
 
@@ -2316,34 +2289,34 @@ void playoff::writeSkillJSON( QJsonObject &json, const PlayOffRobot &index) cons
 
 QString playoff::getStrFromPlayOffSkillEnum(PlayOffSkills _enum) const{
     switch (_enum) {
-    case NoSkill:
-        return "NoSkill";
-    case PassSkill:
-        return "PassSkill";
-    case ReceivePassSkill:
-        return "ReceivePassSkill";
-    case ShotToGoalSkill:
-        return "ShotToGoalSkill";
-    case ChipToGoalSkill:
-        return "ChipToGoalSkill";
-    case OneTouchSkill:
-        return "OneTouchSkill";
-    case MoveSkill:
-        return "MoveSkill";
-    case ReceivePassIASkill:
-        return "ReceivePassIASkill";
-    case Defense:
-        return "Defense";
-    case Goalie:
-        return "Goalie";
-    case Mark:
-        return "Mark";
-    case Support:
-        return "Support";
-    case Position:
-        return "Position";
-    default :
-        return "NoSkill";
+        case NoSkill:
+            return "NoSkill";
+        case PassSkill:
+            return "PassSkill";
+        case ReceivePassSkill:
+            return "ReceivePassSkill";
+        case ShotToGoalSkill:
+            return "ShotToGoalSkill";
+        case ChipToGoalSkill:
+            return "ChipToGoalSkill";
+        case OneTouchSkill:
+            return "OneTouchSkill";
+        case MoveSkill:
+            return "MoveSkill";
+        case ReceivePassIASkill:
+            return "ReceivePassIASkill";
+        case Defense:
+            return "Defense";
+        case Goalie:
+            return "Goalie";
+        case Mark:
+            return "Mark";
+        case Support:
+            return "Support";
+        case Position:
+            return "Position";
+        default :
+            return "NoSkill";
     }
 }
 
@@ -2408,99 +2381,99 @@ void playoff::readJSON(const QJsonObject &playBook)
     QJsonArray planList = playBook["plans"].toArray();
     Q_FOREACH(QJsonValue planValue, planList) {
 
-        QJsonObject plan = planValue.toObject();
-        planStruct planTEMP; // we want to fill planTEMP with plan
+            QJsonObject plan = planValue.toObject();
+            planStruct planTEMP; // we want to fill planTEMP with plan
 
-        QString PlanMODE = plan["planMode"].toString();
-        if      (PlanMODE == "DIRECT")   planTEMP.planMode = DIRECT;
-        else if (PlanMODE == "KICKOFF")  planTEMP.planMode = KICKOFF;
-        else if (PlanMODE == "INDIRECT") planTEMP.planMode = INDIRECT;
+            QString PlanMODE = plan["planMode"].toString();
+            if      (PlanMODE == "DIRECT")   planTEMP.planMode = DIRECT;
+            else if (PlanMODE == "KICKOFF")  planTEMP.planMode = KICKOFF;
+            else if (PlanMODE == "INDIRECT") planTEMP.planMode = INDIRECT;
 
-        QJsonArray tagsArray = plan["tags"].toArray();
+            QJsonArray tagsArray = plan["tags"].toArray();
 
-        if (tagsArray.size()) {
-            planTEMP.tags = tagsArray[0].toString();
-            for(int i = 1; i < tagsArray.size(); i++) // fill tags
-                planTEMP.tags += "|" + tagsArray[i].toString();
-        }
-
-        Vector2I ballPos = convertPosInverse(Vector2D(plan["ballInitPos"].toDouble(),
-                                             plan["ballInitPos"].toDouble()));
-
-        planTEMP.initPos.ballX = ballPos.x;
-        planTEMP.initPos.ballY = ballPos.y;
-        QJsonArray agentInitPosArray = plan["agentInitPos"].toArray();
-        planTEMP.agentSize = agentInitPosArray.size();
-        for(int i = 0; i < planTEMP.agentSize; i++) {
-            Vector2I agentPos = convertPosInverse(Vector2D(agentInitPosArray.at(i).toObject()["x"].toDouble(),
-                                                  agentInitPosArray.at(i).toObject()["y"].toDouble()));
-            planTEMP.initPos.AgentX[i] = agentPos.x;
-            planTEMP.initPos.AgentY[i] = agentPos.y;
-        }
-
-        for(int i = planTEMP.agentSize; i < _MAX_ROBOT_COUNT; i++) {
-            planTEMP.initPos.AgentX[i] = -100;
-            planTEMP.initPos.AgentY[i] = -100;
-        }
-
-        QJsonArray agentsJSON = plan["agents"].toArray();
-        planTEMP.agentSize = agentsJSON.size();
-
-        int counter = 0;
-        Q_FOREACH(QJsonValue agentValue, agentsJSON) {
-            QJsonObject agent = agentValue.toObject();
-            QJsonArray posListJSON = agent["positions"].toArray();
-            Q_FOREACH(QJsonValue positionValue, posListJSON) {
-                QJsonObject position = positionValue.toObject();
-                PlayOffRobot posTEMP;
-                Vector2I pos = convertPosInverse(Vector2D(position["pos-x"].toDouble(),
-                                                 position["pos-y"].toDouble()));
-                posTEMP.x         = pos.x;
-                posTEMP.y         = pos.y;
-                posTEMP.angle     = position["angel"].toDouble();
-                posTEMP.tolerance = position["tolerance"].toInt();
-                posTEMP.agent     = agent["ID"].toInt();
-                posTEMP.temp      = false;
-
-                QJsonArray skillsJSON = position["skills"].toArray();
-                posTEMP.skillSize = skillsJSON.size();
-                for(int i = 0; i < posTEMP.skillSize; i++) {
-                    QJsonObject skillJSON = skillsJSON[i].toObject();
-                    QString SkillName = skillJSON["name"].toString();
-
-                    posTEMP.skill[i] = getPlayoffSkillEnumFromStr(SkillName);
-
-                    posTEMP.IAMode[i]       = skillJSON["flag"].toBool();
-                    posTEMP.skillData[i][0] = skillJSON["primary"].toInt();
-                    posTEMP.skillData[i][1] = skillJSON["secondary"].toInt();
-
-                    if(posTEMP.skill[i] == PassSkill ) {
-                        posTEMP.target.agent = skillJSON["target"].toObject()["agent"].toInt();
-                        posTEMP.target.index = skillJSON["target"].toObject()["index"].toInt();
-
-                    }
-                    else {
-                        posTEMP.target.agent = -1;
-                        posTEMP.target.index = -1;
-                    }
-                }
-                for(int i = posTEMP.skillSize; i < 3 ; i++) {
-                    posTEMP.skill[i] = NoSkill;
-                    posTEMP.skillData[i][0] = 500;
-                    posTEMP.skillData[i][1] = 500;
-                    posTEMP.IAMode[i] = false;
-                }
-                planTEMP.AgentPlan[counter].append(posTEMP);
+            if (tagsArray.size()) {
+                planTEMP.tags = tagsArray[0].toString();
+                for(int i = 1; i < tagsArray.size(); i++) // fill tags
+                    planTEMP.tags += "|" + tagsArray[i].toString();
             }
-            counter++;
-        }
 
-        planTEMP.chance       = plan["chance"].toInt();
-        planTEMP.lastDist     = plan["lastDist"].toDouble();
-        planTEMP.minNeeded    = plan["minNeeded"].toInt();
-        planTEMP.maxEffective = plan["maxEffective"].toInt();
-        myPlan->planList.append(planTEMP);
-    }
+            Vector2I ballPos = convertPosInverse(Vector2D(plan["ballInitPos"].toDouble(),
+                                                          plan["ballInitPos"].toDouble()));
+
+            planTEMP.initPos.ballX = ballPos.x;
+            planTEMP.initPos.ballY = ballPos.y;
+            QJsonArray agentInitPosArray = plan["agentInitPos"].toArray();
+            planTEMP.agentSize = agentInitPosArray.size();
+            for(int i = 0; i < planTEMP.agentSize; i++) {
+                Vector2I agentPos = convertPosInverse(Vector2D(agentInitPosArray.at(i).toObject()["x"].toDouble(),
+                                                               agentInitPosArray.at(i).toObject()["y"].toDouble()));
+                planTEMP.initPos.AgentX[i] = agentPos.x;
+                planTEMP.initPos.AgentY[i] = agentPos.y;
+            }
+
+            for(int i = planTEMP.agentSize; i < _MAX_ROBOT_COUNT; i++) {
+                planTEMP.initPos.AgentX[i] = -100;
+                planTEMP.initPos.AgentY[i] = -100;
+            }
+
+            QJsonArray agentsJSON = plan["agents"].toArray();
+            planTEMP.agentSize = agentsJSON.size();
+
+            int counter = 0;
+            Q_FOREACH(QJsonValue agentValue, agentsJSON) {
+                    QJsonObject agent = agentValue.toObject();
+                    QJsonArray posListJSON = agent["positions"].toArray();
+                    Q_FOREACH(QJsonValue positionValue, posListJSON) {
+                            QJsonObject position = positionValue.toObject();
+                            PlayOffRobot posTEMP;
+                            Vector2I pos = convertPosInverse(Vector2D(position["pos-x"].toDouble(),
+                                                                      position["pos-y"].toDouble()));
+                            posTEMP.x         = pos.x;
+                            posTEMP.y         = pos.y;
+                            posTEMP.angle     = position["angel"].toDouble();
+                            posTEMP.tolerance = position["tolerance"].toInt();
+                            posTEMP.agent     = agent["ID"].toInt();
+                            posTEMP.temp      = false;
+
+                            QJsonArray skillsJSON = position["skills"].toArray();
+                            posTEMP.skillSize = skillsJSON.size();
+                            for(int i = 0; i < posTEMP.skillSize; i++) {
+                                QJsonObject skillJSON = skillsJSON[i].toObject();
+                                QString SkillName = skillJSON["name"].toString();
+
+                                posTEMP.skill[i] = getPlayoffSkillEnumFromStr(SkillName);
+
+                                posTEMP.IAMode[i]       = skillJSON["flag"].toBool();
+                                posTEMP.skillData[i][0] = skillJSON["primary"].toInt();
+                                posTEMP.skillData[i][1] = skillJSON["secondary"].toInt();
+
+                                if(posTEMP.skill[i] == PassSkill ) {
+                                    posTEMP.target.agent = skillJSON["target"].toObject()["agent"].toInt();
+                                    posTEMP.target.index = skillJSON["target"].toObject()["index"].toInt();
+
+                                }
+                                else {
+                                    posTEMP.target.agent = -1;
+                                    posTEMP.target.index = -1;
+                                }
+                            }
+                            for(int i = posTEMP.skillSize; i < 3 ; i++) {
+                                posTEMP.skill[i] = NoSkill;
+                                posTEMP.skillData[i][0] = 500;
+                                posTEMP.skillData[i][1] = 500;
+                                posTEMP.IAMode[i] = false;
+                            }
+                            planTEMP.AgentPlan[counter].append(posTEMP);
+                        }
+                    counter++;
+                }
+
+            planTEMP.chance       = static_cast<unsigned int>(plan["chance"].toInt());
+            planTEMP.lastDist     = plan["lastDist"].toDouble();
+            planTEMP.minNeeded    = plan["minNeeded"].toInt();
+            planTEMP.maxEffective = plan["maxEffective"].toInt();
+            myPlan->planList.append(planTEMP);
+        }
 }
 
 Vector2D playoff::convertPos(Vector2I _input) const

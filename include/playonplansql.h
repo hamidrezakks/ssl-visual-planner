@@ -33,7 +33,6 @@ public:
   void insertToList(QList<AgentPlan> &list, QSqlQuery query, int agentSize = 1);
   void loadPlan();
 
-  bool addPlan(QList<AgentPlan> list, int agentSize = 1);
   bool addPlan(int planId, AgentPlan plan, QString &str);
 
   void removePlan(int _index);

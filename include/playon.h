@@ -48,7 +48,6 @@ public:
     void disable();
     void enable();
     void apply(int _id);
-    void clean();
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);

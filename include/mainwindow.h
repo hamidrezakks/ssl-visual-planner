@@ -15,6 +15,22 @@
 #include <QTimer>
 #include <QSettings>
 #include <QDir>
+#include <ui_mainwindow.h>
+
+#include <playonplansql.h>
+
+#include <QDebug>
+
+#include <QPixmap>
+#include <QPainter>
+#include <QBrush>
+#include <QMouseEvent>
+#include <QPoint>
+#include <QMenu>
+#include <QVBoxLayout>
+#include <QDir>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include <QLineEdit>
 

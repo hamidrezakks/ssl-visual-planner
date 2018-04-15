@@ -36,8 +36,6 @@ private:
     QList<QString> tagsList;
 
     void initTagLabel();
-    void removeTag(QString str);
-    void removeTag(int index);
     void addTag(QString str, bool noPaint = false);
     void editTag(QString str);
     void paintTags();

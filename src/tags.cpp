@@ -81,16 +81,6 @@ void tags::loadTagsByString(QString str)
     paintTags();
 }
 
-void tags::removeTag(QString str)
-{
-
-}
-
-void tags::removeTag(int index)
-{
-
-}
-
 void tags::addTag(QString str, bool noPaint)
 {
     if (!hasTag(str)) {
