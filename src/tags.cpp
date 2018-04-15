@@ -1,5 +1,4 @@
 #include "tags.h"
-#include "ui_tags.h"
 
 tags::tags(QWidget *parent) :
     QDialog(parent),

@@ -1,7 +1,7 @@
-#include "../mainwindow.h"
-#include "ui_mainwindow.h"
+#include <mainwindow.h>
+#include <ui_mainwindow.h>
 
-#include "../playonplansql.h"
+#include <playonplansql.h>
 
 #include <QDebug>
 
@@ -1124,16 +1124,6 @@ void MainWindow::on_Min_Needed_currentIndexChanged(int arg1)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindow::on_Send_clicked()
 {
-    playOff->pb->set_id(1);
-    playOff->pb->set_apiversion(API_VERSION);
-    //PlanBook* _pb = playOff->pb;
-    for(int i{};i< playOff->myPlan->planList.size();i++)
-        playOff->writeproto(playOff->pb , i);
-    Server s{};
-
-        s.send(playOff->pb);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

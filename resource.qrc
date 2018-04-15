@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
+    <qresource prefix="images">
         <file alias="doubleField.png">image/double-sized-field.png</file>
         <file alias="quadField.png">image/quad-sized-field.png</file>
     </qresource>

@@ -9,7 +9,7 @@
 #include <QStringList>
 
 #include <QDebug>
-
+#include <ui_tags.h>
 namespace Ui {
 class tags;
 }

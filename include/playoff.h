@@ -20,11 +20,9 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 
-#include "include/base.h"
+#include <base.h>
 #include "playoffplansql.h"
 #include "ul.h"
-#include "ssl-playbook.pb.h"
-
 
 struct TimeAndIndex {
     long time;
@@ -140,10 +138,6 @@ public:
         minNeed= _MinNeed;
     }
      playOffPlanSQL *myPlan;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      PlanBook* pb;
-      void writeproto(PlanBook*, int index);
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
     QLabel *fieldLabel;
     QPixmap *fieldPix;

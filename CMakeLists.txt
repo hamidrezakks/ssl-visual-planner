@@ -7,11 +7,11 @@ file(GLOB_RECURSE LibFiles "include/*.h")
 add_custom_target(headers SOURCES ${LibFiles})
 
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Sql REQUIRED)
 
 set (${PROJECT_NAME}_SRCS
         src/agentplanclass.cpp
         src/tags.cpp
-        src/server.cpp
         src/playonplansql.cpp
         src/playon.cpp
         src/playoffplansql.cpp
@@ -24,7 +24,6 @@ set(${PROJECT_NAME}_HDRS
         include/agentplanclass.h
         include/ul.h
         include/tags.h
-        include/server.h
         include/playonplansql.h
         include/playon.h
         include/playoffplansql.h
@@ -41,11 +40,12 @@ set(${PROJECT_NAME}_UIS
 
 qt5_wrap_cpp(${PROJECT_NAME}_MOCS ${${PROJECT_NAME}_HDRS})
 qt5_wrap_ui(${PROJECT_NAME}_UIS_H ${${PROJECT_NAME}_UIS})
-qt5_add_resources(${PROJECT_NAME}_UI_RESOURCES ui/resource.qrc)
+qt5_add_resources(${PROJECT_NAME}_UI_RESOURCES resource.qrc)
 
 
 include_directories(
         include
+        ${CMAKE_BINARY_DIR}
 )
 
 ## Declare a cpp library
@@ -56,4 +56,4 @@ add_executable(${PROJECT_NAME}
         ${${PROJECT_NAME}_UI_RESOURCES}
         )
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql)

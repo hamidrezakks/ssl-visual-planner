@@ -16,10 +16,10 @@
 #include <QTimer>
 #include <QDebug>
 
-#include "include/base.h"
-#include "include/agentplanclass.h"
-#include "playonplansql.h"
-#include "ul.h"
+#include <base.h>
+#include <agentplanclass.h>
+#include <playonplansql.h>
+#include <ul.h>
 
 struct SelectedAgent {
     int agent = -1;

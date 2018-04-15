@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "include/base.h"
-#include "include/agentplanclass.h"
-#include "playonplansql.h"
+#include <base.h>
+#include <agentplanclass.h>
+#include <playonplansql.h>
 
 #include <QMainWindow>
 #include <QPixmap>
@@ -21,8 +21,6 @@
 #include "playoff.h"
 #include "playon.h"
 #include "tags.h"
-
-#include "server.h"
 
 const QString DEFAULT_DIR_KEY("default_dir");
 

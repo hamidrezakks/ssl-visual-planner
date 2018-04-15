@@ -1,7 +1,7 @@
 #ifndef PLAYOFFPLANSQL_H
 #define PLAYOFFPLANSQL_H
 
-#include "include/base.h"
+#include <base.h>
 
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>
