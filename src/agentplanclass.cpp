@@ -1,4 +1,4 @@
-#include "agentplanclass.h"
+#include "../include/agentplanclass.h"
 
 #include <QString>
 #include <QList>

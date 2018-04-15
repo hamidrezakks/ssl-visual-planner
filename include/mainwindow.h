@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "base.h"
-#include "agentplanclass.h"
+#include "include/base.h"
+#include "include/agentplanclass.h"
 #include "playonplansql.h"
 
 #include <QMainWindow>

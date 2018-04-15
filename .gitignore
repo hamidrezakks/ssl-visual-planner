@@ -16,3 +16,5 @@ ssl-playbook.pb.h
 *.pro.user
 *.o
 moc_*
+.idea/*
+cmake-build-debug/*

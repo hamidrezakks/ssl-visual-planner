@@ -1,7 +1,7 @@
 #ifndef PLAYONPLANSQL_H
 #define PLAYONPLANSQL_H
 
-#include "base.h"
+#include "include/base.h"
 
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>

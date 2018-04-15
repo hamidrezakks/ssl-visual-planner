@@ -20,7 +20,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 
-#include "base.h"
+#include "include/base.h"
 #include "playoffplansql.h"
 #include "ul.h"
 #include "ssl-playbook.pb.h"

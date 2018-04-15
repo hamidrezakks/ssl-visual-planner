@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+#include "../mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "playonplansql.h"
+#include "../playonplansql.h"
 
 #include <QDebug>
 

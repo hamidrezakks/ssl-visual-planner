@@ -16,8 +16,8 @@
 #include <QTimer>
 #include <QDebug>
 
-#include "base.h"
-#include "agentplanclass.h"
+#include "include/base.h"
+#include "include/agentplanclass.h"
 #include "playonplansql.h"
 #include "ul.h"
 
