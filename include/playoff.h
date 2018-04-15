@@ -20,17 +20,14 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 
-#include "base.h"
+#include <base.h>
 #include "playoffplansql.h"
 #include "ul.h"
-#include "ssl-playbook.pb.h"
-
 
 struct TimeAndIndex {
     long time;
     int index;
     int agent;
-    PlayOffSkills skill;
 };
 
 class playoff : public QWidget
@@ -97,15 +94,13 @@ public:
     void setGeomY(int tY);
     void setGeomAngle(double tAng);
     void setGeomTolerance(int tTol);
-    int getRobotSize(int tAgent);
     void setCurrentSkillNum(int tNum);
     int getCurrentSkillNum();
     void setCurrentSkillSize(int tSize);
     int getCurrentSkillSize();
 
     void setSkill(PlayOffSkills tSkill, int targetAgent = -1, int targetIndex = -1);
-    PlayOffSkills getSkill(int &targetAgent, int &targetIndex);
-    PlayOffSkills getSkill();
+
     PlayOffSkills getSkill(int tSkillNum);
     PlayOffSkills getSkill(int tSkillNum, int &targetAgent, int &targetIndex);
 
@@ -134,16 +129,12 @@ public:
         lastDist = _lastDist;
     }
     inline void setMaxEffective(double _MaxEff) {
-        maxEff = _MaxEff;
+        maxEff = static_cast<int>(_MaxEff);
     }
     inline void setMinNeeded(double _MinNeed) {
-        minNeed= _MinNeed;
+        minNeed= static_cast<int>(_MinNeed);
     }
      playOffPlanSQL *myPlan;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      PlanBook* pb;
-      void writeproto(PlanBook*, int index);
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 private:
     QLabel *fieldLabel;
     QPixmap *fieldPix;
@@ -193,7 +184,6 @@ private:
 
     bool showAll;
     int agentSize;
-    int currentSkillNum;
 
     int maxEff, minNeed;
 
@@ -217,8 +207,6 @@ private:
     void insertSkillData(int _row, int _col, int data, bool noupdate);
 
     void POOpenSkill(int index, bool temp = true);
-
-    void POSetSkill(int tAgent, int tIndex, int tSkillNum, PlayOffSkills tSkill);
 
     void POPaintSkill();
 

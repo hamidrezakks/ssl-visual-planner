@@ -16,10 +16,10 @@
 #include <QTimer>
 #include <QDebug>
 
-#include "base.h"
-#include "agentplanclass.h"
-#include "playonplansql.h"
-#include "ul.h"
+#include <base.h>
+#include <agentplanclass.h>
+#include <playonplansql.h>
+#include <ul.h>
 
 struct SelectedAgent {
     int agent = -1;
@@ -48,7 +48,6 @@ public:
     void disable();
     void enable();
     void apply(int _id);
-    void clean();
 
     void setLabel(QLabel *tLabel);
     void setWidget(QWidget *tWidget);

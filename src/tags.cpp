@@ -1,5 +1,4 @@
 #include "tags.h"
-#include "ui_tags.h"
 
 tags::tags(QWidget *parent) :
     QDialog(parent),
@@ -80,16 +79,6 @@ void tags::loadTagsByString(QString str)
         }
     }
     paintTags();
-}
-
-void tags::removeTag(QString str)
-{
-
-}
-
-void tags::removeTag(int index)
-{
-
 }
 
 void tags::addTag(QString str, bool noPaint)

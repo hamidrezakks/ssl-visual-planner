@@ -1,20 +1,4 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
-#include "playonplansql.h"
-
-#include <QDebug>
-
-#include <QPixmap>
-#include <QPainter>
-#include <QBrush>
-#include <QMouseEvent>
-#include <QPoint>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QDir>
-#include <QFileDialog>
-#include <QMessageBox>
+#include <mainwindow.h>
 
 bool Gupdate;
 QString Gdir;
@@ -88,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         playOff->cleanPlans();
         ui->spinBox->setEnabled(true);
-        int tempCnt ;
+        int tempCnt = 0;
         if (Gdir.endsWith(QString("json"))) {
             tempCnt = playOff->loadPlanJson(Gdir);
         }
@@ -234,6 +218,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             case Qt::Key_E:
                 playOnActiveB();
                 break;
+                default:break;
             }
         }
         switch(event->key()) {
@@ -256,6 +241,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_B:
 
             break;
+            default:break;
         }
     }
     else if (currentVPMode == PlayOff) {
@@ -271,6 +257,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 if(ui->spinBox->value() - 1 >= 0 )
                     ui->spinBox->setValue(ui->spinBox->value() - 1);
                 break;
+                default:break;
             }
         }
         else if (event->modifiers() == Qt::ControlModifier) {
@@ -281,6 +268,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             case Qt::Key_S:
                 on_saveBtn_clicked();
                 break;
+                default:break;
             }
         }
     }
@@ -669,7 +657,7 @@ void MainWindow::on_saveBtn_clicked()
     QSettings settings(settingAddress, QSettings::IniFormat);
     if(currentVPMode == PlayOn)
     {
-        QMessageBox::StandardButton reply;
+        int reply;
         if(playOnOpenFileDir.length() < 2)
         {
             reply = QMessageBox::question(this, "Save File", "Do you want to save?",
@@ -716,7 +704,7 @@ void MainWindow::on_saveBtn_clicked()
     }
     else if(currentVPMode == PlayOff)
     {
-        QMessageBox::StandardButton reply;
+        int reply;
         if(playOffopenFileDir.length() < 2)
         {
             reply = QMessageBox::question(this, "Save File", "Do you want to save?",
@@ -770,7 +758,7 @@ void MainWindow::on_saveBtn_clicked()
 //Reset button event
 void MainWindow::on_resetBtn_clicked()
 {
-    QMessageBox::StandardButton reply;
+    int reply;
     reply = QMessageBox::question(this, "Reset Plan", "Are you sure?",
                                   QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
@@ -791,22 +779,12 @@ void MainWindow::on_spinBox_valueChanged(const QString &arg1)
     if (currentVPMode == PlayOn) {
         playOnCurrentPlan = tempSpin;
         playOn->choosePlan(tempSpin);
-        if (playOnCurrentPlan < playOn->getPlanSize() && playOn->getPlanSize() > 0) {
-            ui->removeBtn->setDisabled(false);
-        }
-        else {
-            ui->removeBtn->setDisabled(true);
-        }
+        ui->removeBtn->setDisabled(!(playOnCurrentPlan < playOn->getPlanSize() && playOn->getPlanSize() > 0));
     }
     else if (currentVPMode == PlayOff) {
         playOffCurrentPlan = tempSpin;
         playOff->choosePlan(tempSpin);
-        if (playOffCurrentPlan < playOff->getPlanSize() - 1 && playOff->getPlanSize() > 0) {
-            ui->removeBtn->setDisabled(false);
-        }
-        else {
-            ui->removeBtn->setDisabled(true);
-        }
+        ui->removeBtn->setDisabled(!(playOffCurrentPlan < playOff->getPlanSize() - 1 && playOff->getPlanSize() > 0));
     }
 }
 
@@ -814,7 +792,7 @@ void MainWindow::on_spinBox_valueChanged(const QString &arg1)
 void MainWindow::on_removeBtn_clicked()
 {
     if (currentVPMode == PlayOn) {
-        QMessageBox::StandardButton reply;
+        int reply;
         reply = QMessageBox::question(this, "Remove Plan", "Are you sure?",
                                       QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::No)
@@ -827,7 +805,7 @@ void MainWindow::on_removeBtn_clicked()
         on_spinBox_valueChanged("");
     }
     else if (currentVPMode == PlayOff) {
-        QMessageBox::StandardButton reply;
+        int reply;
         reply = QMessageBox::question(this, "Remove Plan", "Are you sure?",
                                       QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::No)
@@ -1095,7 +1073,7 @@ void MainWindow::updateTags(QString str)
 void MainWindow::on_spinBox_2_valueChanged(int arg1)
 {
     if (currentVPMode == PlayOff) {
-        playOff->setChance(arg1);
+        playOff->setChance(static_cast<unsigned int>(arg1));
         playOff->apply(playOffCurrentPlan);
     }
 }
@@ -1124,16 +1102,6 @@ void MainWindow::on_Min_Needed_currentIndexChanged(int arg1)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MainWindow::on_Send_clicked()
 {
-    playOff->pb->set_id(1);
-    playOff->pb->set_apiversion(API_VERSION);
-    //PlanBook* _pb = playOff->pb;
-    for(int i{};i< playOff->myPlan->planList.size();i++)
-        playOff->writeproto(playOff->pb , i);
-    Server s{};
-
-        s.send(playOff->pb);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

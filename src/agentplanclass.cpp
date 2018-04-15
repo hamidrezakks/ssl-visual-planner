@@ -1,8 +1,4 @@
-#include "agentplanclass.h"
-
-#include <QString>
-#include <QList>
-#include <QStringList>
+#include <agentplanclass.h>
 
 AgentPlanClass::AgentPlanClass(int agentSize, int id)
 {
@@ -302,12 +298,11 @@ bool AgentPlanClass::isExecutable(QString &error)
         error += "You should not have two pass skills!";
         return false;
     }
-    bool hasReceive = false, hasReceiveT = false;
+    bool hasReceive = false;
     int receiveId = 0;
     int tCnt = 0;
     if (hasPass) {
         for (int i = 0; i < agentsSize; i++) {
-            hasReceiveT = false;
             for (int j = 0; j < 4; j++) {
                 if (agents[i].skill[j] == ReceivePass ||
                         agents[i].skill[j] == OneTouch) {
@@ -323,9 +318,6 @@ bool AgentPlanClass::isExecutable(QString &error)
                     }
                 }
 
-            }
-            if (hasReceiveT) {
-                tCnt++;
             }
         }
     }
